@@ -33,4 +33,4 @@ app.include_router(main_router)
 # async def refister(login:str, password:str, name:str, surname:str, email:str, patronymic:str = None)
 
 if __name__ == "__main__":
-    uvicorn.run(app, reload=True,host="0.0.0.0", port=8000)
+    uvicorn.run(app,host="0.0.0.0", port=8000)

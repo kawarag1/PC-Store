@@ -1,6 +1,6 @@
 from sqlalchemy.orm import declarative_base, Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID
-from utils.articlesgen import generate_articul, ItemsTypes
+from app.utils.articlesgen import generate_articul, ItemsTypes
 import uuid
 
 from sqlalchemy import *

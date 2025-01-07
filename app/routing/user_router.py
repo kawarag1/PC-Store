@@ -13,5 +13,6 @@ router = APIRouter(
 )
 
 @router.post("/registration")
-async def reg(data: UserRequest, session: Session = Depends(get_session)):
-    return UserService.registration(data)
+async def reg(request: UserRequest, session: Session = Depends(get_session)):
+    result = await UserService(session).register(request)
+    return result

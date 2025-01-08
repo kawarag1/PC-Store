@@ -210,7 +210,7 @@ class RAM_SPECS(Base):
     types:Mapped["RAM_TYPE"] = relationship("RAM_TYPE", back_populates = "ram_specs")
 
 class RAM_TYPE(Base):
-    __tablename__ = "Ram_Type"
+    __tablename__ = "RAM_Type"
     id:Mapped[int] = mapped_column(Integer, autoincrement = True, primary_key = True)
     name:Mapped[str] = mapped_column(String(50))
     # записи по типу DDR5, DDR4. Не думаю что DDR3 ббудет уместна< вышла из производства

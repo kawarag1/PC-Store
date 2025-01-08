@@ -1,3 +1,4 @@
 .env
 __pycache__/
 sss.py
+alembic.ini

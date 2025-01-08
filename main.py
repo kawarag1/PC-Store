@@ -1,11 +1,10 @@
 from fastapi import FastAPI, HTTPException
 from fastapi import Form
-from pydantic import BaseModel
+
 import uvicorn
-from requests import post
-from database.config import *
-from models.models import *
-from routing import main_router
+
+from app.database.connector import get_session
+from app.routing.main_router import main_router
 
 app = FastAPI(
     title= "PCStore",
@@ -14,7 +13,7 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc"
 )
-app.include_router(main_router.main_router, prefix="/user")
+app.include_router(main_router)
 
 
 # @app.get("/authtorization/{login}/{password}", summary = "Авторизация пользователей")
@@ -33,12 +32,5 @@ app.include_router(main_router.main_router, prefix="/user")
 # @app.post("/register/{login}/{password}/{name}/{surname}/{patronymic}/{email}")
 # async def refister(login:str, password:str, name:str, surname:str, email:str, patronymic:str = None)
 
-
-
-
-
-
-
-
-
-uvicorn.run(app, host="127.0.0.1", port=8000)    
+if __name__ == "__main__":
+    uvicorn.run(app, reload=True,host="0.0.0.0", port=8000)

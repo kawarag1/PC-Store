@@ -18,6 +18,3 @@ class ItemsTypes(Enum):
 
 def generate_articul(type: ItemsTypes) -> str:
     return f"{type.value}{random.randint(100_000_000, 999_999_999)}"
-
-for i in range(10):
-    print(generate_articul(ItemsTypes.RAM))

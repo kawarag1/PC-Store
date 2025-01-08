@@ -203,7 +203,7 @@ class RAM_SPECS(Base):
     __tablename__ = "RAM_Specs"
     id:Mapped[int] = mapped_column(Integer, autoincrement = True, primary_key = True)
     frequency:Mapped[int] = mapped_column(Integer)
-    type_id:Mapped[int] = mapped_column(Integer, ForeignKey("Ram_Type.id"))
+    type_id:Mapped[int] = mapped_column(Integer, ForeignKey("RAM_Type.id"))
     radiators:Mapped[bool] = mapped_column(Boolean, default = False)
 
     rams:Mapped["RAM"] = relationship("RAM", back_populates = "specs")
@@ -258,7 +258,7 @@ class Motherboard_SPECS(Base):
     DVI_Count:Mapped[int] = mapped_column(Integer)
     VGA_Count:Mapped[int] = mapped_column(Integer)
     RAM_Count:Mapped[int] = mapped_column(Integer)
-    RAM_Type_id:Mapped[int] = mapped_column(Integer, ForeignKey("Ram_Type.id"))
+    RAM_Type_id:Mapped[int] = mapped_column(Integer, ForeignKey("RAM_Type.id"))
     M2_Slot:Mapped[int] = mapped_column(Integer, ForeignKey("M2_Sizes.id"), nullable = True)
 
 

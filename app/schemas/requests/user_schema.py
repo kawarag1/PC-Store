@@ -8,3 +8,8 @@ class UserRequest(BaseModel):
     name: Optional[str]
     surname: Optional[str]
     patronymic: Optional[str]
+
+
+class UserAuth(BaseModel):
+    login:str
+    password:str

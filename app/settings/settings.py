@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings
 from yarl import URL
+
 class Settings(BaseSettings):
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str

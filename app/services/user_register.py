@@ -2,7 +2,7 @@ from app.models.models import User
 from app.schemas.requests.user_schema import UserRequest
 from app.database.connector import *
 
-class UserService:
+class UserRegister:
     def __init__(self, session: Session):
         self.session = session
 

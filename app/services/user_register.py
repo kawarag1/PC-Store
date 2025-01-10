@@ -2,6 +2,8 @@ from app.models.models import User
 from app.schemas.requests.user_schema import UserRequest
 from app.database.connector import *
 
+from sqlalchemy import insert
+
 class UserRegister:
     def __init__(self, session: Session):
         self.session = session

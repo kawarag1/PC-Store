@@ -41,7 +41,7 @@ class Basket(Base):
     # каждое поле таблицы будет nullable = True. когда будет нажиматься кнопка добавления в таблицу, то будет регистрироваться новая запись в таблице с id юзера и артиклем товара.
     # по артиклю товара апишка будет понимать в какой столбец добавлять id или артикул.
     
-    products:Mapped["Product"] = relationship("Products", back_populates = "baskets")
+    products:Mapped["Product"] = relationship("Product", back_populates = "baskets")
     cpus:Mapped["CPU"] = relationship("CPU", back_populates = "baskets")
     gpus:Mapped["GPU"] = relationship("GPU", back_populates = "baskets")
     rams:Mapped["RAM"] = relationship("RAM", back_populates = "baskets")

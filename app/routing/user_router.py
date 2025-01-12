@@ -5,9 +5,9 @@ from fastapi import APIRouter, Depends
 
 from sqlalchemy.orm import Session
 
-from app.services.user_register import UserRegister
-from app.services.user_profile import UserProfile
-from app.services.user_authtorization import UserAuthtorization
+from app.services.user_services.user_register import UserRegister
+from app.services.user_services.user_profile import UserProfile
+from app.services.user_services.user_authtorization import UserAuthtorization
 
 
 router = APIRouter(

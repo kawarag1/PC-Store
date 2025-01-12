@@ -26,6 +26,7 @@ class Basket(Base):
     __tablename__ = "Basket"
     id:Mapped[int] = mapped_column(Integer, autoincrement = True, primary_key = True)
     user_id:Mapped[int] = mapped_column(Integer, ForeignKey("Users.id"))
+    products_id:Mapped[int] = mapped_column(Integer, ForeignKey("Products.id"), nullable = True)
     cpu_id:Mapped[int] = mapped_column(Integer, ForeignKey("CPU.id"), nullable = True)
     gpu_id:Mapped[int] = mapped_column(Integer, ForeignKey("GPU.id"), nullable = True)
     ram_id:Mapped[int] = mapped_column(Integer, ForeignKey("RAM.id"), nullable = True)
@@ -40,7 +41,7 @@ class Basket(Base):
     # каждое поле таблицы будет nullable = True. когда будет нажиматься кнопка добавления в таблицу, то будет регистрироваться новая запись в таблице с id юзера и артиклем товара.
     # по артиклю товара апишка будет понимать в какой столбец добавлять id или артикул.
     
-
+    products:Mapped["Product"] = relationship("Products", back_populates = "baskets")
     cpus:Mapped["CPU"] = relationship("CPU", back_populates = "baskets")
     gpus:Mapped["GPU"] = relationship("GPU", back_populates = "baskets")
     rams:Mapped["RAM"] = relationship("RAM", back_populates = "baskets")
@@ -59,6 +60,7 @@ class Order(Base):
     id:Mapped[int] = mapped_column(Integer, autoincrement = True, primary_key = True)
     user_id:Mapped[int] = mapped_column(Integer, ForeignKey("Users.id"))
     category_id:Mapped[int] = mapped_column(Integer ,ForeignKey("Categories.id"))
+
     
 
     users:Mapped["User"] = relationship("User", back_populates = "orders")
@@ -79,7 +81,7 @@ class Category(Base):
 
 
 
-class Product(Base):
+class Product(Base):  #это именно цельный ПК
     __tablename__ = "Products"
     id:Mapped[int] = mapped_column(Integer, autoincrement = True, primary_key = True)
     name:Mapped[str] = mapped_column(String(50))
@@ -110,6 +112,7 @@ class Product(Base):
     cases:Mapped["PC_CASE"] = relationship("PC_CASE", back_populates = "products")
     coolers:Mapped["Cooler"] = relationship("Cooler", back_populates = "products")
     puS:Mapped["POWER_UNIT"] = relationship("POWER_UNIT", back_populates = "products")
+    baskets:Mapped["Basket"] = relationship("Basket", back_populates = "products")
     # categories:Mapped["Category"] = relationship("Category", back_populates = "products")
 
 

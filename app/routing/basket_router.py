@@ -1,5 +1,5 @@
 from app.database.connector import get_session
-from app.services.basket_services.basket_check import BasketCheck
+from app.services.basket_service import BasketService
 
 
 from fastapi import APIRouter, Depends
@@ -12,6 +12,6 @@ router = APIRouter(
 )
 
 @router.get("/check")
-async def check(user_id:int, session:Session = Depends(get_session)):
-    result = await BasketCheck(session).check(user_id)
+async def check(user_id: int, session: Session = Depends(get_session)):
+    result = await BasketService(session).check_basket(user_id)
     return result

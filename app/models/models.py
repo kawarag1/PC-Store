@@ -19,7 +19,7 @@ class User(Base):
 
 
     orders:Mapped["Order"] = relationship("Order", back_populates = "users")
-
+    baskets:Mapped["Basket"] = relationship("Basket", back_populates = "users")
 
 
 class Basket(Base):
@@ -41,6 +41,7 @@ class Basket(Base):
     # каждое поле таблицы будет nullable = True. когда будет нажиматься кнопка добавления в таблицу, то будет регистрироваться новая запись в таблице с id юзера и артиклем товара.
     # по артиклю товара апишка будет понимать в какой столбец добавлять id или артикул.
     
+    users:Mapped["User"] = relationship("Users", back_populates = "Users")
     products:Mapped["Product"] = relationship("Product", back_populates = "baskets")
     cpus:Mapped["CPU"] = relationship("CPU", back_populates = "baskets")
     gpus:Mapped["GPU"] = relationship("GPU", back_populates = "baskets")
@@ -60,7 +61,32 @@ class Order(Base):
     id:Mapped[int] = mapped_column(Integer, autoincrement = True, primary_key = True)
     user_id:Mapped[int] = mapped_column(Integer, ForeignKey("Users.id"))
     category_id:Mapped[int] = mapped_column(Integer ,ForeignKey("Categories.id"))
+    products_id:Mapped[int] = mapped_column(Integer, ForeignKey("Products.id"), nullable = True)
+    cpu_id:Mapped[int] = mapped_column(Integer, ForeignKey("CPU.id"), nullable = True)
+    gpu_id:Mapped[int] = mapped_column(Integer, ForeignKey("GPU.id"), nullable = True)
+    ram_id:Mapped[int] = mapped_column(Integer, ForeignKey("RAM.id"), nullable = True)
+    motherboard_id:Mapped[int] = mapped_column(Integer, ForeignKey("Motherboards.id"), nullable = True)
+    m2_id:Mapped[int] = mapped_column(Integer, ForeignKey("M2_SSDs.id"), nullable = True)
+    ssd_id:Mapped[int] = mapped_column(Integer, ForeignKey("SSDs.id"), nullable = True)
+    hdd_id:Mapped[int] = mapped_column(Integer, ForeignKey("HDDs.id"), nullable = True)
+    case_id:Mapped[int] = mapped_column(Integer, ForeignKey("PC_Cases.id"), nullable = True)
+    cooler_id:Mapped[int] = mapped_column(Integer, ForeignKey("Coolers.id"), nullable = True)
+    pu_id:Mapped[int] = mapped_column(Integer, ForeignKey("Power_Units.id"), nullable = True)
+    # пока не забыл. заказы будет работать как, получается здесь будут поля всех товаров, типо products, cpu, gpu и так далее, 
+    # каждое поле таблицы будет nullable = True. когда будет нажиматься кнопка добавления в таблицу, то будет регистрироваться новая запись в таблице с id юзера и артиклем товара.
+    # по артиклю товара апишка будет понимать в какой столбец добавлять id или артикул.
     
+    products:Mapped["Product"] = relationship("Product", back_populates = "baskets")
+    cpus:Mapped["CPU"] = relationship("CPU", back_populates = "baskets")
+    gpus:Mapped["GPU"] = relationship("GPU", back_populates = "baskets")
+    rams:Mapped["RAM"] = relationship("RAM", back_populates = "baskets")
+    motherboards:Mapped["Motherboard"] = relationship("Motherboard", back_populates = "baskets")
+    m2_ssdS:Mapped["M2_SSD"] = relationship("M2_SSD", back_populates = "baskets")
+    ssdS:Mapped["SSD"] = relationship("SSD", back_populates = "baskets")
+    hddS:Mapped["HDD"] = relationship("HDD", back_populates = "baskets")
+    cases:Mapped["PC_CASE"] = relationship("PC_CASE", back_populates = "baskets")
+    coolers:Mapped["Cooler"] = relationship("Cooler", back_populates = "baskets")
+    puS:Mapped["POWER_UNIT"] = relationship("POWER_UNIT", back_populates = "baskets")
     
 
     users:Mapped["User"] = relationship("User", back_populates = "orders")

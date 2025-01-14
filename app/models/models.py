@@ -60,7 +60,7 @@ class Order(Base):
     id:Mapped[int] = mapped_column(Integer, autoincrement = True, primary_key = True)
     user_id:Mapped[int] = mapped_column(Integer, ForeignKey("Users.id"))
     category_id:Mapped[int] = mapped_column(Integer ,ForeignKey("Categories.id"))
-
+    
     
 
     users:Mapped["User"] = relationship("User", back_populates = "orders")

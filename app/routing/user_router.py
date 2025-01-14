@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 
-from app.services.user_schema import UserService 
+from app.services.user_service import UserService 
 
 
 router = APIRouter(

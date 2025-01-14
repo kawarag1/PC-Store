@@ -40,8 +40,7 @@ class Basket(Base):
     # пока не забыл. корзина будет работать как, получается здесь будут поля всех товаров, типо products, cpu, gpu и так далее, 
     # каждое поле таблицы будет nullable = True. когда будет нажиматься кнопка добавления в таблицу, то будет регистрироваться новая запись в таблице с id юзера и артиклем товара.
     # по артиклю товара апишка будет понимать в какой столбец добавлять id или артикул.
-    
-    users:Mapped["User"] = relationship("Users", back_populates = "Users")
+    users:Mapped["User"] = relationship("User", back_populates = "baskets")
     products:Mapped["Product"] = relationship("Product", back_populates = "baskets")
     cpus:Mapped["CPU"] = relationship("CPU", back_populates = "baskets")
     gpus:Mapped["GPU"] = relationship("GPU", back_populates = "baskets")
@@ -72,25 +71,22 @@ class Order(Base):
     case_id:Mapped[int] = mapped_column(Integer, ForeignKey("PC_Cases.id"), nullable = True)
     cooler_id:Mapped[int] = mapped_column(Integer, ForeignKey("Coolers.id"), nullable = True)
     pu_id:Mapped[int] = mapped_column(Integer, ForeignKey("Power_Units.id"), nullable = True)
-    # пока не забыл. заказы будет работать как, получается здесь будут поля всех товаров, типо products, cpu, gpu и так далее, 
-    # каждое поле таблицы будет nullable = True. когда будет нажиматься кнопка добавления в таблицу, то будет регистрироваться новая запись в таблице с id юзера и артиклем товара.
-    # по артиклю товара апишка будет понимать в какой столбец добавлять id или артикул.
-    
-    products:Mapped["Product"] = relationship("Product", back_populates = "baskets")
-    cpus:Mapped["CPU"] = relationship("CPU", back_populates = "baskets")
-    gpus:Mapped["GPU"] = relationship("GPU", back_populates = "baskets")
-    rams:Mapped["RAM"] = relationship("RAM", back_populates = "baskets")
-    motherboards:Mapped["Motherboard"] = relationship("Motherboard", back_populates = "baskets")
-    m2_ssdS:Mapped["M2_SSD"] = relationship("M2_SSD", back_populates = "baskets")
-    ssdS:Mapped["SSD"] = relationship("SSD", back_populates = "baskets")
-    hddS:Mapped["HDD"] = relationship("HDD", back_populates = "baskets")
-    cases:Mapped["PC_CASE"] = relationship("PC_CASE", back_populates = "baskets")
-    coolers:Mapped["Cooler"] = relationship("Cooler", back_populates = "baskets")
-    puS:Mapped["POWER_UNIT"] = relationship("POWER_UNIT", back_populates = "baskets")
-    
 
     users:Mapped["User"] = relationship("User", back_populates = "orders")
     categories:Mapped["Category"] = relationship("Category", back_populates = "orders")
+    products:Mapped["Product"] = relationship("Product", back_populates = "orders")
+    cpus:Mapped["CPU"] = relationship("CPU", back_populates = "orders")
+    gpus:Mapped["GPU"] = relationship("GPU", back_populates = "orders")
+    rams:Mapped["RAM"] = relationship("RAM", back_populates = "orders")
+    motherboards:Mapped["Motherboard"] = relationship("Motherboard", back_populates = "orders")
+    m2_ssdS:Mapped["M2_SSD"] = relationship("M2_SSD", back_populates = "orders")
+    ssdS:Mapped["SSD"] = relationship("SSD", back_populates = "orders")
+    hddS:Mapped["HDD"] = relationship("HDD", back_populates = "orders")
+    cases:Mapped["PC_CASE"] = relationship("PC_CASE", back_populates = "orders")
+    coolers:Mapped["Cooler"] = relationship("Cooler", back_populates = "orders")
+    puS:Mapped["POWER_UNIT"] = relationship("POWER_UNIT", back_populates = "orders")
+
+    
 
 
 
@@ -139,6 +135,7 @@ class Product(Base):  #это именно цельный ПК
     coolers:Mapped["Cooler"] = relationship("Cooler", back_populates = "products")
     puS:Mapped["POWER_UNIT"] = relationship("POWER_UNIT", back_populates = "products")
     baskets:Mapped["Basket"] = relationship("Basket", back_populates = "products")
+    orders:Mapped["Order"] = relationship("Order", back_populates = "products")
     # categories:Mapped["Category"] = relationship("Category", back_populates = "products")
 
 
@@ -159,6 +156,7 @@ class CPU(Base):
     products: Mapped["Product"] = relationship("Product", back_populates = "cpus")
     manufacturers: Mapped["Manufacturer"] = relationship("Manufacturer", back_populates = "cpus")
     baskets:Mapped["Basket"] = relationship("Basket", back_populates = "cpus")
+    orders:Mapped["Order"] = relationship("Order", back_populates = "cpus")
     
 
 class CPU_SPECS(Base):
@@ -189,6 +187,7 @@ class GPU(Base):
     products:Mapped["Product"] = relationship("Product", back_populates = "gpus")
     manufacturers:Mapped["Manufacturer"] = relationship("Manufacturer", back_populates = "gpus")
     baskets:Mapped["Basket"] = relationship("Basket", back_populates = "gpus")
+    orders:Mapped["Order"] = relationship("Order", back_populates = "gpus")
 
 
 class GPU_SPECS(Base):
@@ -226,6 +225,7 @@ class RAM(Base):
     products:Mapped["Product"] = relationship("Product", back_populates = "rams")
     manufacturers:Mapped["Manufacturer"] = relationship("Manufacturer", back_populates = "rams")
     baskets:Mapped["Basket"] = relationship("Basket", back_populates = "rams")
+    orders:Mapped["Order"] = relationship("Order", back_populates = "rams")
 
 
 class RAM_SPECS(Base):
@@ -272,6 +272,7 @@ class Motherboard(Base):
     specs:Mapped["Motherboard_SPECS"] = relationship("Motherboard_SPECS", back_populates = "motherboards")
     products:Mapped["Product"] = relationship("Product", back_populates = "motherboards")
     baskets:Mapped["Basket"] = relationship("Basket", back_populates = "motherboards")
+    orders:Mapped["Order"] = relationship("Order", back_populates = "motherboards")
 
 
 class Motherboard_SPECS(Base):
@@ -314,6 +315,7 @@ class M2_SSD(Base):
     manufacturers:Mapped["Manufacturer"] = relationship("Manufacturer", back_populates = "m2S")
     products:Mapped["Product"] = relationship("Product", back_populates = "m2_ssdS")
     baskets:Mapped["Basket"] = relationship("Basket", back_populates = "m2_ssdS")
+    orders:Mapped["Order"] = relationship("Order", back_populates = "m2_ssdS")
 
 class M2_SSD_SPECS(Base):
     __tablename__ = "M2_SSD_Specs"
@@ -353,6 +355,7 @@ class SSD(Base):
     specs:Mapped["SSD_SPECS"] = relationship("SSD_SPECS", back_populates = "ssdS")
     manufacturers:Mapped["Manufacturer"] = relationship("Manufacturer", back_populates = "ssdS")
     baskets:Mapped["Basket"] = relationship("Basket", back_populates = "ssdS")
+    orders:Mapped["Order"] = relationship("Order", back_populates = "ssdS")
 
 
 class SSD_SPECS(Base):
@@ -383,6 +386,7 @@ class HDD(Base):
     manufacturers:Mapped["Manufacturer"] = relationship("Manufacturer", back_populates = "hddS")
     specs:Mapped["HDD_SPECS"] = relationship("HDD_SPECS", back_populates = "hddS")
     baskets:Mapped["Basket"] = relationship("Basket", back_populates = "hddS")
+    orders:Mapped["Order"] = relationship("Order", back_populates = "hddS")
 
 class HDD_SPECS(Base):
     __tablename__ = "HDD_Specs"
@@ -437,6 +441,7 @@ class PC_CASE(Base):
     manufacturers:Mapped["Manufacturer"] = relationship("Manufacturer", back_populates = "cases")
     forms:Mapped["FormFactor"] = relationship("FormFactor", back_populates = "cases")
     baskets:Mapped["Basket"] = relationship("Basket", back_populates = "cases")
+    orders:Mapped["Order"] = relationship("Order", back_populates = "cases")
 
 
 class PC_CASE_SPECS(Base):
@@ -487,6 +492,7 @@ class Cooler(Base):
     specs:Mapped["Cooler_Specs"] = relationship("Cooler_Specs", back_populates = "coolers")
     manufacturers:Mapped["Manufacturer"] = relationship("Manufacturer", back_populates = "coolers")
     baskets:Mapped["Basket"] = relationship("Basket", back_populates = "coolers")
+    orders:Mapped["Order"] = relationship("Order", back_populates = "coolers")
 
 
 
@@ -564,6 +570,7 @@ class POWER_UNIT(Base):
     manufacturers:Mapped["Manufacturer"] = relationship("Manufacturer", back_populates = "puS")
     products:Mapped["Product"] = relationship("Product", back_populates = "puS")
     baskets:Mapped["Basket"] = relationship("Basket", back_populates = "puS")
+    orders:Mapped["Order"] = relationship("Order", back_populates = "puS")
 
 class Certificate(Base):
     __tablename__ = "Certificates"

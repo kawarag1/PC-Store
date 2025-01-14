@@ -13,6 +13,12 @@ class BasketService():
         query = select(Basket).filter(Basket.user_id == user_id)
 
         result = self.session.execute(query)
-        return result.scalars().all()
+        basket = result.scalars().all()
+        if basket is None:
+            raise HTTPException(
+                status_code = 404,
+                detail = "Ваша корзина пуста"
+            )
+        return basket
         
     

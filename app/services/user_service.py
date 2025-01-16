@@ -1,6 +1,7 @@
 from app.models.models import User
 from app.schemas.request.user.user_auth_schema import UserAuth
-from app.schemas.request.user.user_registration_schema import UserRequest
+from app.schemas.request.user.user_registration_schema import UserRegistration
+from app.schemas.request.user.user_update_schema import UserUpdate
 from app.database.connector import *
 from app.security.hasher import hash_password
 from app.security.hasher import verify_password
@@ -41,7 +42,7 @@ class UserService():
         result = self.session.execute(query)
         return result.scalars().first()
     
-    async def register(self, request: UserRequest):
+    async def register(self, request: UserRegistration):
         query = (
             insert(User)
             .values(
@@ -58,3 +59,15 @@ class UserService():
         result = self.session.execute(query)
         self.session.commit()
         return result.scalars().first()
+    
+    async def update_profile(self, user_id: int, data: UserUpdate):
+        data_dict = data.dict()
+        query = update(User).filter(User.id == user_id).values(data_dict)
+        #нужно будет доделать запрос так, чтобы он менял только те поля, в которых уже есть данные
+        result = self.session.execute(query)
+        self.session.commit()
+        
+        check_query = select(User).filter(User.id == user_id)
+        result = self.session.execute(check_query)
+        return result.scalars().first()
+

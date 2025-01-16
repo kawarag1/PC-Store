@@ -1,6 +1,7 @@
 from app.database.connector import get_session
-from app.schemas.request.user.user_registration_schema import UserRequest
+from app.schemas.request.user.user_registration_schema import UserRegistration
 from app.schemas.request.user.user_auth_schema import UserAuth
+from app.schemas.request.user.user_update_schema import UserUpdate
 
 from fastapi import APIRouter, Depends
 
@@ -15,7 +16,7 @@ router = APIRouter(
 )
 
 @router.post("/registration")
-async def reg(request: UserRequest, session: Session = Depends(get_session)):
+async def reg(request: UserRegistration, session: Session = Depends(get_session)):
     result = await UserService(session).register(request)
     return result
 
@@ -31,3 +32,7 @@ async def authtorization(request: UserAuth, session: Session = Depends(get_sessi
     return result
 
 
+@router.put("/update_profile")
+async def update_profile(request: UserUpdate, user_id: int, session: Session = Depends(get_session)):
+    result = await UserService(session).update_profile(user_id, request)
+    return result

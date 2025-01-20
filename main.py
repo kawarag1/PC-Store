@@ -15,7 +15,7 @@ app = FastAPI(
 )
 app.include_router(main_router)
 
-
+# 
 # @app.get("/authtorization/{login}/{password}", summary = "Авторизация пользователей")
 # async def auth(login:str, password:str):
 #     with DBSettings.get_session() as conn:

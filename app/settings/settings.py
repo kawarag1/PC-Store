@@ -7,6 +7,10 @@ class Settings(BaseSettings):
     POSTGRES_HOST: str
     POSTGRES_PORT: int
     POSTGRES_DB: str
+    JWT_SECRET_KEY: str
+    JWT_ACCESS_TOKEN_LIFETIME_MINUTES: int
+    JWT_REFRESH_TOKEN_LIFETIME_HOURS: int
+    JWT_ALGORITHM: str
 
     class Config:
         env_file = ".env"

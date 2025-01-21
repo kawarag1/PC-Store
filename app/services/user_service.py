@@ -42,7 +42,14 @@ class UserService():
         return result.scalars().first()
     
     async def update_profile(self, user_id: int, data: UserUpdate):
-        data_dict = data.dict()
+        data_dict = data.dict(exclude_unset=True)
+        update_fileds = {}
+        for key, value in data_dict.items():
+            if values is not None:
+                update_fileds[key] = value
+
+        if not update_fileds:
+            return None
         query = update(User).filter(User.id == user_id).values(data_dict).returning(User)
         '''
         оказывается можно в боди оставить только 1 нужное поле и всё, на мобилке это реализовать можно через создание

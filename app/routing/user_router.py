@@ -15,6 +15,7 @@ from app.schemas.response.access_token import AccessToken
 from app.security.jwtmanager import JWTManager, get_current_user
 from app.security.jwttype import JWTType
 from app.services.user_service import UserService 
+from app.security.hasher import hash_password
 
 
 
@@ -39,6 +40,7 @@ async def reg(request: UserRegistration, session: Session = Depends(get_session)
 
 @router.put("/update_profile")
 async def update_profile(request: UserUpdate, session: Session = Depends(get_session), user: User = Depends(get_current_user)):
+    request.password = hash_password(request.password)
     result = await UserService(session).update_profile(user.id, request)
     return result
 

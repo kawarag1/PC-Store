@@ -63,6 +63,8 @@ async def profile(username: str = Form(), password: str = Form(), session: Sessi
         token_type="Bearer"
         
     )
+
+
 @router.get("/get_profile")
 async def me(user: User = Depends(get_current_user)):
     return user

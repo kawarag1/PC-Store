@@ -43,9 +43,10 @@ class UserService():
     
     async def update_profile(self, user_id: int, data: UserUpdate):
         data_dict = data.dict(exclude_unset=True)
+
         update_fileds = {}
         for key, value in data_dict.items():
-            if values is not None:
+            if value is not None:
                 update_fileds[key] = value
 
         if not update_fileds:

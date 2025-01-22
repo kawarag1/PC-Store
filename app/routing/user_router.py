@@ -44,6 +44,7 @@ async def update_profile(request: UserUpdate, session: Session = Depends(get_ses
     result = await UserService(session).update_profile(user.id, request)
     return result
 
+
 @router.post("/authtorization")
 async def profile(username: str = Form(), password: str = Form(), session: Session = Depends(get_session)):
     user = await UserService(session).get_profile(login=username)

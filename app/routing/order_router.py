@@ -17,3 +17,9 @@ router = APIRouter(
 async def check(session: Session = Depends(get_session), user: User = Depends(get_current_user)):
     result = await OrderService(session).check_orders(user.id)
     return result
+
+
+@router.post("/create_order")
+async def create_order(session: Session = Depends(get_session), user: User = Depends(get_current_user)):
+    result = await OrderService(session).create_order(user.id)
+    return result

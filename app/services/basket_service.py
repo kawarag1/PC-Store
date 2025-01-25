@@ -25,9 +25,9 @@ class BasketService():
         return basket
     
 
-    async def add_to_basket(self, data:Basket, user_id: int):
+    async def add_to_basket(self, data: Basket_Table, user_id: int):
         data.user_id = user_id
-        query = insert(Basket).values(data).returning(Basket)
+        query = insert(Basket_Table).values(data).returning(Basket)
 
         result = self.session.execute(query)
         self.session.commit()

@@ -9,6 +9,6 @@ main_router = APIRouter(
 )
 
 
-main_router.include_router(user_router)
-main_router.include_router(basket_router)
-main_router.include_router(order_router)
+main_router.include_router(user_router, tags = ["Users"])
+main_router.include_router(basket_router, tags = ["Basket"])
+main_router.include_router(order_router, tags = ["Orders"])

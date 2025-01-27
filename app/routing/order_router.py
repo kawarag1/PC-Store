@@ -1,5 +1,6 @@
 from app.database.connector import get_session
 from app.models.models import User
+from app.schemas.request.order_schema import Order as OrderClass
 from app.security.jwtmanager import get_current_user
 from app.services.order_service import OrderService
 
@@ -20,6 +21,6 @@ async def check(session: Session = Depends(get_session), user: User = Depends(ge
 
 
 @router.post("/create_order")
-async def create_order(session: Session = Depends(get_session), user: User = Depends(get_current_user)):
-    result = await OrderService(session).create_order(user.id)
+async def create_order(order: OrderClass, session: Session = Depends(get_session), user: User = Depends(get_current_user)):
+    result = await OrderService(session).create_order(user.id, order)
     return result

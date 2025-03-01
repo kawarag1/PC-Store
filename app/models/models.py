@@ -15,7 +15,8 @@ class User(Base):
     email:Mapped[str] = mapped_column(String(255), unique = True)
     name:Mapped[str] = mapped_column(String(255), nullable = True)
     surname:Mapped[str] = mapped_column(String(255), nullable = True)
-    patronymic:Mapped[str] = mapped_column(String(255) ,nullable = True)
+    patronymic:Mapped[str] = mapped_column(String(255) ,nullable = True)    
+
 
 
     orders:Mapped["Order"] = relationship("Order", back_populates = "users")
@@ -226,6 +227,7 @@ class RAM(Base):
     manufacturers:Mapped["Manufacturer"] = relationship("Manufacturer", back_populates = "rams")
     baskets:Mapped["Basket"] = relationship("Basket", back_populates = "rams")
     orders:Mapped["Order"] = relationship("Order", back_populates = "rams")
+    ram_quantities:Mapped["RAM_Quantity"] = relationship("RAM_Quantity", back_populates = "rams")
 
 
 class RAM_SPECS(Base):
@@ -234,6 +236,7 @@ class RAM_SPECS(Base):
     frequency:Mapped[int] = mapped_column(Integer)
     type_id:Mapped[int] = mapped_column(Integer, ForeignKey("RAM_Type.id"))
     radiators:Mapped[bool] = mapped_column(Boolean, default = False)
+    ram_quantity:Mapped[int] = mapped_column(Integer, ForeignKey("RAM_Quantities.id"))
 
     rams:Mapped["RAM"] = relationship("RAM", back_populates = "specs")
     types:Mapped["RAM_TYPE"] = relationship("RAM_TYPE", back_populates = "ram_specs")
@@ -252,7 +255,7 @@ class RAM_Quantity(Base):
     id:Mapped[int] = mapped_column(Integer, autoincrement = True, primary_key = True)
     ram_number:Mapped[str] = mapped_column(String(50))
 
-
+    rams:Mapped["RAM"] = relationship("RAM", back_populates = "ram_quantities")
     products:Mapped["Product"] = relationship("Product", back_populates = "ram_quantities")
     #здесь табличка тупо для размеров оперативки, получается, что будет несколько записей,
     #типо 2x8(16), 2ч16(32), 1x8, 1x16, 2x4(8)

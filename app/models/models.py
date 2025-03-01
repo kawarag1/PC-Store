@@ -564,6 +564,7 @@ class POWER_UNIT(Base):
     name:Mapped[str] = mapped_column(String(50))
     power:Mapped[int] = mapped_column(Integer)
     article:Mapped[str] = mapped_column(String(50), default = generate_articul(ItemsTypes.PU))
+    modular:Mapped[bool] = mapped_column(Boolean, default = false)
     image:Mapped[str] = mapped_column(String(255))
     certificate_id:Mapped[int] = mapped_column(Integer, ForeignKey("Certificates.id"))
     manufacturer_id:Mapped[int] = mapped_column(Integer, ForeignKey("Manufacturers.id"))

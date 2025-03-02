@@ -563,6 +563,7 @@ class POWER_UNIT(Base):
     id:Mapped[int] = mapped_column(Integer, autoincrement = True, primary_key = True)
     name:Mapped[str] = mapped_column(String(50))
     power:Mapped[int] = mapped_column(Integer)
+    cost:Mapped[int] = mapped_column(Integer)
     article:Mapped[str] = mapped_column(String(50), default = generate_articul(ItemsTypes.PU))
     modular:Mapped[bool] = mapped_column(Boolean, default = false)
     image:Mapped[str] = mapped_column(String(255))

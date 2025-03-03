@@ -323,7 +323,6 @@ class M2_SSD(Base):
 class M2_SSD_SPECS(Base):
     __tablename__ = "M2_SSD_Specs"
     id:Mapped[int] = mapped_column(Integer, autoincrement = True, primary_key = True)
-    frequency:Mapped[int] = mapped_column(Integer)
     tdp:Mapped[int] = mapped_column(Integer)
     speed_read:Mapped[int] = mapped_column(Integer)
     write_read:Mapped[int] = mapped_column(Integer)
@@ -364,7 +363,6 @@ class SSD(Base):
 class SSD_SPECS(Base):
     __tablename__ = "SSD_Specs"
     id:Mapped[int] = mapped_column(Integer, autoincrement = True, primary_key = True)
-    frequency:Mapped[int] = mapped_column(Integer)
     tdp:Mapped[int] = mapped_column(Integer)
     speed_read:Mapped[int] = mapped_column(Integer)
     write_read:Mapped[int] = mapped_column(Integer)
@@ -394,7 +392,6 @@ class HDD(Base):
 class HDD_SPECS(Base):
     __tablename__ = "HDD_Specs"
     id:Mapped[int] = mapped_column(Integer, autoincrement = True, primary_key = True)
-    frequency:Mapped[int] = mapped_column(Integer)
     tdp:Mapped[int] = mapped_column(Integer)
     speed_read:Mapped[int] = mapped_column(Integer)
     write_read:Mapped[int] = mapped_column(Integer)

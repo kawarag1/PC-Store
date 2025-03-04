@@ -227,7 +227,7 @@ class RAM(Base):
     manufacturers:Mapped["Manufacturer"] = relationship("Manufacturer", back_populates = "rams")
     baskets:Mapped["Basket"] = relationship("Basket", back_populates = "rams")
     orders:Mapped["Order"] = relationship("Order", back_populates = "rams")
-    ram_quantities:Mapped["RAM_Quantity"] = relationship("RAM_Quantity", back_populates = "rams")
+    
 
 
 class RAM_SPECS(Base):
@@ -240,6 +240,7 @@ class RAM_SPECS(Base):
 
     rams:Mapped["RAM"] = relationship("RAM", back_populates = "specs")
     types:Mapped["RAM_TYPE"] = relationship("RAM_TYPE", back_populates = "ram_specs")
+    ram_quantities:Mapped["RAM_Quantity"] = relationship("RAM_Quantity", back_populates = "rams")
 
 class RAM_TYPE(Base):
     __tablename__ = "RAM_Type"
@@ -255,7 +256,7 @@ class RAM_Quantity(Base):
     id:Mapped[int] = mapped_column(Integer, autoincrement = True, primary_key = True)
     ram_number:Mapped[str] = mapped_column(String(50))
 
-    rams:Mapped["RAM"] = relationship("RAM", back_populates = "ram_quantities")
+    rams:Mapped["RAM_SPECS"] = relationship("RAM_SPECS", back_populates = "ram_quantities")
     products:Mapped["Product"] = relationship("Product", back_populates = "ram_quantities")
     #здесь табличка тупо для размеров оперативки, получается, что будет несколько записей,
     #типо 2x8(16), 2ч16(32), 1x8, 1x16, 2x4(8)

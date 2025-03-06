@@ -502,6 +502,9 @@ class Cooler_Specs(Base):
     id:Mapped[int] = mapped_column(Integer, autoincrement = True, primary_key = True)
     base_material_id:Mapped[int] = mapped_column(Integer, ForeignKey("Materials.id"))
     radiator_material_id:Mapped[int] = mapped_column(Integer, ForeignKey("Materials.id"))
+    min_frequency:Mapped[int] = mapped_column(Integer)
+    max_frequency:Mapped[int] = mapped_column(Integer)
+    dispassion:Mapped[int] = mapped_column(Integer)
 
     coolers:Mapped["Cooler"] = relationship("Cooler", back_populates = "specs")
     base_material:Mapped["Material"] = relationship("Material", foreign_keys = [base_material_id], back_populates = "cooler_specs_base")

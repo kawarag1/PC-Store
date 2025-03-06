@@ -540,6 +540,7 @@ class VENT(Base):
     cost:Mapped[Numeric] = mapped_column(Numeric(10,2))
     image:Mapped[str] = mapped_column(String(255))
     manufacturer_id:Mapped[int] = mapped_column(Integer, ForeignKey("Manufacturers.id"))
+    specs_id:Mapped[int] = mapped_column(Integer, ForeignKey("Vents_Specs.id"))
 
 
     manufacturers:Mapped["Manufacturer"] = relationship("Manufacturer", back_populates = 'vents')
@@ -550,7 +551,6 @@ class VENT(Base):
 class VENT_SPECS(Base):
     __tablename__ = "Vents_Specs"
     id:Mapped[int] = mapped_column(Integer, autoincrement = True, primary_key = True)
-    vent_id:Mapped[int] = mapped_column(Integer, ForeignKey("Vents.id"))
     max_speed_rotation:Mapped[int] = mapped_column(Integer)
     min_speed_rotation:Mapped[int] = mapped_column(Integer)
     max_level_noise:Mapped[Numeric] = mapped_column(Numeric(10,2))

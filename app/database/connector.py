@@ -7,4 +7,4 @@ from app.settings.settings import settings
 
 def get_session():
     engine = create_engine(str(settings.db_url))
-    return Session(bind=engine)
+    return Session(bind = engine)

@@ -423,7 +423,6 @@ class FormFactor(Base):
     name:Mapped[str] = mapped_column(String(50))
 
     specs:Mapped["Motherboard_SPECS"] = relationship("Motherboard_SPECS", back_populates = "forms")
-    cases:Mapped["PC_CASE"] = relationship("PC_CASE", back_populates = "forms")
 
 class PC_CASE(Base):
     __tablename__ = "PC_Cases"
@@ -434,13 +433,11 @@ class PC_CASE(Base):
     article:Mapped[str] = mapped_column(String(50), default = generate_articul(ItemsTypes.CASE))
     image:Mapped[str] = mapped_column(String(255))
     pc_case_specs_id:Mapped[int] = mapped_column(Integer, ForeignKey('PC_Case_Specs.id'))
-    form_factor_id:Mapped[int] = mapped_column(Integer, ForeignKey("FormFactors.id"))
     
 
     products:Mapped["Product"] = relationship("Product", back_populates = "cases")
     specs:Mapped["PC_CASE_SPECS"] = relationship("PC_CASE_SPECS", back_populates = "cases")
     manufacturers:Mapped["Manufacturer"] = relationship("Manufacturer", back_populates = "cases")
-    forms:Mapped["FormFactor"] = relationship("FormFactor", back_populates = "cases")
     baskets:Mapped["Basket"] = relationship("Basket", back_populates = "cases")
     orders:Mapped["Order"] = relationship("Order", back_populates = "cases")
 

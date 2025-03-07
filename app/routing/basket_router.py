@@ -21,5 +21,5 @@ async def check(user: User = Depends(get_current_user), session: Session = Depen
 
 @router.post("/add_to_basket")
 async def add_to_basket(request: Basket, user: User = Depends(get_current_user), session: Session = Depends(get_session)):
-    result = await BasketService(session).add_to_basket(user.id, request)
+    result = await BasketService(session).add_to_basket(request, user.id)
     return result

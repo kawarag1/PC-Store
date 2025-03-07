@@ -4,7 +4,6 @@ from typing import Optional
 
 
 class Basket(BaseModel):
-    user_id:int
     products_id:Optional[int] = None
     cpu_id:Optional[int] = None
     gpu_id:Optional[int] = None

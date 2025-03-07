@@ -448,9 +448,9 @@ class PC_CASE(Base):
 class PC_CASE_SPECS(Base):
     __tablename__ = "PC_Case_Specs"
     id:Mapped[int] = mapped_column(Integer, autoincrement = True, primary_key = True)
-    weight:Mapped[Numeric] = mapped_column(Numeric(10,2))
-    height:Mapped[Numeric] = mapped_column(Numeric(10,2))
-    wight:Mapped[Numeric] = mapped_column(Numeric(10,2))
+    length:Mapped[int] = mapped_column(Integer)
+    height:Mapped[int] = mapped_column(Integer)
+    wigth:Mapped[int] = mapped_column(Integer)
     case_type:Mapped[int] = mapped_column(Integer, ForeignKey("Case_Type.id"))
     front_vents_count:Mapped[int] = mapped_column(Integer)
     rear_vents_count:Mapped[int] = mapped_column(Integer)

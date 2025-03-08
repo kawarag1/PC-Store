@@ -1,6 +1,7 @@
 from app.models.models import Basket as Basket_Table, User
 from app.schemas.request import basket_schema
 from app.schemas.request.basket_schema import Basket
+from app.schemas.request.product import Product as ProductRequest
 from app.database.connector import *
 from app.schemas.response.goods import Goods
 
@@ -44,27 +45,67 @@ class BasketService():
         
     
 
-    async def add_to_basket(self, data: Basket, user_id: int):
-        if not isinstance(data, Basket):
-             raise ValueError("data должен быть экземпляром Basket")
+    async def add_to_basket(self, data: ProductRequest, user_id: int):
+        if "CPU" in data.article:
+            query = insert(Basket_Table).values(
+                user_id = user_id,
+                cpu_id = data.id
+            ).returning(Basket_Table)
+        elif "GPU" in data.article:
+            query = insert(Basket_Table).values(
+                user_id = user_id,
+                cpu_id = data.id
+            ).returning(Basket_Table)
+        elif "RAM" in data.article:
+            query = insert(Basket_Table).values(
+                user_id = user_id,
+                cpu_id = data.id
+            ).returning(Basket_Table)
+        elif "CASE" in data.article:
+            query = insert(Basket_Table).values(
+                user_id = user_id,
+                cpu_id = data.id
+            ).returning(Basket_Table)
+        elif "M2" in data.article:
+            query = insert(Basket_Table).values(
+                user_id = user_id,
+                cpu_id = data.id
+            ).returning(Basket_Table)
+        elif "SSD" in data.article:
+            query = insert(Basket_Table).values(
+                user_id = user_id,
+                cpu_id = data.id
+            ).returning(Basket_Table)
+        elif "HDD" in data.article:
+            query = insert(Basket_Table).values(
+                user_id = user_id,
+                cpu_id = data.id
+            ).returning(Basket_Table)
+        elif "MB" in data.article:
+            query = insert(Basket_Table).values(
+                user_id = user_id,
+                cpu_id = data.id
+            ).returning(Basket_Table)
+        elif "VENT" in data.article:
+            query = insert(Basket_Table).values(
+                user_id = user_id,
+                cpu_id = data.id
+            ).returning(Basket_Table)
+        elif "TOWER" in data.article:
+            query = insert(Basket_Table).values(
+                user_id = user_id,
+                cpu_id = data.id
+            ).returning(Basket_Table)
+        elif "PU" in data.article:
+            query = insert(Basket_Table).values(
+                user_id = user_id,
+                cpu_id = data.id
+            ).returning(Basket_Table)
         
-        query = insert(Basket_Table).values(
-            user_id = user_id,
-            products_id = data.products_id,
-            cpu_id = data.cpu_id,
-            gpu_id = data.gpu_id,
-            ram_id = data.ram_id,
-            motherboard_id = data.motherboard_id,
-            m2_id = data.m2_id,
-            ssd_id = data.ssd_id,
-            hdd_id = data.hdd_id,
-            case_id = data.case_id,
-            cooler_id = data.cooler_id,
-            pu_id = data.pu_id
-        ).returning(Basket_Table)
-
         result = self.session.execute(query)
         self.session.commit()
         return result.scalars().first()
+
+        
         
     

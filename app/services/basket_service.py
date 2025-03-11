@@ -16,7 +16,7 @@ class BasketService():
     def __init__(self, session:Session):
         self.session = session
 
-    async def check_basket(self, user_id : int) -> list[Goods]:
+    async def check_basket(self, user_id : int) -> Basket:
         query = select(Basket_Table).filter(Basket_Table.user_id == user_id)
 
         result = self.session.execute(query)
@@ -26,22 +26,7 @@ class BasketService():
                 status_code = 404,
                 detail = "Ваша корзина пуста"
             )
-        goods_list = []
-        for item in basket:
-            goods_list.append(Goods(
-                products_id = item.products_id,
-                cpu_id = item.cpu_id,
-                gpu_id = item.gpu_id,
-                ram_id = item.ram_id,
-                motherboard_id = item.motherboard_id,
-                m2_id = item.m2_id,
-                ssd_id = item.ssd_id,
-                hdd_id = item.hdd_id,
-                case_id = item.case_id,
-                cooler_id = item.cooler_id,
-                pu_id = item.pu_id
-            ))
-        return goods_list
+        return basket
         
     
 

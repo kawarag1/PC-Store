@@ -10,7 +10,6 @@ from fastapi import Depends, HTTPException
 from sqlalchemy import select
 from typing import List
 
-from app.security.jwtmanager import get_current_user
 
 
 class BasketService():
@@ -100,5 +99,5 @@ class BasketService():
         self.session.execute(query)
         self.session.commit()
         
-        
+    
     

@@ -39,52 +39,52 @@ class BasketService():
         elif "GPU" in data.article:
             query = insert(Basket_Table).values(
                 user_id = user_id,
-                cpu_id = data.id
+                gpu_id = data.id
             ).returning(Basket_Table)
         elif "RAM" in data.article:
             query = insert(Basket_Table).values(
                 user_id = user_id,
-                cpu_id = data.id
+                ram_id = data.id
             ).returning(Basket_Table)
         elif "CASE" in data.article:
             query = insert(Basket_Table).values(
                 user_id = user_id,
-                cpu_id = data.id
+                case_id = data.id
             ).returning(Basket_Table)
         elif "M2" in data.article:
             query = insert(Basket_Table).values(
                 user_id = user_id,
-                cpu_id = data.id
+                m2_id = data.id
             ).returning(Basket_Table)
         elif "SSD" in data.article:
             query = insert(Basket_Table).values(
                 user_id = user_id,
-                cpu_id = data.id
+                ssd_id = data.id
             ).returning(Basket_Table)
         elif "HDD" in data.article:
             query = insert(Basket_Table).values(
                 user_id = user_id,
-                cpu_id = data.id
+                hdd_id = data.id
             ).returning(Basket_Table)
         elif "MB" in data.article:
             query = insert(Basket_Table).values(
                 user_id = user_id,
-                cpu_id = data.id
+                motherboard_id = data.id
             ).returning(Basket_Table)
         elif "VENT" in data.article:
             query = insert(Basket_Table).values(
                 user_id = user_id,
-                cpu_id = data.id
+                vent_id = data.id
             ).returning(Basket_Table)
         elif "TOWER" in data.article:
             query = insert(Basket_Table).values(
                 user_id = user_id,
-                cpu_id = data.id
+                cooler_id = data.id
             ).returning(Basket_Table)
         elif "PU" in data.article:
             query = insert(Basket_Table).values(
                 user_id = user_id,
-                cpu_id = data.id
+                pu_id = data.id
             ).returning(Basket_Table)
         
         result = self.session.execute(query)
@@ -99,5 +99,68 @@ class BasketService():
         self.session.execute(query)
         self.session.commit()
         
+
+
+    async def delete_one_from_basket(self, user_id: int, data: ProductRequest):
+
+
+        if "CPU" in data.article:
+            query = delete(Basket_Table).filter(
+                Basket_Table.user_id == user_id,
+                Basket_Table.cpu_id == data.id
+            )
+        elif "GPU" in data.article:
+            query = delete(Basket_Table).filter(
+                Basket_Table.user_id == user_id,
+                Basket_Table.gpu_id == data.id
+            )
+        elif "RAM" in data.article:
+            query = query = delete(Basket_Table).filter(
+                Basket_Table.user_id == user_id,
+                Basket_Table.ram_id == data.id
+            )
+        elif "CASE" in data.article:
+            query = query = delete(Basket_Table).filter(
+                Basket_Table.user_id == user_id,
+                Basket_Table.case_id == data.id
+            )
+        elif "M2" in data.article:
+            query = delete(Basket_Table).filter(
+                Basket_Table.user_id == user_id,
+                Basket_Table.m2_id == data.id
+            )
+        elif "SSD" in data.article:
+            query = delete(Basket_Table).filter(
+                Basket_Table.user_id == user_id,
+                Basket_Table.ssd_id == data.id
+            )
+        elif "HDD" in data.article:
+            query = delete(Basket_Table).filter(
+                Basket_Table.user_id == user_id,
+                Basket_Table.hdd_id == data.id
+            ).returning(Basket_Table)
+        elif "MB" in data.article:
+            query = delete(Basket_Table).filter(
+                Basket_Table.user_id == user_id,
+                Basket_Table.motherboard_id == data.id
+            )
+        elif "VENT" in data.article:
+            query = delete(Basket_Table).filter(
+                Basket_Table.user_id == user_id,
+                Basket_Table.vent_id == data.id
+            )
+        elif "TOWER" in data.article:
+            query = delete(Basket_Table).filter(
+                Basket_Table.user_id == user_id,
+                Basket_Table.cooler_id == data.id
+            )
+        elif "PU" in data.article:
+            query = delete(Basket_Table).filter(
+                Basket_Table.user_id == user_id,
+                Basket_Table.pu_id == data.id
+            )
+        
+        self.session.execute(query)
+        self.session.commit()
     
     

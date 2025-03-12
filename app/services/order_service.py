@@ -37,61 +37,61 @@ class OrderService():
         elif "GPU" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
-                cpu_id = order.id,
+                gpu_id = order.id,
                 category_id = 1
             ).returning(Order)
         elif "RAM" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
-                cpu_id = order.id,
+                ram_id = order.id,
                 category_id = 1
             ).returning(Order)
         elif "CASE" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
-                cpu_id = order.id,
+                case_id = order.id,
                 category_id = 1
             ).returning(Order)
         elif "M2" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
-                cpu_id = order.id,
+                m2_id = order.id,
                 category_id = 1
             ).returning(Order)
         elif "SSD" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
-                cpu_id = order.id,
+                ssd_id = order.id,
                 category_id = 1
             ).returning(Order)
         elif "HDD" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
-                cpu_id = order.id,
+                hdd_id = order.id,
                 category_id = 1
             ).returning(Order)
         elif "MB" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
-                cpu_id = order.id,
+                motherboard_id = order.id,
                 category_id = 1
             ).returning(Order)
         elif "VENT" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
-                cpu_id = order.id,
+                vent_id = order.id,
                 category_id = 1
             ).returning(Order)
         elif "TOWER" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
-                cpu_id = order.id,
+                cooler_id = order.id,
                 category_id = 1
             ).returning(Order)
         elif "PU" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
-                cpu_id = order.id,
+                pu_id = order.id,
                 category_id = 1
             ).returning(Order)
         
@@ -129,3 +129,5 @@ class OrderService():
 
        
         return result.scalars().first()
+
+        #надо будет оптимизировать, так как будет генерироваться не 1 общий заказ

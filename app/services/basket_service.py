@@ -8,6 +8,7 @@ from app.schemas.response.goods import Goods
 
 from fastapi import Depends, HTTPException
 from sqlalchemy import select
+from typing import List
 
 from app.security.jwtmanager import get_current_user
 
@@ -16,7 +17,7 @@ class BasketService():
     def __init__(self, session:Session):
         self.session = session
 
-    async def check_basket(self, user_id : int) -> Basket:
+    async def check_basket(self, user_id : int) -> List[Basket]:
         query = select(Basket_Table).filter(Basket_Table.user_id == user_id)
 
         result = self.session.execute(query)

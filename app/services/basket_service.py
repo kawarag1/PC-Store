@@ -97,7 +97,7 @@ class BasketService():
     async def basket_clear(self, user_id: int):
         query = delete(Basket_Table).filter(Basket_Table.user_id == user_id)
 
-        result = self.session.execute(query)
+        self.session.execute(query)
         self.session.commit()
         
         

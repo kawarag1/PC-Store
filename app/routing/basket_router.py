@@ -24,3 +24,8 @@ async def check(user: User = Depends(get_current_user), session: Session = Depen
 async def add_to_basket(request: ProductRequest, user: User = Depends(get_current_user), session: Session = Depends(get_session)):
     result = await BasketService(session).add_to_basket(request, user.id)
     return result
+
+
+@router.delete("/clear_all_basket")
+async def clear_all_basket(user: User = Depends(get_current_user), session: Session = Depends(get_session)):
+    result = await BasketService(session).basket_clear(user.id)

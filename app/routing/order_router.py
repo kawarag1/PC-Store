@@ -21,8 +21,8 @@ async def check(session: Session = Depends(get_session), user: User = Depends(ge
     return result
 
 @router.post("/create_order")
-async def create_another_order(order: ProductRequest, session: Session = Depends(get_session), user: User = Depends(get_current_user)):
-    result = await OrderService(session).create_order(order, user.id)
+async def create_another_order(session: Session = Depends(get_session), user: User = Depends(get_current_user)):
+    result = await OrderService(session).create_order(user.id)
     return result
 
 @router.post("/create_fast_order")

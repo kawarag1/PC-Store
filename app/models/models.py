@@ -38,6 +38,7 @@ class Basket(Base):
     case_id:Mapped[int] = mapped_column(Integer, ForeignKey("PC_Cases.id"), nullable = True)
     cooler_id:Mapped[int] = mapped_column(Integer, ForeignKey("Coolers.id"), nullable = True)
     pu_id:Mapped[int] = mapped_column(Integer, ForeignKey("Power_Units.id"), nullable = True)
+    vent_id:Mapped[int] = mapped_column(Integer, ForeignKey("Vents.id"), nullable = True)
     # пока не забыл. корзина будет работать как, получается здесь будут поля всех товаров, типо products, cpu, gpu и так далее, 
     # каждое поле таблицы будет nullable = True. когда будет нажиматься кнопка добавления в таблицу, то будет регистрироваться новая запись в таблице с id юзера и артиклем товара.
     # по артиклю товара апишка будет понимать в какой столбец добавлять id или артикул.
@@ -53,6 +54,7 @@ class Basket(Base):
     cases:Mapped["PC_CASE"] = relationship("PC_CASE", back_populates = "baskets")
     coolers:Mapped["Cooler"] = relationship("Cooler", back_populates = "baskets")
     puS:Mapped["POWER_UNIT"] = relationship("POWER_UNIT", back_populates = "baskets")
+    vents:Mapped["VENT"] = relationship("VENT", back_populates = "baskets")
 
     
 
@@ -72,6 +74,7 @@ class Order(Base):
     case_id:Mapped[int] = mapped_column(Integer, ForeignKey("PC_Cases.id"), nullable = True)
     cooler_id:Mapped[int] = mapped_column(Integer, ForeignKey("Coolers.id"), nullable = True)
     pu_id:Mapped[int] = mapped_column(Integer, ForeignKey("Power_Units.id"), nullable = True)
+    vent_id:Mapped[int] = mapped_column(Integer, ForeignKey("Vents.id"), nullable = True)
 
     users:Mapped["User"] = relationship("User", back_populates = "orders")
     categories:Mapped["Category"] = relationship("Category", back_populates = "orders")
@@ -86,6 +89,7 @@ class Order(Base):
     cases:Mapped["PC_CASE"] = relationship("PC_CASE", back_populates = "orders")
     coolers:Mapped["Cooler"] = relationship("Cooler", back_populates = "orders")
     puS:Mapped["POWER_UNIT"] = relationship("POWER_UNIT", back_populates = "orders")
+    vents:Mapped["VENT"] = relationship("VENT", back_populates = "orders")
 
     
 
@@ -542,6 +546,8 @@ class VENT(Base):
 
     manufacturers:Mapped["Manufacturer"] = relationship("Manufacturer", back_populates = 'vents')
     specs:Mapped["VENT_SPECS"] = relationship("VENT_SPECS", back_populates = "vents")
+    baskets:Mapped["Basket"] = relationship("Basket", back_populates = "vents")
+    orders:Mapped["Order"] = relationship("Order", back_populates = "vents")
 
 
 

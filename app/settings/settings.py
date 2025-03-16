@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     JWT_ACCESS_TOKEN_LIFETIME_MINUTES: int
     JWT_REFRESH_TOKEN_LIFETIME_HOURS: int
     JWT_ALGORITHM: str
+    API_BASE_PORT: int
 
     class Config:
         env_file = ".env"

@@ -13,13 +13,13 @@ from typing import List
 
 
 class BasketService():
-    def __init__(self, session:Session):
+    def __init__(self, session:AsyncSession):
         self.session = session
 
     async def check_basket(self, user_id : int) -> List[Basket]:
         query = select(Basket_Table).filter(Basket_Table.user_id == user_id)
 
-        result = self.session.execute(query)
+        result = await self.session.execute(query)
         basket = result.scalars().all()
         if basket is None:
             raise HTTPException(
@@ -87,8 +87,8 @@ class BasketService():
                 pu_id = data.id
             ).returning(Basket_Table)
         
-        result = self.session.execute(query)
-        self.session.commit()
+        result = await self.session.execute(query)
+        await self.session.commit()
         return result.scalars().first()
 
 
@@ -96,14 +96,12 @@ class BasketService():
     async def basket_clear(self, user_id: int):
         query = delete(Basket_Table).filter(Basket_Table.user_id == user_id)
 
-        self.session.execute(query)
-        self.session.commit()
+        await self.session.execute(query)
+        await self.session.commit()
         
 
 
     async def delete_one_from_basket(self, user_id: int, data: ProductRequest):
-
-
         if "CPU" in data.article:
             query = delete(Basket_Table).filter(
                 Basket_Table.user_id == user_id,
@@ -160,7 +158,7 @@ class BasketService():
                 Basket_Table.pu_id == data.id
             )
         
-        self.session.execute(query)
-        self.session.commit()
+        await self.session.execute(query)
+        await self.session.commit()
     
     

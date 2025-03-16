@@ -6,9 +6,9 @@ from app.schemas.request.user.user_auth_schema import UserAuth
 from app.schemas.request.user.user_update_schema import UserUpdate
 
 
-from fastapi import APIRouter, Depends, Form, HTTPException, Request
+from fastapi import APIRouter, Depends, Form, HTTPException
 
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 from app.schemas.response.access_token import AccessToken
@@ -24,7 +24,7 @@ router = APIRouter(
 )
 
 @router.post("/registration")
-async def reg(request: UserRegistration, session: Session = Depends(get_session)):
+async def reg(request: UserRegistration, session: AsyncSession = Depends(get_session)):
     result = await UserService(session).register(request)
 
     jwt_manager = JWTManager()
@@ -39,14 +39,14 @@ async def reg(request: UserRegistration, session: Session = Depends(get_session)
 
 
 @router.put("/update_profile")
-async def update_profile(request: UserUpdate, session: Session = Depends(get_session), user: User = Depends(get_current_user)):
+async def update_profile(request: UserUpdate, session: AsyncSession = Depends(get_session), user: User = Depends(get_current_user)):
     request.password = hash_password(request.password)
     result = await UserService(session).update_profile(user.id, request)
     return result
 
 
 @router.post("/authtorization")
-async def profile(username: str = Form(), password: str = Form(), session: Session = Depends(get_session)):
+async def profile(username: str = Form(), password: str = Form(), session: AsyncSession = Depends(get_session)):
     user = await UserService(session).get_profile(login=username)
     if not user:
         raise HTTPException(status_code=401, detail="Пользователь не найден")

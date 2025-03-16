@@ -14,13 +14,13 @@ from fastapi import HTTPException
 
 
 class UserService():
-    def __init__(self, session: Session):
+    def __init__(self, session: AsyncSession):
         self.session = session
 
     async def get_profile(self, **kwargs):
         query = select(User).filter_by(**kwargs)
 
-        result = self.session.execute(query)
+        result = await self.session.execute(query)
         return result.scalars().first()
     
     async def register(self, request: UserRegistration):
@@ -37,8 +37,8 @@ class UserService():
             .returning(User)
         )
 
-        result = self.session.execute(query)
-        self.session.commit()
+        result = await self.session.execute(query)
+        await self.session.commit()
         return result.scalars().first()
     
     async def update_profile(self, user_id: int, data: UserUpdate):
@@ -56,8 +56,8 @@ class UserService():
         оказывается можно в боди оставить только 1 нужное поле и всё, на мобилке это реализовать можно через создание
         джсон словарика...
         '''
-        result = self.session.execute(query)
-        self.session.commit()
+        result = await self.session.execute(query)
+        await self.session.commit()
         
         
         return result.scalars().first()

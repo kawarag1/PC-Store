@@ -10,14 +10,14 @@ from app.schemas.request.product import Product as ProductRequest
 from app.security.jwtmanager import get_current_user
 
 class OrderService():
-    def __init__(self, session: Session):
+    def __init__(self, session: AsyncSession):
         self.session = session
 
 
     async def check_orders(self, user_id: int):
         query = select(Order).filter(Order.user_id == user_id)
 
-        result = self.session.execute(query)
+        result = await self.session.execute(query)
         orders = result.scalars().all()
         if orders is None:
             raise HTTPException(
@@ -95,8 +95,8 @@ class OrderService():
                 category_id = 1
             ).returning(Order)
         
-        result = self.session.execute(query)
-        self.session.commit()
+        result = await self.session.execute(query)
+        await self.session.commit()
         return result.scalars().first()
     
 
@@ -124,8 +124,8 @@ class OrderService():
             pu_id = basket.pu_id
         ).returning(Order)
             
-            result = self.session.execute(query)
-            self.session.commit()
+            result = await self.session.execute(query)
+            await self.session.commit()
 
        
         return result.scalars().first()

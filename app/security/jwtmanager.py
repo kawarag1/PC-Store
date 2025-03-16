@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordBearer
 from jwt import encode, decode
 
 
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.services.user_service import UserService
 from app.settings.settings import settings
@@ -19,7 +19,7 @@ from app.security.jwttype import JWTType
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/v1/user/authtorization")
 
-async def get_current_user(token: str = Depends(oauth2_scheme), session: Session = Depends(get_session)) -> User:
+async def get_current_user(token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)) -> User:
     
 
     payload = JWTManager().decode_token(token)
@@ -37,8 +37,9 @@ async def get_current_user(token: str = Depends(oauth2_scheme), session: Session
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
+
     
-    user = await UserService(session).get_profile(id=username)
+    user = await UserService(session).get_profile(id=int(username))
     if user is None:
         raise HTTPException(
             status_code=401,
@@ -82,7 +83,7 @@ class JWTManager:
             raise HTTPException(status_code=400, detail=token_data)
 
 
-        session: Session = await get_session()
+        session: AsyncSession = await get_session()
         user = await UserService(session).get_profile(id=token_data["userId"])
         session.close()
         if not user:

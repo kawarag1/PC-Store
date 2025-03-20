@@ -11,5 +11,5 @@ services:
     env_file:
       - .env
     ports:
-      - 13280:8000
+      - ${API_BASE_PORT}: 13280:8000
     

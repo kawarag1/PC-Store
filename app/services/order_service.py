@@ -127,7 +127,7 @@ class OrderService():
             result = await self.session.execute(query)
             await self.session.commit()
 
-       
+        await BasketService(self.session).basket_clear(user_id)
         return result.scalars().first()
 
         #надо будет оптимизировать, так как будет генерироваться не 1 общий заказ

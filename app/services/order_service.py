@@ -94,7 +94,9 @@ class OrderService():
                 pu_id = order.id,
                 category_id = 1
             ).returning(Order)
-        await BasketService(self.session).delete_one_from_basket(user_id, ProductRequest)
+        
+
+        await BasketService(self.seesion).delete_one_from_basket(user_id, ProductRequest)
         result = await self.session.execute(query)
         await self.session.commit()
         return result.scalars().first()

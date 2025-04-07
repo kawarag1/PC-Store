@@ -1,4 +1,3 @@
-from app.schemas.request.products import Products
 from app.database.connector import *
 from app.models.models import *
 

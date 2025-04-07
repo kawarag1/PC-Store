@@ -23,8 +23,5 @@ class SearchService():
             
             products = (await self.session.execute(query)).scalars().all()
             grouped[model.__name__].extend(products)
-            # result = await self.session.execute(query)
-            # products = result.scalars().all()
-            # all_products.extend(products)
         
         return dict(grouped)

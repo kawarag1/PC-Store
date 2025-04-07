@@ -3,6 +3,7 @@ from app.database.connector import *
 from app.models.models import *
 
 from sqlalchemy import select
+from collections import defaultdict
 
 
 class SearchService():
@@ -10,8 +11,8 @@ class SearchService():
         self.session = session
 
 
-    async def get_all_products(self, word: str | None = None) -> list[Products]:
-        all_products = []
+    async def get_all_products(self, word: str | None = None) -> dict[str, list]:
+        grouped = defaultdict(list)
 
         models = [CPU, GPU, RAM, Motherboard, POWER_UNIT, PC_CASE, HDD, SSD, M2_SSD, VENT, Cooler]
 
@@ -20,9 +21,10 @@ class SearchService():
             if word:
                 query.where(model.name.ilike(f"%{word}%"))
             
+            products = (await self.session.execute(query)).scalars().all()
+            grouped[model.__name__].extend(products)
+            # result = await self.session.execute(query)
+            # products = result.scalars().all()
+            # all_products.extend(products)
         
-            result = await self.session.execute(query)
-            products = result.scalars().all()
-            all_products.extend(products)
-        
-        return all_products
+        return dict(grouped)

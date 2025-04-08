@@ -38,30 +38,23 @@ class SearchService():
         return dict(grouped)
                 
     async def get_filter_products(self, filter:str) -> dict[str, list]:
-        try:
-            if filter == "Процессоры":
-                query = select(CPU)
-            elif filter == "Видеокарты":
-                query = select(GPU)
-            elif filter == "Оперативная память":
-                query = select(RAM)
-            elif filter == "Кулер":
-                query = select(Cooler)
-            elif filter == "Блок питания":
-                query = select(POWER_UNIT)
-            elif filter == "Корпус":
-                query = select(PC_CASE)
-            elif filter == "Жёсткий диск":
-                query = select(HDD)
-            elif filter == "Твердотельный накопитель":
-                query = select(SSD)
-            elif filter == "M2 накопитель":
-                query = select(M2_SSD)
-            elif filter == "Материнская плата":
-                query = select(Motherboard)
-            elif filter == "Вентиляторы":
-                query = select(VENT)
+        filter_to_models = {
+            "Процессор": CPU,
+            "Видеокарт": GPU,
+            "Оперативная память": RAM,
+            "Кулер": Cooler,
+            "Блок питания": POWER_UNIT,
+            "Корпус": PC_CASE,
+            "Жёсткий диск": HDD,
+            "Твердотельный накопитель": SSD,
+            "M2 накопитель": M2_SSD,
+            "Материнская плата": Motherboard,
+            "Вентилятор": VENT
+        }
 
+        try:
+            model = filter_to_models[filter]
+            query = select(model)
             result = await self.session.execute(query)
             return result.scalars().all()
 

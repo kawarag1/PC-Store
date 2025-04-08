@@ -40,7 +40,8 @@ class SearchService():
                 
     async def get_filter_products(self, filter:str) -> dict[str, list]:
         try:
-            model = Filters.get_method(filter)
+            product_type = Filters(filter)
+            model = Filters.get_model(product_type)
             query = select(model)
             result = await self.session.execute(query)
             return result.scalars().all()

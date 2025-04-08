@@ -3,7 +3,7 @@ from app.models.models import *
 from enum import Enum
 
 class Filters(Enum):
-    CPU = "Процесс"
+    CPU = "Процессор"
     GPU = "Видеокарта"
     RAM = "Оперативная память"
     Cooler = "Кулер"
@@ -16,7 +16,7 @@ class Filters(Enum):
     VENT = "Вентилятор"
     
     @classmethod
-    def get_method(cls, filter):
+    def get_model(cls, filter):
         mapping = {
             cls.CPU: CPU,
             cls.GPU: GPU,

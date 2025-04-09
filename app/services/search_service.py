@@ -1,5 +1,6 @@
 from app.database.connector import *
 from app.models.models import *
+from app.schemas.request.filters import Filters
 
 from sqlalchemy import select
 from fastapi import HTTPException
@@ -39,29 +40,9 @@ class SearchService():
                 
     async def get_filter_products(self, filter:str) -> dict[str, list]:
         try:
-            if filter == "Процессоры":
-                query = select(CPU)
-            elif filter == "Видеокарты":
-                query = select(GPU)
-            elif filter == "Оперативная память":
-                query = select(RAM)
-            elif filter == "Кулер":
-                query = select(Cooler)
-            elif filter == "Блок питания":
-                query = select(POWER_UNIT)
-            elif filter == "Корпус":
-                query = select(PC_CASE)
-            elif filter == "Жёсткий диск":
-                query = select(HDD)
-            elif filter == "Твердотельный накопитель":
-                query = select(SSD)
-            elif filter == "M2 накопитель":
-                query = select(M2_SSD)
-            elif filter == "Материнская плата":
-                query = select(Motherboard)
-            elif filter == "Вентиляторы":
-                query = select(VENT)
-
+            product_type = Filters(filter)
+            model = Filters.get_model(product_type)
+            query = select(model)
             result = await self.session.execute(query)
             return result.scalars().all()
 

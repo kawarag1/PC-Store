@@ -5,16 +5,20 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:PCStore"
     xmlns:pages="clr-namespace:PCStore.Pages"
-    Shell.TitleColor="White"
+    Shell.TitleColor="Black"
+    Shell.BackgroundColor="White"
     Title="PCStore">
 
 
     <TabBar>
         <ShellContent
             Icon="findicon.png"
-            ContentTemplate="{DataTemplate local:MainPage}"/>
+            ContentTemplate="{DataTemplate local:MainPage}"
+            />
 
         <ShellContent
+            x:Name="DinamicContent"
+            x:FieldModifier="public"
             Icon="prrofileicon.png"
             ContentTemplate="{DataTemplate pages:AuthPage}"/>
 

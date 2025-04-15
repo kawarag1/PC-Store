@@ -8,11 +8,11 @@ using System.Net;
 
 namespace PCStore.Services
 {
-    public class AuthHttpClientService: HttpClient
+    public class AuthentificatedHttpClientService: HttpClient
     {
         private static UserService _userService;
 
-        public AuthHttpClientService(UserService userService)
+        public AuthentificatedHttpClientService(UserService userService)
         {
             _userService = userService;
         }

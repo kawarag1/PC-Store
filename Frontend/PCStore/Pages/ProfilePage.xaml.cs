@@ -15,10 +15,10 @@ public partial class ProfilePage : ContentPage
 	private async Task GetProfile()
 	{
 		UserService userService = new UserService();
-		AuthHttpClientService client = new AuthHttpClientService(new UserService());
+		AuthentificatedHttpClientService client = new AuthentificatedHttpClientService(new UserService());
 		Task<UserSchema> userTask = userService.GetProfile(client);
 		UserSchema user = await userTask;
-		Title = $"{user.Name} {user.Surname}";
+		TitleLabel.Text = $"{user.Name} {user.Surname}";
 		
 	}
 
@@ -28,7 +28,7 @@ public partial class ProfilePage : ContentPage
 
     }
 
-    private async Task PoliticBtn_Clicked(object sender, EventArgs e)
+    private async void PoliticBtn_Clicked(object sender, EventArgs e)
     {
         await DisplayAlert($"Политика конфиденциальности", "Подтвердите своё согласие, нажав по кнопке ОК", "ОК");
     }
@@ -41,5 +41,11 @@ public partial class ProfilePage : ContentPage
     private void OrderBtn_Clicked(object sender, EventArgs e)
     {
 
+    }
+
+    protected override bool OnBackButtonPressed()
+    {
+        
+        return true;
     }
 }

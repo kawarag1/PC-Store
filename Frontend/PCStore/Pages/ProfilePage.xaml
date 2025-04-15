@@ -2,9 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PCStore.Pages.ProfilePage"
-             Title="{Binding User}" Background="{StaticResource PrimaryColor}">
+             Shell.NavBarIsVisible="True"
+             Background="{StaticResource PrimaryColor}">
+    <Shell.TitleView>
+        <Label x:Name="TitleLabel" FontSize="20" VerticalOptions="Center" HorizontalOptions="Start" FontAttributes="Bold" TextColor="Black"/>
+    </Shell.TitleView>
     <Shell.BackButtonBehavior>
-        <BackButtonBehavior IsVisible="False"/>
+        <BackButtonBehavior IsVisible="False" IsEnabled="False"/>
     </Shell.BackButtonBehavior>
     <Grid>
         <Grid.RowDefinitions>

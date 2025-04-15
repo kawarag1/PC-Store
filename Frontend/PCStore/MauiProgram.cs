@@ -17,7 +17,7 @@ namespace PCStore
 
 #if DEBUG
     		builder.Logging.AddDebug();
-            builder.Services.AddTransient<AuthHttpClientService>();
+            builder.Services.AddTransient<AuthentificatedHttpClientService>();
 #endif
 
             return builder.Build();

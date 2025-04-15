@@ -15,7 +15,7 @@ namespace PCStore.Services
         private const string AuthUrl = "https://pcstore.space/v1/user/authtorization";
         private const string RefreshUrl = "https://pcstore.space/v1/user/refresh";
         private const string GetProfileUrl = "https://pcstore.space/v1/user/get_profile";
-        private AuthHttpClientService authHttpClientService;
+        private AuthentificatedHttpClientService authHttpClientService;
 
         
 
@@ -117,7 +117,7 @@ namespace PCStore.Services
             try
             {
                 var request = new HttpRequestMessage(HttpMethod.Get, GetProfileUrl);
-                authHttpClientService = new AuthHttpClientService(new UserService());
+                authHttpClientService = new AuthentificatedHttpClientService(new UserService());
                 
                 var response = authHttpClientService.SendAsync(request, new CancellationToken());
                 var _response = await response;
@@ -125,7 +125,6 @@ namespace PCStore.Services
                 {
                     var Jsondata = await _response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<UserSchema>(Jsondata);
-                    await Shell.Current.DisplayAlert("Ошибка", data.Name, "OK");
                     return data;
                 }
                 else
@@ -139,6 +138,18 @@ namespace PCStore.Services
                 return null;
             }
             
+        }
+
+        public static bool IsAuth()
+        {
+            if (SecureStorage.GetAsync("login") != null && SecureStorage.GetAsync("password") != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

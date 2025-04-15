@@ -15,7 +15,7 @@ public partial class AuthPage : ContentPage
         await Navigation.PushAsync(new SecondAuthPage());
     }
 
-    private async void PoliticBnt_Clicked(object sender, EventArgs e)
+    private async Task PoliticBnt_Clicked(object sender, EventArgs e)
     {
         await DisplayAlert($"Политика конфиденциальности", "Подтвердите своё согласие, нажав по кнопке ОК", "ОК");
         

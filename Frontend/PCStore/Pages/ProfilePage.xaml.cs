@@ -28,9 +28,9 @@ public partial class ProfilePage : ContentPage
 
     }
 
-    private void PoliticBtn_Clicked(object sender, EventArgs e)
+    private async Task PoliticBtn_Clicked(object sender, EventArgs e)
     {
-
+        await DisplayAlert($"Политика конфиденциальности", "Подтвердите своё согласие, нажав по кнопке ОК", "ОК");
     }
 
     private void HelpBtn_Clicked(object sender, EventArgs e)

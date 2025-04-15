@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PCStore.Pages.SecondAuthPage"
+             Shell.NavBarIsVisible="False"
+             Background="{StaticResource PrimaryColor}">
+    <Grid BackgroundColor="{StaticResource PrimaryColor}" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="550"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Border Background="White" StrokeShape="RoundRectangle 20,20,20,20" 
+                WidthRequest="380"
+                HeightRequest="350"
+                HorizontalOptions="Center"
+                Stroke="White"
+                Margin="10">
+            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                <Label Text="Профиль" TextColor="Black" FontAttributes="Bold" FontSize="18" HorizontalTextAlignment="Center"/>
+                <Label Text="Логин" FontSize="16" TextColor="{StaticResource ButtonColor}"/>
+                <Entry x:Name="LoginValue" TextColor="Black"/>
+                <BoxView HeightRequest="1" Color="Gray" Margin="0,-19,0,0"/>
+                <Label Text="Пароль" FontSize="16" TextColor="{StaticResource ButtonColor}"/>
+                <Entry x:Name="PasswordValue" TextColor="Black" IsPassword="True"/>
+                <BoxView HeightRequest="1" Color="Gray" Margin="0,-19,0,0"/>
+                <Button x:Name="AuthBtn" Text="Продолжить" 
+                     FontAttributes="Bold" 
+                     BackgroundColor="{StaticResource PrimaryColor}" 
+                     TextColor="{StaticResource ButtonColor}"
+                     Clicked="AuthBtn_Clicked"
+                     WidthRequest="200"/>
+            </VerticalStackLayout>
+        </Border>
+        <Button 
+            CornerRadius="20" 
+            x:Name="NonRegBtn" 
+            Text="Не зарегистрированы?"
+            FontSize="18"
+            FontAttributes="Bold"
+            TextColor="White"
+            Grid.Row="0"
+            VerticalOptions="End"
+            Margin="15"
+            BackgroundColor="{StaticResource ButtonColor}"
+            WidthRequest="380"
+            Clicked="NonRegBtn_Clicked"/>
+
+    </Grid>
+</ContentPage>

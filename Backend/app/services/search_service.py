@@ -2,7 +2,7 @@ from app.database.connector import *
 from app.models.models import *
 from app.schemas.request.filters import Filters
 
-from sqlalchemy import select
+from sqlalchemy import select, join
 from fastapi import HTTPException
 from collections import defaultdict
 
@@ -42,7 +42,7 @@ class SearchService():
         try:
             product_type = Filters(filter)
             model = Filters.get_model(product_type)
-            query = select(model)
+            query = select(model).join()
             result = await self.session.execute(query)
             return result.scalars().all()
 

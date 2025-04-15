@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PCStore.Pages.ProfilePage"
+             Title="{Binding User}" Background="{StaticResource PrimaryColor}">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False"/>
+    </Shell.BackButtonBehavior>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Background="White" HeightRequest="300" WidthRequest="400">
+            <VerticalStackLayout>
+                <Button x:Name="ProfileBtn" WidthRequest="400" HeightRequest="75" ImageSource="profilebtn.png" Clicked="ProfileBtn_Clicked" Background="White"/>
+                <Button x:Name="OrderBtn" WidthRequest="400" HeightRequest="75" ImageSource="ordersbtn.png" Clicked="OrderBtn_Clicked" Background="White"/>
+                <Button x:Name="HelpBtn" WidthRequest="400" HeightRequest="75" ImageSource="helpbtn.png" Clicked="HelpBtn_Clicked" Background="White"/>
+                <Button x:Name="PoliticBtn" WidthRequest="400" HeightRequest="75" ImageSource="politicbtn.png" Clicked="PoliticBtn_Clicked" Background="White"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

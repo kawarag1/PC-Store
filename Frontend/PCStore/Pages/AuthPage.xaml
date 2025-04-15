@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PCStore.Pages.AuthPage"
+             Background="{StaticResource PrimaryColor}"
+             Shell.NavBarIsVisible="False">
+    <Grid BackgroundColor="{StaticResource PrimaryColor}" >
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Border Background="White" StrokeShape="RoundRectangle 20,20,20,20" 
+                WidthRequest="380"
+                HeightRequest="200"
+                HorizontalOptions="Center"
+                Stroke="White">
+            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                <Label Text="Войдите в профиль" TextColor="Black" FontAttributes="Bold" FontSize="18" HorizontalTextAlignment="Center"/>
+                <Button x:Name="AuthBtn" Text="Войти или зарегистрироваться" 
+                        FontAttributes="Bold" 
+                        BackgroundColor="{StaticResource ButtonColor}" 
+                        TextColor="White"
+                        Clicked="AuthBtn_Clicked"
+                        WidthRequest="340"/>
+            </VerticalStackLayout>
+        </Border>
+        <Button 
+            CornerRadius="20" 
+            x:Name="PoliticBnt" 
+            ImageSource="politic.png"
+            Grid.Row="0"
+            VerticalOptions="End"
+            Margin="15"
+            BackgroundColor="White"
+            WidthRequest="380"
+            Clicked="PoliticBnt_Clicked"/>
+            
+        
+        
+    </Grid>
+</ContentPage>

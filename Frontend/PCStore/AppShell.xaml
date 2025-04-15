@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="PCStore.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:PCStore"
+    xmlns:pages="clr-namespace:PCStore.Pages"
+    Shell.TitleColor="White"
+    Title="PCStore">
+
+
+    <TabBar>
+        <ShellContent
+            Icon="findicon.png"
+            ContentTemplate="{DataTemplate local:MainPage}"/>
+
+        <ShellContent
+            Icon="prrofileicon.png"
+            ContentTemplate="{DataTemplate pages:AuthPage}"/>
+
+        <ShellContent
+            Icon="basketicon.png"
+            ContentTemplate="{DataTemplate pages:BasketPage}"/>
+    </TabBar>
+    
+    
+    
+    
+    
+
+</Shell>

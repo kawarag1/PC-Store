@@ -8,8 +8,14 @@ public partial class UserOfficePage : ContentPage
 	public UserOfficePage()
 	{
 		InitializeComponent();
-		GetProfile();
+        InitializeProfile();
 
+    }
+
+
+    private async void InitializeProfile()
+    {
+        await GetProfile();
     }
 
 	private async Task GetProfile()
@@ -23,9 +29,9 @@ public partial class UserOfficePage : ContentPage
 	}
 
 
-    private void ProfileBtn_Clicked(object sender, EventArgs e)
+    private async void ProfileBtn_Clicked(object sender, EventArgs e)
     {
-
+        await Navigation.PushAsync(new ProfilePage());
     }
 
     private async void PoliticBtn_Clicked(object sender, EventArgs e)

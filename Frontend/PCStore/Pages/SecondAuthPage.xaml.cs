@@ -32,7 +32,7 @@ public partial class SecondAuthPage : ContentPage
 
         if (isSuccess)
         {
-            Navigation.PushAsync(new UserOfficePage());
+            await Navigation.PushAsync(new UserOfficePage());
 
         }
     }

@@ -9,12 +9,14 @@
     Shell.BackgroundColor="White"
     Title="PCStore">
 
+    
 
+
+    
     <TabBar>
         <ShellContent
             Icon="findicon.png"
-            ContentTemplate="{DataTemplate local:MainPage}"
-            />
+            ContentTemplate="{DataTemplate local:MainPage}"/>
 
         <ShellContent
             x:Name="DinamicContent"

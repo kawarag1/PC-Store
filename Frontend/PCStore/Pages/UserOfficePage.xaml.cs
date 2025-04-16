@@ -3,9 +3,9 @@ using PCStore.Schemas;
 using System.Threading.Tasks;
 namespace PCStore.Pages;
 
-public partial class ProfilePage : ContentPage
+public partial class UserOfficePage : ContentPage
 {
-	public ProfilePage()
+	public UserOfficePage()
 	{
 		InitializeComponent();
 		GetProfile();

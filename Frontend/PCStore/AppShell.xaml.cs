@@ -31,7 +31,7 @@ namespace PCStore
                     bool isSuccess = await AuthUser();
                     if (isSuccess)
                     {
-                        await ForceUpdateContent(new ProfilePage());
+                        await ForceUpdateContent(new UserOfficePage());
                     }
                     else
                     {

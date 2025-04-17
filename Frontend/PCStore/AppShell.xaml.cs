@@ -58,6 +58,7 @@ namespace PCStore
 
             bool isSuccess = await service.Auth(login, password, client);
             return isSuccess;
+
         }
 
 

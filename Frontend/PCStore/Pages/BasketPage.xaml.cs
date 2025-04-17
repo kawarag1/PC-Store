@@ -13,19 +13,21 @@ public partial class BasketPage : ContentPage
     private void CollectionInitialize()
     {
 
-        if (!UserService.IsAuth())
-        {
-            Hat.IsVisible = false;
-            Basement.IsVisible = false;
-            LabelIfEmpty.Text = "Для добавления товаров в корзину требуется пройти авторизацию";
-        }
-        else
+        if (UserService.IsAuth())
         {
             if (ProductsInBasket.ItemsSource == null)
             {
                 Hat.IsVisible = false;
                 Basement.IsVisible = false;
             }
+            
+        }
+        else
+        {
+            Hat.IsVisible = false;
+            Basement.IsVisible = false;
+            LabelIfEmpty.Text = "Для добавления товаров в корзину требуется пройти авторизацию";
+            NonAuthIcon.IsVisible = true;
         }
     }
 
@@ -34,10 +36,7 @@ public partial class BasketPage : ContentPage
 
     }
 
-    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
-    {
-
-    }
+    
 
     private void Button_Clicked(object sender, EventArgs e)
     {
@@ -54,8 +53,5 @@ public partial class BasketPage : ContentPage
 
     }
 
-    private void TapGestureRecognizer_Tapped_1(object sender, TappedEventArgs e)
-    {
-
-    }
+    
 }

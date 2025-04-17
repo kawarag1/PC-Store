@@ -11,10 +11,10 @@ RUN apt-get update && apt-get install -y \
 RUN pip install poetry==1.8.2
 
 # Создаем директории для проекта
-WORKDIR /PCStore/
+WORKDIR /PCStore/Backend/
 
 # Копируем pyproject.toml и poetry.lock
-COPY pyproject.toml poetry.lock /PCStore/
+COPY /Backend/pyproject.toml /Backend/poetry.lock /PCStore/Backend/
 
 # Настраиваем Poetry
 RUN poetry config virtualenvs.create false

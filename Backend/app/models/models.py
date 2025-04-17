@@ -490,7 +490,7 @@ class Cooler(Base):
     image:Mapped[str] = mapped_column(String(255))
 
     products:Mapped["Product"] = relationship("Product", back_populates = "coolers")
-    coolers_sockets:Mapped["Cooler_Socket"] = relationship("Cooler_Socket", back_populates = "coolers")
+    coolers_sockets:Mapped["Cooler_Socket"] = relationship("Cooler_Socket", back_populates = "coolers", uselist = True)
     specs:Mapped["Cooler_Specs"] = relationship("Cooler_Specs", back_populates = "coolers")
     manufacturers:Mapped["Manufacturer"] = relationship("Manufacturer", back_populates = "coolers")
     baskets:Mapped["Basket"] = relationship("Basket", back_populates = "coolers")

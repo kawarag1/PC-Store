@@ -1,3 +1,5 @@
+using PCStore.Services;
+
 namespace PCStore.Pages;
 
 public partial class BasketPage : ContentPage
@@ -5,7 +7,27 @@ public partial class BasketPage : ContentPage
 	public BasketPage()
 	{
 		InitializeComponent();
+        CollectionInitialize();
 	}
+
+    private void CollectionInitialize()
+    {
+
+        if (!UserService.IsAuth())
+        {
+            Hat.IsVisible = false;
+            Basement.IsVisible = false;
+            LabelIfEmpty.Text = "Для добавления товаров в корзину требуется пройти авторизацию";
+        }
+        else
+        {
+            if (ProductsInBasket.ItemsSource == null)
+            {
+                Hat.IsVisible = false;
+                Basement.IsVisible = false;
+            }
+        }
+    }
 
     private void SelectingAllBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {

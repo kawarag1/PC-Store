@@ -39,9 +39,10 @@
         </Grid>
 
         <Grid Grid.Row="1">
-            <CollectionView>
+            <CollectionView x:Name="ProductsInBasket">
                 <CollectionView.EmptyView>
-                    <Label Text="В корзине ничего нет" TextColor="Black" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding ProdcutsListCounter}"/>
+                    <Image Source="nonauthbasketicon.png" IsVisible="Collapse" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    <Label x:Name="LabelIfEmpty" Text="В корзине ничего нет" TextColor="Black" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding ProdcutsListCounter}"/>
                 </CollectionView.EmptyView>
                 
                 <CollectionView.ItemTemplate>

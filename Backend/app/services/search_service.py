@@ -3,6 +3,7 @@ from app.models.models import *
 from app.schemas.request.filters import Filters
 
 from sqlalchemy import select, join
+from sqlalchemy.orm import selectinload
 from fastapi import HTTPException
 from collections import defaultdict
 
@@ -16,9 +17,49 @@ class SearchService():
         grouped = defaultdict(list)
 
         models = [CPU, GPU, RAM, Motherboard, POWER_UNIT, PC_CASE, HDD, SSD, M2_SSD, VENT, Cooler]
+        filter_for_search = {
+            CPU: [
+                selectinload(CPU.manufacturers)
+            ],
+            GPU: [
+                selectinload(GPU.manufacturers)
+            ],
+            RAM: [
+                selectinload(RAM.manufacturers)
+            ],
+            Motherboard: [
+                selectinload(Motherboard.manufacturers)
+            ],
+            POWER_UNIT: [
+                selectinload(POWER_UNIT.manufacturers),
+                selectinload(POWER_UNIT.certs)
+            ],
+            PC_CASE: [
+                selectinload(PC_CASE.manufacturers)
+            ],
+            HDD: [
+                selectinload(HDD.manufacturers)
+            ],
+            SSD: [
+                selectinload(SSD.manufacturers)
+            ],
+            M2_SSD: [
+                selectinload(M2_SSD.manufacturers),
+                selectinload(M2_SSD.m2Size)
+            ],
+            VENT: [
+                selectinload(VENT.manufacturers)
+            ],
+            Cooler: [
+                selectinload(Cooler.manufacturers)
+            ]
+        }
 
         for model in models:
-            query = select(model)
+            if model in filter_for_search:
+                for option in filter_for_search[model]:
+
+                    query = select(model).options(option)
             
             products = (await self.session.execute(query)).scalars().all()
             grouped[model.__name__].extend(products)

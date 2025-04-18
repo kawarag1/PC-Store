@@ -74,9 +74,6 @@ class SearchService():
     async def get_all_products(self) -> dict[str, list]:
         grouped = defaultdict(list)
 
-        
-        
-
         for model in self.models:
             query = select(model)
             if model in self.filter_for_search:
@@ -90,25 +87,29 @@ class SearchService():
         return dict(grouped)
         
     async def get_products_with_word(self, word: str) -> dict[str, list]:
-        grouped = defaultdict(list)
-        models = [CPU, GPU, RAM, Motherboard, POWER_UNIT, PC_CASE, HDD, SSD, M2_SSD, VENT, Cooler]
+        try:
+            grouped = defaultdict(list)
 
-        for model in self.models:
-            if model in self.filter_for_search:
-                for option in self.filter_for_search[model]:
-                    query = select(model).where(model.name.ilike(f"%{word}%")).options(option)
-            products = (await self.session.execute(query)).scalars().all()
-            if products:
-                grouped[model.__name__].extend(products)
+            for model in self.models:
+                query = select(model).where(model.name.ilike(f"%{word}%"))
+                if model in self.filter_for_search:
+                    query = query.options(*self.filter_for_search[model])
+                products = (await self.session.execute(query)).scalars().all()
+                if products:
+                    grouped[model.__name__].extend(products)
         
-        
-        return dict(grouped)
+            return dict(grouped)
+        except:
+            raise HTTPException(status_code  = 404, detail = "product not found")
                 
     async def get_filter_products(self, filter:str) -> dict[str, list]:
         try:
             product_type = Filters(filter)
             model = Filters.get_model(product_type)
-            query = select(model).join()
+            query = select(model)
+            if model in self.filter_for_search:
+                for option in self.filter_for_search[model]:
+                    query = query.options(option)
             result = await self.session.execute(query)
             return result.scalars().all()
 

@@ -53,5 +53,8 @@ public partial class BasketPage : ContentPage
 
     }
 
-    
+    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+
+    }
 }

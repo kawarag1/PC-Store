@@ -56,7 +56,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <CheckBox Grid.Column="0" VerticalOptions="Center" Color="{StaticResource ButtonColor}"/>
+                            <CheckBox Grid.Column="0" VerticalOptions="Center" Color="{StaticResource ButtonColor}" x:Name="SelectProductBox" CheckedChanged="SelectProductBox_CheckedChanged"/>
                             <Image Grid.Column="1" VerticalOptions="Center" Aspect="AspectFill"/>
                             <Grid Grid.Column="2">
                                 <Grid.RowDefinitions>

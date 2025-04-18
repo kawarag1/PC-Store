@@ -1,9 +1,12 @@
 using PCStore.Services;
+using System.Collections.ObjectModel;
+using Windows.Media.Protection.PlayReady;
 
 namespace PCStore.Pages;
 
 public partial class BasketPage : ContentPage
 {
+    //ObservableCollection<Product> _products = new ObservableCollection<Product>();
 	public BasketPage()
 	{
 		InitializeComponent();
@@ -55,6 +58,29 @@ public partial class BasketPage : ContentPage
 
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
+        
+    }
 
+    private void SelectProductBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        //try
+        //{
+        //    var checkbox = (CheckBox)sender;
+        //    if (checkbox.BindingContext is Product product)
+        //    {
+        //        if (checkbox.IsChecked == true)
+        //        {
+        //            _products.Add(product);
+        //        }
+        //        else
+        //        {
+        //            _products.Remove(product);
+        //        }
+        //    }
+        //}
+        //catch (Exception ex)
+        //{
+
+        //}
     }
 }

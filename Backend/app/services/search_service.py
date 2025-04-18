@@ -4,7 +4,7 @@ from app.schemas.request.filters import Filters
 
 from sqlalchemy import select, join
 from sqlalchemy.orm import selectinload
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import defer
 from fastapi import HTTPException
 from collections import defaultdict
 
@@ -13,8 +13,10 @@ class SearchService():
     models = [CPU, GPU, RAM, Motherboard, POWER_UNIT, PC_CASE, HDD, SSD, M2_SSD, VENT, Cooler]
     filter_for_search = {
         CPU: [
-            selectinload(CPU.specs).selectinload(CPU_SPECS.sockets),
-            selectinload(CPU.manufacturers)            
+            defer(CPU.cpu_specs_id),
+            defer(CPU.manufacturer_id),
+            selectinload(CPU.specs).defer(CPU_SPECS.id).selectinload(CPU_SPECS.sockets).defer(Socket.id),
+            selectinload(CPU.manufacturers).defer(Manufacturer.id)            
             ],
         GPU: [
             selectinload(GPU.specs).selectinload(GPU_SPECS.GPU_Memory_Types),

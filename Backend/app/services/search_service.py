@@ -93,8 +93,10 @@ class SearchService():
         grouped = defaultdict(list)
         models = [CPU, GPU, RAM, Motherboard, POWER_UNIT, PC_CASE, HDD, SSD, M2_SSD, VENT, Cooler]
 
-        for model in models:
-            query = select(model).where(model.name.ilike(f"%{word}%"))
+        for model in self.models:
+            if model in self.filter_for_search:
+                for option in self.filter_for_search[model]:
+                    query = select(model).where(model.name.ilike(f"%{word}%")).options(option)
             products = (await self.session.execute(query)).scalars().all()
             if products:
                 grouped[model.__name__].extend(products)

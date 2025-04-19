@@ -86,7 +86,7 @@ class SearchService():
             selectinload(Cooler.specs).defer(Cooler_Specs.base_material_id).selectinload(Cooler_Specs.base_material),
             selectinload(Cooler.specs).defer(Cooler_Specs.radiator_material_id).selectinload(Cooler_Specs.radiator_material),
             selectinload(Cooler.coolers_sockets).selectinload(Cooler_Socket.sockets),
-            selectinload(Cooler.manufacturers),
+            selectinload(Cooler.manufacturers)
             ]
         }
 

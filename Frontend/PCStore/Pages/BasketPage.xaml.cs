@@ -1,6 +1,5 @@
 using PCStore.Services;
 using System.Collections.ObjectModel;
-using Windows.Media.Protection.PlayReady;
 
 namespace PCStore.Pages;
 

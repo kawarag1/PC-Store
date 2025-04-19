@@ -15,6 +15,7 @@ namespace PCStore.Services
         private const string AuthUrl = "https://pcstore.space/v1/user/authtorization";
         private const string RefreshUrl = "https://pcstore.space/v1/user/refresh";
         private const string GetProfileUrl = "https://pcstore.space/v1/user/get_profile";
+        private const string RegUserUrl = "https://pcstore.space/v1/user/registation";
         private AuthentificatedHttpClientService authHttpClientService;
 
         
@@ -148,6 +149,39 @@ namespace PCStore.Services
             }
             else
             {
+                return false;
+            }
+        }
+
+        public async Task<bool> RegUser(UserSchema user, HttpClient _client)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(user.Login) || string.IsNullOrEmpty(user.Password) || string.IsNullOrEmpty(user.Email))
+                {
+                    await Shell.Current.DisplayAlert("Ошибка", "Логин, пароль и электронная почта не должны быть пустыми", "OK");
+                    return false;
+                }
+
+                var JsonData = JsonConvert.SerializeObject(user);
+                var content = new StringContent(JsonData, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _client.PostAsync(RegUserUrl, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await Auth(user.Login, user.Password, _client);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Ошибка", ex.Message, "OK");
                 return false;
             }
         }

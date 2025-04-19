@@ -69,6 +69,7 @@ class SearchService():
         M2_SSD: [
             defer(M2_SSD.m2_ssd_specs_id),
             defer(M2_SSD.manufacturer_id),
+            defer(M2_SSD.size),
             selectinload(M2_SSD.specs).defer(M2_SSD_SPECS.memory_id).selectinload(M2_SSD_SPECS.memories),
             selectinload(M2_SSD.manufacturers),
             selectinload(M2_SSD.m2Size)

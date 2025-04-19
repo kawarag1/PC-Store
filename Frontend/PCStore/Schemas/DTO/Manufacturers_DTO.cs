@@ -9,7 +9,10 @@ namespace PCStore.Schemas.DTO
 {
     class Manufacturers_DTO
     {
-        [JsonProperty]
-        public string name { get; set; }
+        [JsonProperty("id")]
+        public int Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
     }
 }

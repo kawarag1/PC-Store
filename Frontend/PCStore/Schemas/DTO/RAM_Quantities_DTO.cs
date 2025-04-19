@@ -7,12 +7,12 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    class SocketDTO
+    internal class RAM_Quantities_DTO
     {
         [JsonProperty("id")]
         public int Id { get; set; }
 
-        [JsonProperty("name")] 
-        public string Name { get; set; }
+        [JsonProperty("ram_number")]
+        public string Ram_Number { get; set; }
     }
 }

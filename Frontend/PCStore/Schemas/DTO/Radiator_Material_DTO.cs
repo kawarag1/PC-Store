@@ -7,12 +7,12 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    class SocketDTO
+    internal class Radiator_Material_DTO
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
-        [JsonProperty("name")] 
-        public string Name { get; set; }
+        [JsonProperty("material")]
+        public string Material { get; set; }
     }
 }

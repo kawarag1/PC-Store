@@ -7,12 +7,12 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    class SocketDTO
+    internal class FormFactor_DTO
     {
         [JsonProperty("id")]
         public int Id { get; set; }
 
-        [JsonProperty("name")] 
-        public string Name { get; set; }
+        [JsonProperty("name")]
+        public string name { get; set; }
     }
 }

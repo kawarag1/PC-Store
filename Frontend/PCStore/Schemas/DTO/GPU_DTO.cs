@@ -7,27 +7,27 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    class CPU_DTO
+    internal class GPU_DTO
     {
         [JsonProperty("id")]
         public int Id { get; set; }
-
-        [JsonProperty("cost")]
-        public int Cost { get; set; }
-
-        [JsonProperty("image")]
-        public string Image { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
 
         [JsonProperty("article")]
-        public string Article { get; set; }
+        public string Article {  get; set; }
+
+        [JsonProperty("cost")]
+        public int cost { get; set; }
+
+        [JsonProperty("image")]
+        public string Image { get; set; }
+
+        [JsonProperty("specs")]
+        public GPU_SPECS_DTO GPU_Specs { get; set; }
 
         [JsonProperty("manufacturers")]
         public Manufacturers_DTO Manufacturers { get; set; }
-
-        [JsonProperty("specs")]
-        public CPU_SPECS_DTO Specs { get; set; }
     }
 }

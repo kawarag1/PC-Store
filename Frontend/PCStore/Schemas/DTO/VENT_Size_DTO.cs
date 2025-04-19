@@ -7,12 +7,12 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    class SocketDTO
+    internal class VENT_Size_DTO
     {
         [JsonProperty("id")]
         public int Id { get; set; }
 
-        [JsonProperty("name")] 
-        public string Name { get; set; }
+        [JsonProperty("size")]
+        public int Size { get; set; }
     }
 }

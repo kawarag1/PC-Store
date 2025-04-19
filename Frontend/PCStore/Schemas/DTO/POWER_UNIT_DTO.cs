@@ -7,16 +7,16 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    class CPU_DTO
+    internal class POWER_UNIT_DTO
     {
         [JsonProperty("id")]
         public int Id { get; set; }
 
-        [JsonProperty("cost")]
-        public int Cost { get; set; }
+        [JsonProperty("power")]
+        public int Power {  get; set; }
 
-        [JsonProperty("image")]
-        public string Image { get; set; }
+        [JsonProperty("modular")]
+        public bool Modular { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -24,10 +24,16 @@ namespace PCStore.Schemas.DTO
         [JsonProperty("article")]
         public string Article { get; set; }
 
+        [JsonProperty("image")]
+        public string Image { get; set; }
+
+        [JsonProperty("cost")]
+        public int Cost { get; set; }
+
+        [JsonProperty("certs")]
+        public Certificates_DTO Certificates { get; set; }
+
         [JsonProperty("manufacturers")]
         public Manufacturers_DTO Manufacturers { get; set; }
-
-        [JsonProperty("specs")]
-        public CPU_SPECS_DTO Specs { get; set; }
     }
 }

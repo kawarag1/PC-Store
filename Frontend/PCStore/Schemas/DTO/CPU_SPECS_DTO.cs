@@ -9,22 +9,22 @@ namespace PCStore.Schemas.DTO
 {
     class CPU_SPECS_DTO
     {
-        [JsonProperty]
-        public double frequency { get; set; }
+        [JsonProperty("frequency")]
+        public double Frequency { get; set; }
 
-        [JsonProperty]
-        public int core_count { get; set; }
+        [JsonProperty("core_count")]
+        public int Core_count { get; set; }
 
-        [JsonProperty]
-        public int cache {  get; set; }
+        [JsonProperty("cache")]
+        public int Cache {  get; set; }
 
-        [JsonProperty]
-        public int tdp { get; set; }
+        [JsonProperty("tdp")]
+        public int TDP { get; set; }
 
-        [JsonProperty]
-        public int flow_count { get; set; }
+        [JsonProperty("flow_count")]
+        public int Flow_count { get; set; }
 
-        [JsonProperty]
-        public SocketDTO sockets { get; set; }
+        [JsonProperty("sockets")]
+        public SocketDTO Sockets { get; set; }
     }
 }

@@ -15,55 +15,75 @@ class SearchService():
         CPU: [
             defer(CPU.cpu_specs_id),
             defer(CPU.manufacturer_id),
-            selectinload(CPU.specs).defer(CPU_SPECS.id).selectinload(CPU_SPECS.sockets).defer(Socket.id),
-            selectinload(CPU.manufacturers).defer(Manufacturer.id)            
+            selectinload(CPU.specs).selectinload(CPU_SPECS.sockets),
+            selectinload(CPU.manufacturers)          
             ],
         GPU: [
-            selectinload(GPU.specs).selectinload(GPU_SPECS.GPU_Memory_Types),
+            defer(GPU.gpu_specs_id),
+            defer(GPU.manufacturer_id),
+            selectinload(GPU.specs).defer(GPU_SPECS.video_memory_type).selectinload(GPU_SPECS.GPU_Memory_Types),
             selectinload(GPU.manufacturers)
             ],
         RAM: [
-            selectinload(RAM.specs).selectinload(RAM_SPECS.types),
-            selectinload(RAM.specs).selectinload(RAM_SPECS.ram_quantities),
+            defer(RAM.ram_specs_id),
+            defer(RAM.manufacturer_id),
+            selectinload(RAM.specs).defer(RAM_SPECS.type_id).selectinload(RAM_SPECS.types),
+            selectinload(RAM.specs).defer(RAM_SPECS.ram_quantity).selectinload(RAM_SPECS.ram_quantities),
             selectinload(RAM.manufacturers)
             ],
         Motherboard: [
-            selectinload(Motherboard.specs).selectinload(Motherboard_SPECS.forms),
-            selectinload(Motherboard.specs).selectinload(Motherboard_SPECS.chipsets),
-            selectinload(Motherboard.specs).selectinload(Motherboard_SPECS.sockets),
-            selectinload(Motherboard.specs).selectinload(Motherboard_SPECS.slots),
-            selectinload(Motherboard.specs).selectinload(Motherboard_SPECS.ram_types),
+            defer(Motherboard.motherboard_specs_id),
+            defer(Motherboard.manufacturer_id),
+            selectinload(Motherboard.specs).defer(Motherboard_SPECS.form).selectinload(Motherboard_SPECS.forms),
+            selectinload(Motherboard.specs).defer(Motherboard_SPECS.chipset).selectinload(Motherboard_SPECS.chipsets),
+            selectinload(Motherboard.specs).defer(Motherboard_SPECS.socket).selectinload(Motherboard_SPECS.sockets),
+            selectinload(Motherboard.specs).defer(Motherboard_SPECS.M2_Slot).selectinload(Motherboard_SPECS.slots),
+            selectinload(Motherboard.specs).defer(Motherboard_SPECS.RAM_Type_id).selectinload(Motherboard_SPECS.ram_types),
             selectinload(Motherboard.manufacturers)
             ],
         POWER_UNIT: [
+            defer(POWER_UNIT.manufacturer_id),
+            defer(POWER_UNIT.certificate_id),
             selectinload(POWER_UNIT.manufacturers),
             selectinload(POWER_UNIT.certs)
             ],
         PC_CASE: [
-            selectinload(PC_CASE.specs).selectinload(PC_CASE_SPECS.sizes),
-            selectinload(PC_CASE.specs).selectinload(PC_CASE_SPECS.types),
+            defer(PC_CASE.pc_case_specs_id),
+            defer(PC_CASE.manufacturer_id),
+            selectinload(PC_CASE.specs).defer(PC_CASE_SPECS.vent_size).selectinload(PC_CASE_SPECS.sizes),
+            selectinload(PC_CASE.specs).defer(PC_CASE_SPECS.case_type).selectinload(PC_CASE_SPECS.types),
             selectinload(PC_CASE.manufacturers)
             ],
         HDD: [
-            selectinload(HDD.specs).selectinload(HDD_SPECS.memories),
+            defer(HDD.hdd_specs_id),
+            defer(HDD.manufacturer_id),
+            selectinload(HDD.specs).defer(HDD_SPECS.memory_id).selectinload(HDD_SPECS.memories),
             selectinload(HDD.manufacturers)
             ],
         SSD: [
-            selectinload(SSD.specs).selectinload(SSD_SPECS.memories),
+            defer(SSD.ssd_specs_id),
+            defer(SSD.manufacturer_id),
+            selectinload(SSD.specs).defer(SSD_SPECS.memory_id).selectinload(SSD_SPECS.memories),
             selectinload(SSD.manufacturers)
             ],
         M2_SSD: [
-            selectinload(M2_SSD.specs).selectinload(M2_SSD_SPECS.memories),
+            defer(M2_SSD.m2_ssd_specs_id),
+            defer(M2_SSD.manufacturer_id),
+            selectinload(M2_SSD.specs).defer(M2_SSD_SPECS.memory_id).selectinload(M2_SSD_SPECS.memories),
             selectinload(M2_SSD.manufacturers),
             selectinload(M2_SSD.m2Size)
             ],
         VENT: [
+            defer(VENT.specs_id),
+            defer(VENT.manufacturer_id),
             selectinload(VENT.specs),
             selectinload(VENT.manufacturers)
             ],
         Cooler: [
-            selectinload(Cooler.specs).selectinload(Cooler_Specs.base_material),
-            selectinload(Cooler.specs).selectinload(Cooler_Specs.radiator_material),
+            defer(Cooler.cooler_specs_id),
+            defer(Cooler.manufacturer_id),
+            selectinload(Cooler.specs).defer(Cooler_Specs.base_material_id).selectinload(Cooler_Specs.base_material),
+            selectinload(Cooler.specs).defer(Cooler_Specs.radiator_material_id).selectinload(Cooler_Specs.radiator_material),
             selectinload(Cooler.coolers_sockets).selectinload(Cooler_Socket.sockets),
             selectinload(Cooler.manufacturers),
             ]

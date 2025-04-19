@@ -119,7 +119,10 @@ class SearchService():
                     query = query.options(*self.filter_for_search[model])
                 products = (await self.session.execute(query)).scalars().all()
                 if products:
-                    grouped[model.__name__].extend(products)
+                    for product in products:
+                        product.image = f"http://localhost:13280{product.image}"
+                        grouped[model.__name__].extend(products)
+
         
             return dict(grouped)
         except:

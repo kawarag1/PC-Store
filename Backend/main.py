@@ -1,4 +1,6 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+import os
 
 import uvicorn
 
@@ -12,7 +14,7 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 app.include_router(main_router)
-
+app.mount("/images", StaticFiles(directory = f"{os.path.dirname(__file__)}/images"), name = "images")
 
 
 if __name__ == "__main__":

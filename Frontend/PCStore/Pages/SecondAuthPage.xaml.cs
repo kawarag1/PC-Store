@@ -1,5 +1,6 @@
 using PCStore.Schemas;
 using PCStore.Services;
+using System.Threading.Tasks;
 
 namespace PCStore.Pages;
 
@@ -13,9 +14,9 @@ public partial class SecondAuthPage : ContentPage
 		
     }
 
-    private void NonRegBtn_Clicked(object sender, EventArgs e)
+    private async void NonRegBtn_Clicked(object sender, EventArgs e)
     {
-
+        await Navigation.PushAsync(new RegistrationPage());
     }
 
     private async void AuthBtn_Clicked(object sender, EventArgs e)

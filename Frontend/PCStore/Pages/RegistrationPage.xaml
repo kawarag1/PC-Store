@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PCStore.Pages.RegistrationPage"
+             Shell.NavBarIsVisible="False"
+             Background="{StaticResource PrimaryColor}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="550"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Border Background="White" StrokeShape="RoundRectangle 20,20,20,20" 
+        WidthRequest="380"
+        HeightRequest="400"
+        HorizontalOptions="Center"
+        Stroke="White"
+        Margin="10">
+            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                <Label Text="Регистрация" TextColor="Black" FontAttributes="Bold" FontSize="18" HorizontalTextAlignment="Center"/>
+                <Label Text="Логин" FontSize="16" TextColor="{StaticResource ButtonColor}"/>
+                <Entry x:Name="LoginValue" TextColor="Black"/>
+                <BoxView HeightRequest="1" Color="Gray" Margin="0,-19,0,0"/>
+                <Label Text="Пароль" FontSize="16" TextColor="{StaticResource ButtonColor}"/>
+                <Entry x:Name="PasswordValue" TextColor="Black" IsPassword="True"/>
+                <BoxView HeightRequest="1" Color="Gray" Margin="0,-19,0,0"/>
+                <Label Text="Электронная почта" FontSize="16" TextColor="{StaticResource ButtonColor}"/>
+                <Entry x:Name="EmailValue" TextColor="Black"/>
+                <BoxView HeightRequest="1" Color="Gray" Margin="0,-19,0,0"/>
+                <Button x:Name="RegBtn" Text="Продолжить" 
+                    FontAttributes="Bold" 
+                    BackgroundColor="{StaticResource PrimaryColor}" 
+                    TextColor="{StaticResource ButtonColor}"
+                    Clicked="RegBtn_Clicked"
+                    WidthRequest="200"/>
+            </VerticalStackLayout>
+        </Border>
+        <Button 
+            CornerRadius="20" 
+            x:Name="HaveAccBtn" 
+            Text="Уже есть аккаунт?"
+            FontSize="18"
+            FontAttributes="Bold"
+            TextColor="White"
+            Grid.Row="0"
+            VerticalOptions="End"
+            Margin="15"
+            BackgroundColor="{StaticResource ButtonColor}"
+            WidthRequest="380"
+            Clicked="HaveAccBtn_Clicked"/>
+    </Grid>
+</ContentPage>

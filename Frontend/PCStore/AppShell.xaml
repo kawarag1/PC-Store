@@ -10,24 +10,25 @@
     Title="PCStore">
 
     
-
-
     
-    <TabBar>
+    
+    <TabBar x:Name="NavBar">
         <ShellContent
             Icon="findicon.png"
             ContentTemplate="{DataTemplate local:MainPage}"/>
 
         <ShellContent
-            x:Name="DinamicContent"
+            x:Name="DynamicContent"
             x:FieldModifier="public"
             Icon="prrofileicon.png"
-            ContentTemplate="{DataTemplate pages:AuthPage}"/>
+            ContentTemplate="{DataTemplate pages:AuthPage}"
+            />
 
         <ShellContent
             Icon="basketicon.png"
             ContentTemplate="{DataTemplate pages:BasketPage}"/>
     </TabBar>
+
     
     
     

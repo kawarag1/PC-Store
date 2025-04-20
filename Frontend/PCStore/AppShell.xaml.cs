@@ -1,16 +1,19 @@
 ﻿using System.Threading.Tasks;
 using PCStore.Pages;
 using PCStore.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PCStore
-{
-    
+{   
     public partial class AppShell : Shell
     {
+        private bool _isUpdating = true;
         public AppShell()
         {
             InitializeComponent();
+            CheckIsUpdate(_isUpdating);
             InitializeDynamicContent();
+            
 
         }
 
@@ -32,6 +35,7 @@ namespace PCStore
                     if (isSuccess)
                     {
                         await ForceUpdateContent(new UserOfficePage());
+                        
                     }
                     else
                     {
@@ -61,17 +65,31 @@ namespace PCStore
 
         }
 
+        
+
 
         private async Task ForceUpdateContent(Page newPage)
         {
-            var tempContent = new ShellContent
+            
+
+            try
             {
-                ContentTemplate = new DataTemplate(() => newPage)
-            };
+                var tempContent = new ShellContent
+                {
+                    ContentTemplate = new DataTemplate(() => newPage)
+                };
 
-            DinamicContent.ContentTemplate = tempContent.ContentTemplate;
+                DynamicContent.ContentTemplate = tempContent.ContentTemplate;
+                NavBar.IsEnabled = false;
 
-            await Task.Delay(50);
+                await Task.Delay(50);
+            }
+            finally
+            {
+                _isUpdating = false;
+            }
+            
+
         }
 
 
@@ -90,6 +108,16 @@ namespace PCStore
                 await DisplayAlert("Ошибка", "Не удалось очистить сохраненные данные", "OK");
             }
             
+        }
+
+        
+
+        private async void CheckIsUpdate(bool update)
+        {
+            while (_isUpdating == true)
+            {
+                await DisplayAlert("Загрузка", "Пожалуйста, подождите", "OK");
+            }
         }
     }
 }

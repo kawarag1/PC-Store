@@ -15,7 +15,7 @@ namespace PCStore.Services
         private const string AuthUrl = "https://pcstore.space/v1/user/authtorization";
         private const string RefreshUrl = "https://pcstore.space/v1/user/refresh";
         private const string GetProfileUrl = "https://pcstore.space/v1/user/get_profile";
-        private const string RegUserUrl = "https://pcstore.space/v1/user/registation";
+        private const string RegUserUrl = "https://pcstore.space/v1/user/registration";
         private AuthentificatedHttpClientService authHttpClientService;
 
         

@@ -5,27 +5,40 @@ namespace PCStore.Pages;
 
 public partial class UserOfficePage : ContentPage
 {
+    private bool _isFirstLoad = true;
 	public UserOfficePage()
 	{
 		InitializeComponent();
-        InitializeProfile();
+        OnAppearing();
 
     }
 
 
-    private async void InitializeProfile()
+    protected override async void OnAppearing()
     {
-        await GetProfile();
+        base.OnAppearing();
+        if (_isFirstLoad)
+        {
+            await GetProfile();
+            _isFirstLoad = false;
+        }
+        
     }
 
-	private async Task GetProfile()
+    private async Task GetProfile()
 	{
 		UserService userService = new UserService();
 		AuthentificatedHttpClientService client = new AuthentificatedHttpClientService(new UserService());
 		Task<UserSchema> userTask = userService.GetProfile(client);
 		UserSchema user = await userTask;
-		TitleLabel.Text = $"{user.Name} {user.Surname}";
-		
+        if (user.Name == null || user.Surname == null)
+        {
+            await Shell.Current.DisplayAlert("Предупреждение", "Перейдите в профиль для добавления личных  данных", "OK");
+        }
+        else
+        {
+            TitleLabel.Text = $"{user.Name} {user.Surname}";
+        }
 	}
 
 

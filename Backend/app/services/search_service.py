@@ -142,8 +142,11 @@ class SearchService():
             if model in self.filter_for_search:
                 for option in self.filter_for_search[model]:
                     query = query.options(option)
-            result = await self.session.execute(query)
-            return result.scalars().all()
+            if products:
+                for product in products:
+                    product.image = f"https://pcstore.space/{product.image}.jpg"
+                    # product.image = f"http://localhost:13280/{product.image}.jpg"
+            return products
 
         except:
             raise HTTPException(status_code = 404, detail = "filter not found")

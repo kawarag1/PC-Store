@@ -48,6 +48,9 @@ namespace PCStore.Services
                 await SecureStorage.SetAsync("access_token", tokens.AccessToken);
                 await SecureStorage.SetAsync("refresh_token", tokens.RefreshToken);
 
+                await SecureStorage.SetAsync("login", login);
+                await SecureStorage.SetAsync("password", pwd);
+
                 
 
 
@@ -171,9 +174,9 @@ namespace PCStore.Services
             }
         }
 
-        public async  static Task<bool> IsAuth()
+        public async static Task<bool> IsAuth()
         {
-            string access_token = await SecureStorage.GetAsync("acess_token");
+            string access_token = await SecureStorage.GetAsync("access_token");
 
             if (access_token == null)
             {

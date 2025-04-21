@@ -7,7 +7,6 @@ namespace PCStore
 {   
     public partial class AppShell : Shell
     {
-        private bool _isUpdating = true;
         public AppShell()
         {
             InitializeComponent();
@@ -18,41 +17,29 @@ namespace PCStore
 
         private async void InitializeDynamicContent()
         {
-            bool isauth = await AuthUser();
-            await UpdateContent(isauth);
+            await UpdateContent();
         }
 
-        private async Task UpdateContent(bool isAuth)
+        private async Task UpdateContent()
         {
-            if (isAuth)
+            await MainThread.InvokeOnMainThreadAsync(async () =>
             {
-
-                await MainThread.InvokeOnMainThreadAsync(async () =>
+                bool isSuccess = await AuthUser();
+                if (isSuccess == true)
                 {
-                    bool isSuccess = await AuthUser();
-                    if (isSuccess)
-                    {
-                        await ForceUpdateContent(new UserOfficePage());
-                        
-                    }
-                    else
-                    {
-                        await ClearStorage();
-                        await DisplayAlert("Ошибка", "Неверный логин или пароль", "OK");
-                        await ForceUpdateContent(new AuthPage());
-                    }
-                });
-            }
-            else
-            {   
-                await ForceUpdateContent(new AuthPage());
-            }
-            
+                    await ForceUpdateContent(new UserOfficePage());
+
+                }
+                else
+                {
+                    await ForceUpdateContent(new AuthPage());
+                }
+            });
         }
 
         private async Task<bool> AuthUser()
         {
-            string token = await SecureStorage.GetAsync("acess_token");
+            string token = await SecureStorage.GetAsync("access_token");
             if (token == null)
             {
                 return false;
@@ -75,21 +62,5 @@ namespace PCStore
 
                 await Task.Delay(50);
         }
-
-
-        private async Task ClearStorage()
-        {
-            try
-            {
-                bool accessRemove = SecureStorage.Remove("access_token");
-                bool refreshRemove = SecureStorage.Remove("refresh_token");
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Ошибка", "Не удалось очистить сохраненные данные", "OK");
-            }
-            
-        }
-
     }
 }

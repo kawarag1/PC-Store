@@ -10,19 +10,26 @@ public partial class BasketPage : ContentPage
 	public BasketPage()
 	{
 		InitializeComponent();
-        CollectionInitialize();
+        
 	}
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        CollectionInitialize();
+    }
 
     private async Task CollectionInitialize()
     {
-        var isauth = UserService.IsAuth();
+        var isauth = await UserService.IsAuth();
 
-        if (await isauth)
+        if (isauth)
         {
             if (ProductsInBasket.ItemsSource == null)
             {
                 Hat.IsVisible = false;
                 Basement.IsVisible = false;
+                NonAuthIcon.IsVisible = false;
             }
             
         }

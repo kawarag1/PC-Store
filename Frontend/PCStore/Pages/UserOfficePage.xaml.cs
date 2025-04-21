@@ -5,11 +5,11 @@ namespace PCStore.Pages;
 
 public partial class UserOfficePage : ContentPage
 {
-    private bool _isFirstLoad = true;
+    private bool _isFirstLoad = false;
 	public UserOfficePage()
 	{
 		InitializeComponent();
-        OnAppearing();
+        
 
     }
 
@@ -17,28 +17,44 @@ public partial class UserOfficePage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (_isFirstLoad)
-        {
-            await GetProfile();
-            _isFirstLoad = false;
-        }
-        
+        InitializeProfile();
+    }
+
+    private async void InitializeProfile()
+    {
+        await GetProfile();
     }
 
     private async Task GetProfile()
 	{
-		UserService userService = new UserService();
-		AuthentificatedHttpClientService client = new AuthentificatedHttpClientService(new UserService());
-		Task<UserSchema> userTask = userService.GetProfile(client);
-		UserSchema user = await userTask;
-        if (user.Name == null || user.Surname == null)
+        try
         {
-            await Shell.Current.DisplayAlert("Предупреждение", "Перейдите в профиль для добавления личных  данных", "OK");
+            UserService userService = new UserService();
+            AuthentificatedHttpClientService client = new AuthentificatedHttpClientService(new UserService());
+            Task<UserSchema> userTask = userService.GetProfile(client);
+            UserSchema user = await userTask;
+
+            if (user == null)
+            {
+                await Shell.Current.DisplayAlert("Ошибка", "Не удалось получить данные, пожалуйста, авторизуйтесь снова", "OK");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(user.Name) || string.IsNullOrEmpty(user.Surname))
+            {
+                await Shell.Current.DisplayAlert("Предупреждение", "Перейдите в профиль для добавления личных  данных", "OK");
+            }
+            else
+            {
+                TitleLabel.Text = $"{user.Name} {user.Surname}";
+            }
         }
-        else
+        catch (Exception ex)
         {
-            TitleLabel.Text = $"{user.Name} {user.Surname}";
+
         }
+		
+        
 	}
 
 

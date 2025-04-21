@@ -15,6 +15,18 @@ from typing import List
 
 class BasketService():
     query_options = [
+        defer(Basket.cpu_id),
+        defer(Basket.gpu_id),
+        defer(Basket.products_id),
+        defer(Basket.ram_id),
+        defer(Basket.motherboard_id),
+        defer(Basket.m2_id),
+        defer(Basket.ssd_id),
+        defer(Basket.hdd_id),
+        defer(Basket.case_id),
+        defer(Basket.cooler_id),
+        defer(Basket.pu_id),
+        defer(Basket.vent_id),
         selectinload(Basket.cpus).defer(CPU.cpu_specs_id),
         selectinload(Basket.cpus).defer(CPU.manufacturer_id),
         selectinload(Basket.cpus).selectinload(CPU.specs).selectinload(CPU_SPECS.sockets),

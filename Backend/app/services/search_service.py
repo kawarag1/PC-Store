@@ -142,6 +142,7 @@ class SearchService():
             if model in self.filter_for_search:
                 for option in self.filter_for_search[model]:
                     query = query.options(option)
+            products = (await self.session.execute(query)).scalars().all()
             if products:
                 for product in products:
                     product.image = f"https://pcstore.space/{product.image}.jpg"

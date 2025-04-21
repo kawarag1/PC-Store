@@ -7,10 +7,10 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    internal class SSD_DTO
+    public class SSD_DTO
     {
         [JsonProperty("id")]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -22,7 +22,7 @@ namespace PCStore.Schemas.DTO
         public string Article { get; set; }
 
         [JsonProperty("cost")]
-        public int Cost { get; set; }
+        public double Cost { get; set; }
 
         [JsonProperty("specs")]
         public SSD_Specs_DTO Specs { get; set; }

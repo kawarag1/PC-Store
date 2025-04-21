@@ -51,10 +51,6 @@ namespace PCStore.Services
                 await SecureStorage.SetAsync("login", login);
                 await SecureStorage.SetAsync("password", pwd);
 
-                
-
-
-
                 return true;
             }
             else

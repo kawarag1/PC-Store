@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    internal class Motherboard_DTO
+    public class Motherboard_DTO
     {
         [JsonProperty("id")]
         public int Id { get; set; }
@@ -22,7 +22,7 @@ namespace PCStore.Schemas.DTO
         public string Article { get; set; }
 
         [JsonProperty("cost")]
-        public int Cost { get; set; }
+        public double Cost { get; set; }
 
         [JsonProperty("manufacturers")]
         public Manufacturers_DTO Manufacturers { get; set; }

@@ -7,13 +7,16 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    internal class RAM_DTO
+    public class RAM_DTO
     {
         [JsonProperty("id")]
         public int Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("cost")]
+        public double Cost { get; set; }
 
         [JsonProperty("image")]
         public string Image { get; set; }

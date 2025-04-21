@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    internal class M2_Size_DTO
+    public class M2_Size_DTO
     {
         [JsonProperty("id")]
         public int Id { get; set; }

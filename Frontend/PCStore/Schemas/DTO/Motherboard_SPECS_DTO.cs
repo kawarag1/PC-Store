@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    internal class Motherboard_SPECS_DTO
+    public class Motherboard_SPECS_DTO
     {
         [JsonProperty("id")]
         public int Id { get; set; }

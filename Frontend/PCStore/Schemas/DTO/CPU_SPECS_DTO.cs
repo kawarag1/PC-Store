@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    class CPU_SPECS_DTO
+    public class CPU_SPECS_DTO
     {
         [JsonProperty("frequency")]
         public double Frequency { get; set; }

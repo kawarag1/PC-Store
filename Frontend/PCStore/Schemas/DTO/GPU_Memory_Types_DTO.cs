@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    internal class GPU_Memory_Types_DTO
+    public class GPU_Memory_Types_DTO
     {
         [JsonProperty("id")]
         public int Id { get; set; }

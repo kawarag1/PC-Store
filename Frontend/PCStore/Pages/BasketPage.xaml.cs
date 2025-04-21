@@ -1,3 +1,4 @@
+п»їusing PCStore.Schemas;
 using PCStore.Services;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -6,11 +7,11 @@ namespace PCStore.Pages;
 
 public partial class BasketPage : ContentPage
 {
-    //ObservableCollection<Product> _products = new ObservableCollection<Product>();
+    private double TotalPrice;
+    private int ProductCounter;
 	public BasketPage()
 	{
 		InitializeComponent();
-        
 	}
 
     protected override void OnAppearing()
@@ -25,19 +26,54 @@ public partial class BasketPage : ContentPage
 
         if (isauth)
         {
-            if (ProductsInBasket.ItemsSource == null)
+            BasketService basketService = new BasketService();
+            AuthentificatedHttpClientService client = new AuthentificatedHttpClientService(new UserService());
+            var _products = await basketService.CheckBasket(client);
+            var products = await basketService.BasketList(_products);
+            if (products == null)
             {
                 Hat.IsVisible = false;
                 Basement.IsVisible = false;
                 NonAuthIcon.IsVisible = false;
             }
-            
+            else
+            {
+                
+                ProductsInBasket.ItemsSource = products;
+                foreach (var product in _products)
+                {
+                    try
+                    {
+                        TotalPrice += product.Cpus.Cost;
+                        TotalPrice += product.Gpus.Cost;
+                        TotalPrice += product.Rams.Cost;
+                        TotalPrice += product.Motherboards.Cost;
+                        TotalPrice += product.SSDs.Cost;
+                        TotalPrice += product.HDDs.Cost;
+                        TotalPrice += product.M2SSds.Cost;
+                        TotalPrice += product.PuS.Cost;
+                        TotalPrice += product.Cases.Cost;
+                        TotalPrice += product.Vents.Cost;
+                        TotalPrice += product.Coolers.Cost;
+                    }
+                    catch (Exception ex)
+                    {
+                        TotalPrice += 0;
+                        continue;
+                    }
+                    
+                    
+                }
+                ProductConter.Text = $"{_products.Count.ToString()} С‚РѕРІР°СЂ";
+                ProductsSum.Text = $"{TotalPrice.ToString()} в‚Ѕ";
+                
+            }
         }
         else
         {
             Hat.IsVisible = false;
             Basement.IsVisible = false;
-            LabelIfEmpty.Text = "Для добавления товаров в корзину требуется пройти авторизацию";
+            LabelIfEmpty.Text = "Р”Р»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ С‚РѕРІР°СЂРѕРІ РІ РєРѕСЂР·РёРЅСѓ С‚СЂРµР±СѓРµС‚СЃСЏ РїСЂРѕР№С‚Рё Р°РІС‚РѕСЂРёР·Р°С†РёСЋ";
             NonAuthIcon.IsVisible = true;
         }
     }

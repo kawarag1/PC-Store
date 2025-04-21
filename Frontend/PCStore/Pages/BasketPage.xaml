@@ -49,22 +49,28 @@
                 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
+                        <Grid >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
                             <CheckBox Grid.Column="0" VerticalOptions="Center" Color="{StaticResource ButtonColor}" x:Name="SelectProductBox" CheckedChanged="SelectProductBox_CheckedChanged"/>
-                            <Image Grid.Column="1" VerticalOptions="Center" Aspect="AspectFill"/>
-                            <Grid Grid.Column="2">
+                            <Image Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Aspect="AspectFit" HeightRequest="100" WidthRequest="100">
+                                <Image.Source>
+                                    <UriImageSource Uri="{Binding ImageUrl}"
+                                                    CachingEnabled="True"
+                                                    CacheValidity="7"/>
+                                </Image.Source>
+                            </Image>
+                            <Grid Grid.Column="2" HorizontalOptions="Center">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
 
-                                <Label Grid.Row="0" Text="{Binding name}" TextColor="Black" FontSize="18"/>
+                                <Label Grid.Row="0" Text="{Binding Name}" TextColor="Black" FontSize="18"/>
                                 <Grid Grid.Row="1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
@@ -73,23 +79,30 @@
 
                                     <Label Grid.Column="0" Text="{Binding Cost, StringFormat = '{0} ₽'}" TextColor="Black" FontSize="18"/>
                                     <Border Background="White" StrokeShape="RoundRectangle 20,20,20,20" 
-                                        WidthRequest="80"
-                                        HeightRequest="40"
-                                        HorizontalOptions="Center"
-                                        Stroke="{StaticResource PrimaryColor}">
-                                        <HorizontalStackLayout>
-                                            <Label x:Name="MinusCounter" Text="-">
+                                            WidthRequest="80"
+                                            HeightRequest="40"
+                                            HorizontalOptions="Center"
+                                            Grid.Column="1"
+                                            Stroke="Grey">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label x:Name="MinusCounter" Text="-" TextColor="Grey" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20">
                                                 <Label.GestureRecognizers>
                                                     <TapGestureRecognizer Tapped="MinusCounter"/>
                                                 </Label.GestureRecognizers>
                                             </Label>
-                                            <Label Text="{Binding Counter}"/>
-                                            <Label x:Name="PlusCounter" Text="+">
+                                            <Label Text="{Binding Counter}" TextColor="Grey" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20"/>
+                                            <Label x:Name="PlusCounter" Text="+" TextColor="Grey" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20">
                                                 <Label.GestureRecognizers>
                                                     <TapGestureRecognizer Tapped="PlusCounter"/>
                                                 </Label.GestureRecognizers>
                                             </Label>
-                                        </HorizontalStackLayout>
+                                        </Grid>
+                                        
                                     </Border>
                                 </Grid>
                             </Grid>
@@ -105,11 +118,13 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" Margin="10,0,0,0">
-                <VerticalStackLayout>
-                    <Label x:Name="ProductConter" TextColor="{StaticResource ButtonColor}" FontSize="14" />
-                    <Label x:Name="ProductsSum" TextColor="Black" FontSize="18" Text="{Binding TotalPrice, StringFormat ='{0} ₽'}"/>
-                </VerticalStackLayout>
+            <Grid Grid.Column="0" Margin="10,0,0,0" VerticalOptions="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label x:Name="ProductConter" Grid.Row="0" TextColor="{StaticResource ButtonColor}" FontSize="14" Text="1"/>
+                <Label x:Name="ProductsSum" Grid.Row="1" TextColor="Black" FontSize="18" Text="1"/>
             </Grid>
 
             <Grid Grid.Column="1" HorizontalOptions="End" Margin="0,0,20,0">

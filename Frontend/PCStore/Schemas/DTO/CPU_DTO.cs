@@ -7,13 +7,13 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    class CPU_DTO
+    public class CPU_DTO
     {
         [JsonProperty("id")]
         public int Id { get; set; }
 
         [JsonProperty("cost")]
-        public int Cost { get; set; }
+        public double Cost { get; set; }
 
         [JsonProperty("image")]
         public string Image { get; set; }

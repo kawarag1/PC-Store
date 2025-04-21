@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    internal class HDD_DTO
+    public class HDD_DTO
     {
         [JsonProperty("id")]
         public int Id { get; set; }
@@ -22,7 +22,7 @@ namespace PCStore.Schemas.DTO
         public string Article { get; set; }
 
         [JsonProperty("cost")]
-        public int Cost { get; set; }
+        public double Cost { get; set; }
 
         [JsonProperty("specs")]
         public HDD_Specs_DTO Specs { get; set; }

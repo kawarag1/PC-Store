@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    internal class RAM_Types_DTO
+    public class RAM_Types_DTO
     {
         [JsonProperty("id")]
         public int Id { get; set; }

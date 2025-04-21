@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    class SocketDTO
+    public class SocketDTO
     {
         [JsonProperty("id")]
         public int Id { get; set; }

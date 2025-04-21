@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    internal class GPU_DTO
+    public class GPU_DTO
     {
         [JsonProperty("id")]
         public int Id { get; set; }
@@ -19,7 +19,7 @@ namespace PCStore.Schemas.DTO
         public string Article {  get; set; }
 
         [JsonProperty("cost")]
-        public int cost { get; set; }
+        public double Cost { get; set; }
 
         [JsonProperty("image")]
         public string Image { get; set; }

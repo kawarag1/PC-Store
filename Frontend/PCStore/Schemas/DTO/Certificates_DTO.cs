@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    internal class Certificates_DTO
+    public class Certificates_DTO
     {
         [JsonProperty("id")]
         public string Id { get; set; }

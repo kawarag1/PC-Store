@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace PCStore.Schemas.DTO
 {
-    internal class Cooler_DTO
+    public class Cooler_DTO
     {
         [JsonProperty("id")]
         public int Id { get; set; }
@@ -22,7 +22,7 @@ namespace PCStore.Schemas.DTO
         public string Article { get; set; }
 
         [JsonProperty("cost")]
-        public int Cost { get; set; }
+        public double Cost { get; set; }
 
         [JsonProperty("coolers_sockets")]
         public Cooler_Sockets_DTO Coolers_Sockets { get; set; }

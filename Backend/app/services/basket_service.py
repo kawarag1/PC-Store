@@ -106,9 +106,9 @@ class BasketService():
         query = select(Basket).filter(Basket.user_id == user_id).options(*self.query_options)
 
         products = (await self.session.execute(query)).scalars().all()
-        if products:
-            for product in products:
-                product.image = f"http://localhost:13280/{product.image}.jpg"
+        # if products:
+        #     for product in products:
+        #         product.image = f"http://localhost:13280/{product.image}.jpg"
 
         if products is None:
             raise HTTPException(

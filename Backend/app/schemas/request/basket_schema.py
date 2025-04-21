@@ -15,4 +15,5 @@ class Basket(BaseModel):
     case_id:Optional[int] = None
     cooler_id:Optional[int] = None
     pu_id:Optional[int] = None
+    vent_id:Optional[int] = None
     

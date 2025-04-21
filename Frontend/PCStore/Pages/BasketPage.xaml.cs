@@ -1,5 +1,6 @@
 using PCStore.Services;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace PCStore.Pages;
 
@@ -12,10 +13,11 @@ public partial class BasketPage : ContentPage
         CollectionInitialize();
 	}
 
-    private void CollectionInitialize()
+    private async Task CollectionInitialize()
     {
+        var isauth = UserService.IsAuth();
 
-        if (UserService.IsAuth())
+        if (await isauth)
         {
             if (ProductsInBasket.ItemsSource == null)
             {

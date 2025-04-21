@@ -42,8 +42,8 @@
             <CollectionView x:Name="ProductsInBasket">
                 <CollectionView.EmptyView>
                     <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                        <Image Source="nonauthbasketicon.png" IsVisible="Hidden" x:Name="NonAuthIcon"/>
-                        <Label x:Name="LabelIfEmpty" Text="В корзине ничего нет" TextColor="Black" FontSize="20"/>
+                        <Image Source="nonauthbasketicon.png" IsVisible="Hidden" x:Name="NonAuthIcon" HorizontalOptions="Center"/>
+                        <Label x:Name="LabelIfEmpty" Text="В корзине ничего нет" TextColor="Black" FontSize="20" HorizontalTextAlignment="Center"/>
                     </StackLayout>
                 </CollectionView.EmptyView>
                 

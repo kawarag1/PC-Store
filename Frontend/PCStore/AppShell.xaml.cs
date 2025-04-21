@@ -11,7 +11,6 @@ namespace PCStore
         public AppShell()
         {
             InitializeComponent();
-            CheckIsUpdate(_isUpdating);
             InitializeDynamicContent();
             
 
@@ -19,7 +18,7 @@ namespace PCStore
 
         private async void InitializeDynamicContent()
         {
-            bool isauth = UserService.IsAuth();
+            bool isauth = await AuthUser();
             await UpdateContent(isauth);
         }
 
@@ -27,8 +26,7 @@ namespace PCStore
         {
             if (isAuth)
             {
-                
-                
+
                 await MainThread.InvokeOnMainThreadAsync(async () =>
                 {
                     bool isSuccess = await AuthUser();
@@ -54,42 +52,28 @@ namespace PCStore
 
         private async Task<bool> AuthUser()
         {
-            string login = await SecureStorage.GetAsync("login");
-            string password = await SecureStorage.GetAsync("password");
-
-            HttpClient client = new HttpClient();
-            UserService service = new UserService();
-
-            bool isSuccess = await service.Auth(login, password, client);
-            return isSuccess;
-
+            string token = await SecureStorage.GetAsync("acess_token");
+            if (token == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
-
-        
-
 
         private async Task ForceUpdateContent(Page newPage)
         {
-            
-
-            try
+            var tempContent = new ShellContent
             {
-                var tempContent = new ShellContent
-                {
-                    ContentTemplate = new DataTemplate(() => newPage)
-                };
+                ContentTemplate = new DataTemplate(() => newPage)
+            };
 
                 DynamicContent.ContentTemplate = tempContent.ContentTemplate;
                 NavBar.IsEnabled = false;
 
                 await Task.Delay(50);
-            }
-            finally
-            {
-                _isUpdating = false;
-            }
-            
-
         }
 
 
@@ -97,11 +81,8 @@ namespace PCStore
         {
             try
             {
-                bool loginRemove = SecureStorage.Remove("login");
-                bool passwordRemove = SecureStorage.Remove("password");
                 bool accessRemove = SecureStorage.Remove("access_token");
                 bool refreshRemove = SecureStorage.Remove("refresh_token");
-
             }
             catch (Exception ex)
             {
@@ -110,14 +91,5 @@ namespace PCStore
             
         }
 
-        
-
-        private async void CheckIsUpdate(bool update)
-        {
-            while (_isUpdating == true)
-            {
-                await DisplayAlert("Загрузка", "Пожалуйста, подождите", "OK");
-            }
-        }
     }
 }

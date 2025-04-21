@@ -48,8 +48,7 @@ namespace PCStore.Services
                 await SecureStorage.SetAsync("access_token", tokens.AccessToken);
                 await SecureStorage.SetAsync("refresh_token", tokens.RefreshToken);
 
-                await SecureStorage.SetAsync("login", login);
-                await SecureStorage.SetAsync("password", pwd);
+                
 
 
 
@@ -107,9 +106,6 @@ namespace PCStore.Services
         {
             SecureStorage.Remove("access_token");
             SecureStorage.Remove("refresh_token");
-
-            SecureStorage.Remove("login");
-            SecureStorage.Remove("password");
         }
 
 
@@ -141,17 +137,6 @@ namespace PCStore.Services
             
         }
 
-        public static bool IsAuth()
-        {
-            if (SecureStorage.GetAsync("login") != null && SecureStorage.GetAsync("password") != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
         public async Task<bool> RegUser(UserSchema user, HttpClient _client)
         {
@@ -183,6 +168,20 @@ namespace PCStore.Services
             {
                 await Shell.Current.DisplayAlert("Ошибка", ex.Message, "OK");
                 return false;
+            }
+        }
+
+        public async  static Task<bool> IsAuth()
+        {
+            string access_token = await SecureStorage.GetAsync("acess_token");
+
+            if (access_token == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }

@@ -62,19 +62,19 @@ namespace PCStore.Services
 
         }
 
-        public async Task<bool> RefreshTokenAsync(HttpClient _client)
+        public async Task<bool> RefreshTokenAsync()
         {
             try
             {
                 string refreshToken = await SecureStorage.GetAsync("refresh_token");
-                if (!string.IsNullOrEmpty(refreshToken))
+                if (string.IsNullOrEmpty(refreshToken))
                 {
                     return false;
                 }
                 else
                 {
-                    string refreshurl1 = $"{RefreshUrl}?token={Uri.EscapeDataString(refreshToken)}";
-
+                    HttpClient _client = new HttpClient();
+                    _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", refreshToken);
 
                     HttpResponseMessage response = await _client.GetAsync(RefreshUrl);
 
@@ -83,6 +83,7 @@ namespace PCStore.Services
                     {
                         string responseJson = await response.Content.ReadAsStringAsync();
                         var tokens = JsonConvert.DeserializeObject<TokenSchema>(responseJson);
+                        await Shell.Current.DisplayAlert("Ошибка", $"{tokens}", "OK");
 
                         await SecureStorage.SetAsync("access_token", tokens.AccessToken);
                         return true;
@@ -95,7 +96,7 @@ namespace PCStore.Services
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Ошибка", ex.Message, "OK");
+                //await Shell.Current.DisplayAlert("Ошибка", ex.Message, "OK");
                 return false;
             }
             
@@ -108,18 +109,22 @@ namespace PCStore.Services
         }
 
 
-        public async Task<UserSchema> GetProfile(HttpClient _client)
+        public async Task<UserSchema> GetProfile()
         {
             try
             {
                 var request = new HttpRequestMessage(HttpMethod.Get, GetProfileUrl);
-                authHttpClientService = new AuthentificatedHttpClientService(new UserService());
+                var handler = new AuthentificatedHttpClientService(
+                        new UserService(),
+                        new HttpClientHandler());
+
+                var _client = new HttpClient(handler);
+
+                var response = await _client.SendAsync(request, new CancellationToken());
                 
-                var response = authHttpClientService.SendAsync(request, new CancellationToken());
-                var _response = await response;
-                if (_response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
-                    var Jsondata = await _response.Content.ReadAsStringAsync();
+                    var Jsondata = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<UserSchema>(Jsondata);
                     return data;
                 }

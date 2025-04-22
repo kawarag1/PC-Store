@@ -5,27 +5,34 @@ using System.Text;
 using System.Threading.Tasks;
 using PCStore.Services;
 using System.Net;
+using System.Diagnostics;
 
 namespace PCStore.Services
 {
-    public class AuthentificatedHttpClientService: HttpClient
+    public class AuthentificatedHttpClientService: DelegatingHandler
     {
-        private static UserService _userService;
+        private readonly UserService _userService;
 
-        public AuthentificatedHttpClientService(UserService userService)
+        public AuthentificatedHttpClientService(UserService userService, HttpClientHandler handler)
+            :base (handler)
         {
             _userService = userService;
         }
 
-        public override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken token)
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken token)
         {
             var response = await SendWithTokenAsync(request, token);
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                if (await _userService.RefreshTokenAsync(new HttpClient()))
+                bool tokenref = await _userService.RefreshTokenAsync();
+                if (tokenref)
                 {
                     response = await SendWithTokenAsync(request, token);
+                }
+                else
+                {
+
                 }
             }
 
@@ -37,16 +44,22 @@ namespace PCStore.Services
         HttpRequestMessage request,
         CancellationToken cancellationToken)
         {
-            string accessToken = await SecureStorage.GetAsync("access_token");
-            if (!string.IsNullOrEmpty(accessToken))
+            try
             {
-                request.Headers.Authorization =
-                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+                string accessToken = await SecureStorage.GetAsync("access_token");
+                if (!string.IsNullOrEmpty(accessToken))
+                {
+                    request.Headers.Authorization =
+                        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+                }
+                return await base.SendAsync(request, cancellationToken);
             }
-            return await base.SendAsync(request, cancellationToken);
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"SecureStorage error: {ex.Message}");
+                return await base.SendAsync(request, cancellationToken);
+            }
+            
         }
-
-
-
     }
 }

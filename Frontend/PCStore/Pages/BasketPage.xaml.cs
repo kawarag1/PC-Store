@@ -27,8 +27,8 @@ public partial class BasketPage : ContentPage
         if (isauth)
         {
             BasketService basketService = new BasketService();
-            AuthentificatedHttpClientService client = new AuthentificatedHttpClientService(new UserService());
-            var _products = await basketService.CheckBasket(client);
+            
+            var _products = await basketService.CheckBasket();
             var products = await basketService.BasketList(_products);
             if (products == null)
             {

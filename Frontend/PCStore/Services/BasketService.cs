@@ -16,14 +16,18 @@ namespace PCStore.Services
 
 
 
-        public async Task<List<BasketDTO>> CheckBasket(HttpClient _client)
+        public async Task<List<BasketDTO>> CheckBasket()
         {
             try
             {
                 var request = new HttpRequestMessage(HttpMethod.Get, CheckBasketUrl);
-                authHttpClientService = new AuthentificatedHttpClientService(new UserService());
+                var handler = new AuthentificatedHttpClientService(
+                        new UserService(),
+                        new HttpClientHandler());
 
-                var _response = authHttpClientService.SendAsync(request, new CancellationToken());
+                var _client = new HttpClient(handler);
+
+                var _response = _client.SendAsync(request, new CancellationToken());
                 var response = await _response;
 
                 if (response.IsSuccessStatusCode)

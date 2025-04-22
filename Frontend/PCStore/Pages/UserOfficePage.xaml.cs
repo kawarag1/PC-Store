@@ -30,8 +30,7 @@ public partial class UserOfficePage : ContentPage
         try
         {
             UserService userService = new UserService();
-            AuthentificatedHttpClientService client = new AuthentificatedHttpClientService(new UserService());
-            Task<UserSchema> userTask = userService.GetProfile(client);
+            Task<UserSchema> userTask = userService.GetProfile();
             UserSchema user = await userTask;
 
             if (user == null)

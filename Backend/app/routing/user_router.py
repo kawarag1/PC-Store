@@ -76,5 +76,5 @@ async def refresh(token: str = Depends(JWTManager().refresh_access_token)):
     response = JSONResponse(content = {
         "access_token": token
     })
-    response.set_cookie(key="access_token", value=token, httponly=True)
+    
     return response

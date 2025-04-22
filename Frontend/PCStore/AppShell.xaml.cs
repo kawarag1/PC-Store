@@ -40,6 +40,7 @@ namespace PCStore
         private async Task<bool> AuthUser()
         {
             string token = await SecureStorage.GetAsync("access_token");
+
             if (token == null)
             {
                 return false;

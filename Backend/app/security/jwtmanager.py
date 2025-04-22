@@ -70,10 +70,8 @@ class JWTManager:
         except:
             return "Invalid token"
         
-    async def refresh_access_token(self, request: Request):
-    
-        cookies = request.cookies
-        refresh_token = cookies.get("refresh_token")
+    async def refresh_access_token(self, token):
+        refresh_token = token
         if not refresh_token:
             raise HTTPException(status_code=400, detail="Refresh token is not provided")
 

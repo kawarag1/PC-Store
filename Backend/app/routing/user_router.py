@@ -72,7 +72,7 @@ async def me(user: User = Depends(get_current_user)):
 
 
 @router.get("/refresh")
-async def refresh(token: str = Depends(JWTManager().refresh_access_token)):
+async def refresh(token: str = Depends(JWTManager().refresh_access_token), session: AsyncSession = Depends(get_session)):
     response = JSONResponse(content = {
         "access_token": token
     })

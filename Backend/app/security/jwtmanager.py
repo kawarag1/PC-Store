@@ -70,21 +70,17 @@ class JWTManager:
         except:
             return "Invalid token"
         
-    async def refresh_access_token(self, token):
-        refresh_token = token
-        if not refresh_token:
+    async def refresh_access_token(self, token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)):
+        if not token:
             raise HTTPException(status_code=400, detail="Refresh token is not provided")
-
         
-        token_data = self.decode_token(refresh_token)
+        token_data = self.decode_token(token)
         if isinstance(token_data, str):
             raise HTTPException(status_code=400, detail=token_data)
 
+        user = await UserService(session).get_profile(id=int(token_data["userId"]))
 
-        session: AsyncSession = await get_session()
-        user = await UserService(session).get_profile(id=token_data["userId"])
-        session.close()
         if not user:
             raise HTTPException(status_code=400, detail="User not found")
         
-        return self.encode_token({ "userId": str(user.userId) }, token_type=JWTType.ACCESS)
+        return self.encode_token({ "userId": str(user.id) }, token_type=JWTType.ACCESS)

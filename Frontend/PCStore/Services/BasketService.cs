@@ -51,6 +51,49 @@ namespace PCStore.Services
             }
         }
 
+
+        public async Task<bool> DeleteOneFromBasket(List<ProductItemModel> products)
+        {
+            try
+            {
+                bool result = true;
+
+                var handler = new AuthentificatedHttpClientService(
+                   new UserService(),
+                   new HttpClientHandler());
+
+                using (var _client = new HttpClient(handler))
+                {
+                    foreach (var item in products)
+                    {
+                        BasketRequest _item = new BasketRequest();
+                        _item.id = item.Id;
+                        _item.article = item.Article;
+                        string json = JsonConvert.SerializeObject(_item);
+                        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                        var request = new HttpRequestMessage(HttpMethod.Delete, DeleteOneFromBasketUrl)
+                        {
+                            Content = content
+                        };
+                        var response = await _client.SendAsync(request, new CancellationToken());
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            result = false;
+                        }
+                    }
+                }
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Ошибка", ex.Message, "OK");
+                return false;
+            }
+        }
+
+
         public async Task<bool> DeleteOneFromBasket(BasketRequest product)
         {
             try
@@ -89,152 +132,143 @@ namespace PCStore.Services
             try
             {
                 var result = new List<ProductItemModel>();
+                var productDictionary = new Dictionary<string, ProductItemModel>();
 
                 foreach (var basket in  baskets)
                 {
-                    if (basket.Cpus != null)
+                    void ProcessProduct<T>(T product, Func<T, ProductItemModel> createModel) where T : class
                     {
-                        result.Add(new ProductItemModel
+                        if (product == null) return;
+
+                        dynamic dynamicProduct = product;
+                        string key = $"{dynamicProduct.Id}_{dynamicProduct.Article}"; // Уникальный ключ по ID и артикулу
+
+                        if (productDictionary.TryGetValue(key, out var existingProduct))
                         {
-                            Id = basket.Cpus.Id,
-                            Name = basket.Cpus.Name,
-                            Cost = basket.Cpus.Cost,
-                            ImageUrl = $"https://pcstore.space/{basket.Cpus.Image}.jpg",
-                            Counter = 1,
-                            Article = basket.Cpus.Article
-                        });
+                            // Если товар уже есть - увеличиваем счетчик
+                            existingProduct.Counter++;
+                        }
+                        else
+                        {
+                            // Если товара нет - добавляем новый
+                            var newProduct = createModel(product);
+                            productDictionary.Add(key, newProduct);
+                        }
                     }
 
-                    if (basket.Gpus != null)
+                    ProcessProduct(basket.Cpus, p => new ProductItemModel
                     {
-                        result.Add(new ProductItemModel
-                        {
-                            Id = basket.Gpus.Id,
-                            Name = basket.Gpus.Name,
-                            Cost = basket.Gpus.Cost,
-                            ImageUrl = $"https://pcstore.space/{basket.Gpus.Image}.jpg",
-                            Counter = 1,
-                            Article = basket.Gpus.Article
-                        });
-                    }
+                        Id = p.Id,
+                        Name = p.Name,
+                        Cost = p.Cost,
+                        ImageUrl = $"https://pcstore.space/{p.Image}.jpg",
+                        Counter = 1,
+                        Article = p.Article
+                    });
 
-                    if (basket.Rams != null)
+                    ProcessProduct(basket.Gpus, p => new ProductItemModel
                     {
-                        result.Add(new ProductItemModel
-                        {
-                            Id = basket.Rams.Id,
-                            Name = basket.Rams.Name,
-                            Cost = basket.Rams.Cost,
-                            ImageUrl = $"https://pcstore.space/{basket.Rams.Image}.jpg",
-                            Counter = 1,
-                            Article = basket.Rams.Article
-                        });
-                    }
+                        Id = p.Id,
+                        Name = p.Name,
+                        Cost = p.Cost,
+                        ImageUrl = $"https://pcstore.space/{p.Image}.jpg",
+                        Counter = 1,
+                        Article = p.Article
+                    });
 
-                    if (basket.Motherboards != null)
+                    ProcessProduct(basket.Rams, p => new ProductItemModel
                     {
-                        result.Add(new ProductItemModel
-                        {
-                            Id = basket.Motherboards.Id,
-                            Name = basket.Motherboards.Name,
-                            Cost = basket.Motherboards.Cost,
-                            ImageUrl = $"https://pcstore.space/{basket.Motherboards.Image}.jpg",
-                            Counter = 1,
-                            Article = basket.Motherboards.Article
-                        });
-                    }
+                        Id = p.Id,
+                        Name = p.Name,
+                        Cost = p.Cost,
+                        ImageUrl = $"https://pcstore.space/{p.Image}.jpg",
+                        Counter = 1,
+                        Article = p.Article
+                    });
 
-                    if (basket.PuS != null)
+                    ProcessProduct(basket.Motherboards, p => new ProductItemModel
                     {
-                        result.Add(new ProductItemModel
-                        {
-                            Id = basket.PuS.Id,
-                            Name = basket.PuS.Name,
-                            Cost = basket.PuS.Cost,
-                            ImageUrl = $"https://pcstore.space/{basket.PuS.Image}.jpg",
-                            Counter = 1,
-                            Article = basket.PuS.Article
-                        });
-                    }
+                        Id = p.Id,
+                        Name = p.Name,
+                        Cost = p.Cost,
+                        ImageUrl = $"https://pcstore.space/{p.Image}.jpg",
+                        Counter = 1,
+                        Article = p.Article
+                    });
 
-                    if (basket.Cases != null)
+                    ProcessProduct(basket.PuS, p => new ProductItemModel
                     {
-                        result.Add(new ProductItemModel
-                        {
-                            Id = basket.Cases.Id,
-                            Name = basket.Cases.Name,
-                            Cost = basket.Cases.Cost,
-                            ImageUrl = $"https://pcstore.space/{basket.Cases.Image}.jpg",
-                            Counter = 1,
-                            Article = basket.Cases.Article
-                        });
-                    }
+                        Id = p.Id,
+                        Name = p.Name,
+                        Cost = p.Cost,
+                        ImageUrl = $"https://pcstore.space/{p.Image}.jpg",
+                        Counter = 1,
+                        Article = p.Article
+                    });
 
-                    if (basket.HDDs != null)
+                    ProcessProduct(basket.Cases, p => new ProductItemModel
                     {
-                        result.Add(new ProductItemModel
-                        {
-                            Id = basket.HDDs.Id,
-                            Name = basket.HDDs.Name,
-                            Cost = basket.HDDs.Cost,
-                            ImageUrl = $"https://pcstore.space/{basket.HDDs.Image}.jpg",
-                            Counter = 1,
-                            Article = basket.HDDs.Article
-                        });
-                    }
+                        Id = p.Id,
+                        Name = p.Name,
+                        Cost = p.Cost,
+                        ImageUrl = $"https://pcstore.space/{p.Image}.jpg",
+                        Counter = 1,
+                        Article = p.Article
+                    });
 
-                    if (basket.SSDs != null)
+                    ProcessProduct(basket.HDDs, p => new ProductItemModel
                     {
-                        result.Add(new ProductItemModel
-                        {
-                            Id = basket.SSDs.Id,
-                            Name = basket.SSDs.Name,
-                            Cost = basket.SSDs.Cost,
-                            ImageUrl = $"https://pcstore.space/{basket.SSDs.Image}.jpg",
-                            Counter = 1,
-                            Article = basket.SSDs.Article
-                        });
-                    }
+                        Id = p.Id,
+                        Name = p.Name,
+                        Cost = p.Cost,
+                        ImageUrl = $"https://pcstore.space/{p.Image}.jpg",
+                        Counter = 1,
+                        Article = p.Article
+                    });
 
-                    if (basket.M2SSds != null)
+                    ProcessProduct(basket.SSDs, p => new ProductItemModel
                     {
-                        result.Add(new ProductItemModel
-                        {
-                            Id = basket.M2SSds.Id,
-                            Name = basket.M2SSds.Name,
-                            Cost = basket.M2SSds.Cost,
-                            ImageUrl = $"https://pcstore.space/{basket.M2SSds.Image}.jpg",
-                            Counter = 1,
-                            Article = basket.M2SSds.Article
-                        });
-                    }
+                        Id = p.Id,
+                        Name = p.Name,
+                        Cost = p.Cost,
+                        ImageUrl = $"https://pcstore.space/{p.Image}.jpg",
+                        Counter = 1,
+                        Article = p.Article
+                    });
 
-                    if (basket.Vents != null)
+                    ProcessProduct(basket.M2SSds, p => new ProductItemModel
                     {
-                        result.Add(new ProductItemModel
-                        {
-                            Id = basket.Vents.Id,
-                            Name = basket.Vents.Name,
-                            Cost = basket.Vents.Cost,
-                            ImageUrl = $"https://pcstore.space/{basket.Vents.Image}.jpg",
-                            Counter = 1,
-                            Article = basket.Vents.Article
-                        });
-                    }
+                        Id = p.Id,
+                        Name = p.Name,
+                        Cost = p.Cost,
+                        ImageUrl = $"https://pcstore.space/{p.Image}.jpg",
+                        Counter = 1,
+                        Article = p.Article
+                    });
 
-                    if (basket.Coolers != null)
+                    ProcessProduct(basket.Vents, p => new ProductItemModel
                     {
-                        result.Add(new ProductItemModel
-                        {
-                            Id = basket.Coolers.Id,
-                            Name = basket.Coolers.Name,
-                            Cost = basket.Coolers.Cost,
-                            ImageUrl = $"https://pcstore.space/{basket.Coolers.Image}.jpg",
-                            Counter = 1,
-                            Article = basket.Coolers.Article
-                        });
-                    }
+                        Id = p.Id,
+                        Name = p.Name,
+                        Cost = p.Cost,
+                        ImageUrl = $"https://pcstore.space/{p.Image}.jpg",
+                        Counter = 1,
+                        Article = p.Article
+                    });
+
+                    ProcessProduct(basket.Coolers, p => new ProductItemModel
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Cost = p.Cost,
+                        ImageUrl = $"https://pcstore.space/{p.Image}.jpg",
+                        Counter = 1,
+                        Article = p.Article
+                    });
+
+                    
                 }
+                result.AddRange(productDictionary.Values);
                 return result;
             }
             catch (Exception ex)

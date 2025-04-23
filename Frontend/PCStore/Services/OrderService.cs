@@ -19,36 +19,41 @@ namespace PCStore.Services
         {
             try
             {
-                bool result = false;
+                bool result = true;
 
-                var request = new HttpRequestMessage(HttpMethod.Post, CreateFastOrderUrl);
-                foreach (var item in products)
+                var handler = new AuthentificatedHttpClientService(
+                   new UserService(),
+                   new HttpClientHandler());
+
+                using (var _client = new HttpClient(handler))
                 {
-                    BasketRequest _item = new BasketRequest();
-                    _item.id = item.Id;
-                    _item.article = item.Article;
-                    string json = JsonConvert.SerializeObject(_item);
-                    var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    request.Content = content;
-                    var handler = new AuthentificatedHttpClientService(
-                        new UserService(),
-                        new HttpClientHandler());
-
-                    var _client = new HttpClient(handler);
-
-                    var _response = _client.SendAsync(request, new CancellationToken());
-                    var response = await _response;
-                    if (response.IsSuccessStatusCode)
+                    foreach (var item in products)
                     {
-                        result = true;
-                    }
-                    else
-                    {
-                        result = false;
+                        BasketRequest _item = new BasketRequest();
+                        _item.id = item.Id;
+                        _item.article = item.Article;
+                        string json = JsonConvert.SerializeObject(_item);
+                        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                        if (item.Counter > 0)
+                        {
+                            for (int i = 0; i < item.Counter; i++)
+                            {
+                                var request = new HttpRequestMessage(HttpMethod.Post, CreateFastOrderUrl)
+                                {
+                                    Content = content
+                                };
+                                var response = await _client.SendAsync(request, new CancellationToken());
+                                if (!response.IsSuccessStatusCode)
+                                {
+                                    result = false;
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
                 return result;
-
             }
             catch (Exception ex)
             {

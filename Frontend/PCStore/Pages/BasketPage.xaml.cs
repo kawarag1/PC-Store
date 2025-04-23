@@ -96,7 +96,10 @@ public partial class BasketPage : ContentPage
             {
                 OrderService service = new OrderService();
                 service.CreateOrder(ProductList);
-                await DisplayAlert("Ошибка", $"Заказ на сумму {TotalPrice}, создан", "OK");
+                await DisplayAlert("Уведомление", $"Заказ на сумму {TotalPrice}, создан", "OK");
+                CollectionInitialize();
+                TotalPrice = 0;
+                ProductCounter = 0;
             }
         }
         catch (Exception ex)
@@ -115,12 +118,15 @@ public partial class BasketPage : ContentPage
             var index = ProductItems.IndexOf(product);
             ProductItems.RemoveAt(index);
             ProductItems.Insert(index, product);
+            TotalPrice = 0;
+            ProductCounter = 0;
         }
 
     }
 
     private async void MinusCounter(object sender, TappedEventArgs e)
     {
+        
         var label = (Label)sender;
         if (label.BindingContext is ProductItemModel product)
         {
@@ -145,17 +151,14 @@ public partial class BasketPage : ContentPage
             }
             else
             {
-                product.Counter --;
+                product.Counter--;
                 var index = ProductItems.IndexOf(product);
                 ProductItems.RemoveAt(index);
                 ProductItems.Insert(index, product);
-
+                TotalPrice = 0;
+                ProductCounter = 0;
             }
-
-        }
-        
-        
-            
+        }       
     }
 
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
@@ -173,18 +176,26 @@ public partial class BasketPage : ContentPage
                 if (checkbox.IsChecked == true)
                 {
                     ProductList.Add(product);
-                    TotalPrice += product.Cost;
+                    TotalPrice += product.Cost * product.Counter;
                     ProductsSum.Text = $"{TotalPrice} ₽";
-                    ProductCounter ++;
+                    ProductCounter += product.Counter;
                     ProductsCounter.Text = ProductsCounter.Text = GetProductCountText(ProductCounter);
                 }
                 else
                 {
                     ProductList.Remove(product);
-                    TotalPrice -= product.Cost;
-                    ProductsSum.Text = $"{TotalPrice} ₽";
-                    ProductCounter--;
-                    ProductsCounter.Text = GetProductCountText(ProductCounter);
+                    if (TotalPrice == 0 || ProductCounter == 0)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        TotalPrice -= product.Cost * product.Counter;
+                        ProductsSum.Text = $"{TotalPrice} ₽";
+                        ProductCounter -= product.Counter;
+                        ProductsCounter.Text = GetProductCountText(ProductCounter);
+                    }
+                        
                 }
             }
         }

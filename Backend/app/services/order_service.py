@@ -96,7 +96,7 @@ class OrderService():
             ).returning(Order)
         
 
-        await BasketService(self.session).delete_one_from_basket(user_id, ProductRequest)
+        await BasketService(self.session).delete_one_from_basket(user_id, order)
         result = await self.session.execute(query)
         await self.session.commit()
         return result.scalars().first()

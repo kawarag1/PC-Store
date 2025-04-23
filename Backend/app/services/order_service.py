@@ -3,6 +3,7 @@ from app.database.connector import *
 
 from fastapi import Depends, HTTPException
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload, defer
 
 from app.services.basket_service import BasketService
 from app.schemas.request.order_schema import Order as OrderClass

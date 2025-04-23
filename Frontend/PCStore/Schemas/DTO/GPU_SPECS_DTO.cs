@@ -19,7 +19,7 @@ namespace PCStore.Schemas.DTO
         public int Amount_Video_Memory { get; set; }
 
         [JsonProperty("frequency")]
-        public int Frequency { get; set; }
+        public double Frequency { get; set; }
 
         [JsonProperty("tdp")]
         public int TDP { get; set; }

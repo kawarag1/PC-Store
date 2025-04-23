@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using PCStore.Schemas;
 using PCStore.Schemas.DTO;
+using PCStore.Schemas.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,7 +14,7 @@ namespace PCStore.Services
     public class BasketService
     {
         private const string CheckBasketUrl = "https://pcstore.space/v1/basket/check";
-        private AuthentificatedHttpClientService authHttpClientService;
+        private const string DeleteOneFromBasketUrl = "http://pcstore.space/v1/basket/delete_one_from_basket"; 
 
 
 
@@ -49,13 +51,46 @@ namespace PCStore.Services
             }
         }
 
+        public async Task<bool> DeleteOneFromBasket(BasketRequest product)
+        {
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Delete, DeleteOneFromBasketUrl);
+                string json = JsonConvert.SerializeObject(product);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                request.Content = content;
+                var handler = new AuthentificatedHttpClientService(
+                        new UserService(),
+                        new HttpClientHandler());
+
+                var _client = new HttpClient(handler);
+
+                var _response = _client.SendAsync(request, new CancellationToken());
+                var response = await _response;
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Ошибка", ex.Message, "OK");
+                return false;
+            }
+        }
+
         public async Task<List<ProductItemModel>> BasketList(List<BasketDTO> baskets)
         {
             try
             {
                 var result = new List<ProductItemModel>();
 
-                foreach (var basket in baskets)
+                foreach (var basket in  baskets)
                 {
                     if (basket.Cpus != null)
                     {

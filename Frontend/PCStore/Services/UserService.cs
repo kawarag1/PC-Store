@@ -83,7 +83,6 @@ namespace PCStore.Services
                     {
                         string responseJson = await response.Content.ReadAsStringAsync();
                         var tokens = JsonConvert.DeserializeObject<TokenSchema>(responseJson);
-                        await Shell.Current.DisplayAlert("Ошибка", $"{tokens}", "OK");
 
                         await SecureStorage.SetAsync("access_token", tokens.AccessToken);
                         return true;
@@ -96,7 +95,7 @@ namespace PCStore.Services
             }
             catch (Exception ex)
             {
-                //await Shell.Current.DisplayAlert("Ошибка", ex.Message, "OK");
+                await Shell.Current.DisplayAlert("Ошибка", ex.Message, "OK");
                 return false;
             }
             

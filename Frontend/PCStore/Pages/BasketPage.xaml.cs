@@ -1,4 +1,6 @@
-﻿using PCStore.Schemas;
+﻿using Microsoft.Maui.Controls.Internals;
+using PCStore.Schemas;
+using PCStore.Schemas.Request;
 using PCStore.Services;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -9,6 +11,9 @@ public partial class BasketPage : ContentPage
 {
     private double TotalPrice;
     private int ProductCounter;
+    private ObservableCollection<ProductItemModel> ProductItems;
+    private List<ProductItemModel> ProductList = new List<ProductItemModel>();
+    private int SoloProductCounter;
 	public BasketPage()
 	{
 		InitializeComponent();
@@ -38,35 +43,11 @@ public partial class BasketPage : ContentPage
             }
             else
             {
-                
-                ProductsInBasket.ItemsSource = products;
-                foreach (var product in _products)
-                {
-                    try
-                    {
-                        TotalPrice += product.Cpus.Cost;
-                        TotalPrice += product.Gpus.Cost;
-                        TotalPrice += product.Rams.Cost;
-                        TotalPrice += product.Motherboards.Cost;
-                        TotalPrice += product.SSDs.Cost;
-                        TotalPrice += product.HDDs.Cost;
-                        TotalPrice += product.M2SSds.Cost;
-                        TotalPrice += product.PuS.Cost;
-                        TotalPrice += product.Cases.Cost;
-                        TotalPrice += product.Vents.Cost;
-                        TotalPrice += product.Coolers.Cost;
-                    }
-                    catch (Exception ex)
-                    {
-                        TotalPrice += 0;
-                        continue;
-                    }
-                    
-                    
-                }
-                ProductConter.Text = $"{_products.Count.ToString()} товар";
-                ProductsSum.Text = $"{TotalPrice.ToString()} ₽";
-                
+                ProductsSum.Text = $"{TotalPrice} ₽";
+                ProductsCounter.Text = $"{ProductCounter}";
+                ObservableCollection<ProductItemModel> productsList = new ObservableCollection<ProductItemModel>(products);
+                ProductItems = productsList;
+                ProductsInBasket.ItemsSource = ProductItems;
             }
         }
         else
@@ -80,24 +61,101 @@ public partial class BasketPage : ContentPage
 
     private void SelectingAllBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
+        //var itemcopy = ProductItems.ToList();
+        foreach (var item in ProductItems)
+        {
+            item.IsSelected = true;
+        }
+
+        //var newCollection = new ObservableCollection<ProductItemModel>(itemcopy);
+        //ProductsInBasket.ItemsSource = null;
+        //ProductsInBasket.ItemsSource = newCollection;
+        //SelectAllItems(e.Value);
+        //ProductItems.Where(x => !x.IsSelected).ToList().ForEach(x => x.IsSelected = true);
 
     }
 
-    
-
-    private void Button_Clicked(object sender, EventArgs e)
+    private void SelectAllItems(bool isSelected)
     {
+        foreach (var item in ProductItems)
+        {
+            item.IsSelected = isSelected;
+        }
 
+    }
+
+    private async void Button_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            if (ProductList == null)
+            {
+                await DisplayAlert("Ошибка", "Выберите товары, которые хотите заказать", "OK");
+            }
+            else
+            {
+                OrderService service = new OrderService();
+                service.CreateOrder(ProductList);
+                await DisplayAlert("Ошибка", $"Заказ на сумму {TotalPrice}, создан", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ошибка", ex.Message, "OK");
+        }
+        
     }
 
     private void PlusCounter(object sender, TappedEventArgs e)
     {
+        var label = (Label)sender;
+        if (label.BindingContext is ProductItemModel product)
+        {
+            product.Counter ++;
+            var index = ProductItems.IndexOf(product);
+            ProductItems.RemoveAt(index);
+            ProductItems.Insert(index, product);
+        }
 
     }
 
-    private void MinusCounter(object sender, TappedEventArgs e)
+    private async void MinusCounter(object sender, TappedEventArgs e)
     {
+        var label = (Label)sender;
+        if (label.BindingContext is ProductItemModel product)
+        {
+            if (product.Counter == 1)
+            {
+                bool answer = await DisplayAlert("Предупреждение", "Вы хотите удалить этот товар из корзины?", "Да", "Нет");
+                if (answer)
+                {
+                    BasketService service = new BasketService();
+                    BasketRequest request = new BasketRequest();
+                    request.id = product.Id;
+                    request.article = product.Article;
+                    service.DeleteOneFromBasket(request);
+                    ProductItems.Remove(product);
 
+
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                product.Counter --;
+                var index = ProductItems.IndexOf(product);
+                ProductItems.RemoveAt(index);
+                ProductItems.Insert(index, product);
+
+            }
+
+        }
+        
+        
+            
     }
 
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
@@ -105,26 +163,62 @@ public partial class BasketPage : ContentPage
         
     }
 
-    private void SelectProductBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    private async void SelectProductBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-        //try
-        //{
-        //    var checkbox = (CheckBox)sender;
-        //    if (checkbox.BindingContext is Product product)
-        //    {
-        //        if (checkbox.IsChecked == true)
-        //        {
-        //            _products.Add(product);
-        //        }
-        //        else
-        //        {
-        //            _products.Remove(product);
-        //        }
-        //    }
-        //}
-        //catch (Exception ex)
-        //{
+        try
+        {
+            var checkbox = (CheckBox)sender;
+            if (checkbox.BindingContext is ProductItemModel product)
+            {
+                if (checkbox.IsChecked == true)
+                {
+                    ProductList.Add(product);
+                    TotalPrice += product.Cost;
+                    ProductsSum.Text = $"{TotalPrice} ₽";
+                    ProductCounter ++;
+                    ProductsCounter.Text = ProductsCounter.Text = GetProductCountText(ProductCounter);
+                }
+                else
+                {
+                    ProductList.Remove(product);
+                    TotalPrice -= product.Cost;
+                    ProductsSum.Text = $"{TotalPrice} ₽";
+                    ProductCounter--;
+                    ProductsCounter.Text = GetProductCountText(ProductCounter);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ошибка", ex.Message, "OK");
+        }
+    }
 
-        //}
+    private string GetProductCountText(int productCount)
+    {
+        int lastDigit = productCount % 10;
+        int lastTwoDigits = productCount % 100;
+
+        if (lastTwoDigits >= 11 && lastTwoDigits <= 14)
+        {
+            return $"{productCount} товаров";
+        }
+
+        switch (lastDigit)
+        {
+            case 1:
+                return $"{productCount} товар";
+            case 2:
+            case 3:
+            case 4:
+                return $"{productCount} товара";
+            default:
+                return $"{productCount} товаров";
+        }
+    }
+
+    private void ProductsInBasket_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+
     }
 }

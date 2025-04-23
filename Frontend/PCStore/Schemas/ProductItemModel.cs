@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +21,8 @@ namespace PCStore.Schemas
         public string ImageUrl { get; set; }
 
         public string Article { get; set; }
+        
+        public bool IsSelected = false;
 
     }
 }

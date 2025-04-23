@@ -9,8 +9,11 @@ namespace PCStore.Schemas.DTO
 {
     internal class OrderDTO
     {
-        [JsonProperty("category_id")]
-        public int CategoryID { get; set; }
+        [JsonProperty("id")]
+        public int Id { get; set; }
+
+        [JsonProperty("categories")]
+        public CategoryDTO Category { get; set; }
 
         [JsonProperty("sum")]
         public int Sum { get; set; }

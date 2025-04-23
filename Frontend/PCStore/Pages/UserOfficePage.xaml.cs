@@ -72,9 +72,9 @@ public partial class UserOfficePage : ContentPage
 
     }
 
-    private void OrderBtn_Clicked(object sender, EventArgs e)
+    private async void OrderBtn_Clicked(object sender, EventArgs e)
     {
-
+        await Navigation.PushAsync(new OrdersPage());
     }
 
     protected override bool OnBackButtonPressed()

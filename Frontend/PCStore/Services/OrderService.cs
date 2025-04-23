@@ -32,6 +32,10 @@ namespace PCStore.Services
                         BasketRequest _item = new BasketRequest();
                         _item.id = item.Id;
                         _item.article = item.Article;
+                        if (item.Cost != null)
+                        {
+                            _item.cost = item.Cost;
+                        }
                         string json = JsonConvert.SerializeObject(_item);
                         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -44,6 +48,12 @@ namespace PCStore.Services
                                     Content = content
                                 };
                                 var response = await _client.SendAsync(request, new CancellationToken());
+
+
+                                BasketService service = new BasketService();
+                                List<ProductItemModel> list = new List<ProductItemModel>();
+                                list.Add(item);
+                                await service.DeleteOneFromBasket(list);
                                 if (!response.IsSuccessStatusCode)
                                 {
                                     result = false;

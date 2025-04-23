@@ -33,77 +33,77 @@ class OrderService():
                 user_id = user_id,
                 cpu_id = order.id,
                 category_id = 1,
-                sum = order.sum
+                sum = order.cost
             ).returning(Order)
         elif "GPU" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 gpu_id = order.id,
                 category_id = 1,
-                sum = order.sum
+                sum = order.cost
             ).returning(Order)
         elif "RAM" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 ram_id = order.id,
                 category_id = 1,
-                sum = order.sum
+                sum = order.cost
             ).returning(Order)
         elif "CASE" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 case_id = order.id,
                 category_id = 1,
-                sum = order.sum
+                sum = order.cost
             ).returning(Order)
         elif "M2" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 m2_id = order.id,
                 category_id = 1,
-                sum = order.sum
+                sum = order.cost
             ).returning(Order)
         elif "SSD" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 ssd_id = order.id,
                 category_id = 1,
-                sum = order.sum
+                sum = order.cost
             ).returning(Order)
         elif "HDD" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 hdd_id = order.id,
                 category_id = 1,
-                sum = order.sum
+                sum = order.cost
             ).returning(Order)
         elif "MB" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 motherboard_id = order.id,
                 category_id = 1,
-                sum = order.sum
+                sum = order.cost
             ).returning(Order)
         elif "VENT" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 vent_id = order.id,
                 category_id = 1,
-                sum = order.sum
+                sum = order.cost
             ).returning(Order)
         elif "TOWER" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 cooler_id = order.id,
                 category_id = 1,
-                sum = order.sum
+                sum = order.cost
             ).returning(Order)
         elif "PU" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 pu_id = order.id,
                 category_id = 1,
-                sum = order.sum
+                sum = order.cost
             ).returning(Order)
         
 

@@ -1,4 +1,4 @@
-from app.models.models import Basket, Order, User
+from app.models.models import *
 from app.database.connector import *
 
 from fastapi import Depends, HTTPException
@@ -24,6 +24,9 @@ class OrderService():
         defer(Order.cooler_id),
         defer(Order.pu_id),
         defer(Order.vent_id),
+        defer(Order.category_id),
+        selectinload(Order.categories),
+
         selectinload(Order.cpus).defer(CPU.cpu_specs_id),
         selectinload(Order.cpus).defer(CPU.manufacturer_id),
         selectinload(Order.cpus).selectinload(CPU.specs).selectinload(CPU_SPECS.sockets),

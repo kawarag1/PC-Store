@@ -2,8 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PCStore.Pages.SingleOrderPage"
-             Title="{Binding Id}" Background="{StaticResource PrimaryColor}">
-    
+             Background="{StaticResource PrimaryColor}">
+
+
+    <Shell.TitleView>
+        <Label x:Name="Title" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" TextColor="Black" Margin="0,0,75,0"/>
+    </Shell.TitleView>
+
     <CollectionView x:Name="ProductsInBasket" ItemsSource="{Binding ProductItems}" SelectionMode="Single">
         <CollectionView.ItemTemplate>
             <DataTemplate>

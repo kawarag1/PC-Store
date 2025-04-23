@@ -2,7 +2,12 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PCStore.Pages.OrdersPage"
-             Title="Список заказов" Background="{StaticResource PrimaryColor}">
+             Background="{StaticResource PrimaryColor}">
+    <Shell.TitleView>
+        <Label Text="Заказы" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" TextColor="Black" Margin="0,0,75,0"/>
+    </Shell.TitleView>
+
+
     <Grid>
         <CollectionView x:Name="OrdersCollection" SelectionChanged="OrdersCollection_SelectionChanged" SelectionMode="Single">
             <CollectionView.ItemTemplate>

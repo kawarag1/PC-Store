@@ -4,7 +4,7 @@
              x:Class="PCStore.Pages.BasketPage"
              Background="{StaticResource PrimaryColor}">
     <Shell.TitleView>
-        <Label Text="Корзина" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" TextColor="Black" Margin="0,0,20,0"/>
+        <Label Text="Корзина" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" TextColor="Black" Margin="0,0,75,0"/>
     </Shell.TitleView>
 
     <Grid RowSpacing="10">

@@ -9,7 +9,7 @@ public partial class SingleOrderPage : ContentPage
     public SingleOrderPage(List<ProductItemModel> list, int number)
 	{
 		InitializeComponent();
-        Shell.Current.Title = $"Заказ №{number}";
+        Title.Text = $"Заказ №{number}";
         Initialize(list);
 		
 

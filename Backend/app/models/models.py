@@ -62,6 +62,7 @@ class Order(Base):
     __tablename__ = "Orders"
     id:Mapped[int] = mapped_column(Integer, autoincrement = True, primary_key = True)
     user_id:Mapped[int] = mapped_column(Integer, ForeignKey("Users.id"))
+    sum:Mapped[int] = mapped_column(Integer, nullable = True)
     category_id:Mapped[int] = mapped_column(Integer ,ForeignKey("Categories.id"))
     products_id:Mapped[int] = mapped_column(Integer, ForeignKey("Products.id"), nullable = True)
     cpu_id:Mapped[int] = mapped_column(Integer, ForeignKey("CPU.id"), nullable = True)

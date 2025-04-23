@@ -32,67 +32,78 @@ class OrderService():
             query = insert(Order).values(
                 user_id = user_id,
                 cpu_id = order.id,
-                category_id = 1
+                category_id = 1,
+                sum = order.sum
             ).returning(Order)
         elif "GPU" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 gpu_id = order.id,
-                category_id = 1
+                category_id = 1,
+                sum = order.sum
             ).returning(Order)
         elif "RAM" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 ram_id = order.id,
-                category_id = 1
+                category_id = 1,
+                sum = order.sum
             ).returning(Order)
         elif "CASE" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 case_id = order.id,
-                category_id = 1
+                category_id = 1,
+                sum = order.sum
             ).returning(Order)
         elif "M2" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 m2_id = order.id,
-                category_id = 1
+                category_id = 1,
+                sum = order.sum
             ).returning(Order)
         elif "SSD" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 ssd_id = order.id,
-                category_id = 1
+                category_id = 1,
+                sum = order.sum
             ).returning(Order)
         elif "HDD" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 hdd_id = order.id,
-                category_id = 1
+                category_id = 1,
+                sum = order.sum
             ).returning(Order)
         elif "MB" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 motherboard_id = order.id,
-                category_id = 1
+                category_id = 1,
+                sum = order.sum
             ).returning(Order)
         elif "VENT" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 vent_id = order.id,
-                category_id = 1
+                category_id = 1,
+                sum = order.sum
             ).returning(Order)
         elif "TOWER" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 cooler_id = order.id,
-                category_id = 1
+                category_id = 1,
+                sum = order.sum
             ).returning(Order)
         elif "PU" in order.article:
             query = insert(Order).values(
                 user_id = user_id,
                 pu_id = order.id,
-                category_id = 1
+                category_id = 1,
+                sum = order.sum
             ).returning(Order)
         
 
@@ -103,7 +114,7 @@ class OrderService():
     
 
 
-    async def create_order(self, user_id: int):
+    async def create_order(self, user_id: int, cost: int):
 
         baskets = await BasketService(self.session).check_basket(user_id)
 
@@ -113,6 +124,7 @@ class OrderService():
             query = insert(Order).values(
             user_id = user_id,
             category_id = 1,
+            sum = cost,
             products_id = basket.products_id,
             cpu_id = basket.cpu_id,
             gpu_id = basket.gpu_id,

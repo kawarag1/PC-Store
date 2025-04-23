@@ -90,12 +90,12 @@ public partial class BasketPage : ContentPage
         {
             if (ProductList == null)
             {
-                await DisplayAlert("Ошибка", "Выберите товары, которые хотите заказать", "OK");
+                await DisplayAlert("Ошибка", "Выберите товары, которые вы хотите заказать", "OK");
             }
             else
             {
                 OrderService service = new OrderService();
-                service.CreateOrder(ProductList);
+                await service.CreateOrder(ProductList);
                 await DisplayAlert("Уведомление", $"Заказ на сумму {TotalPrice}, создан", "OK");
                 CollectionInitialize();
                 TotalPrice = 0;
@@ -141,8 +141,6 @@ public partial class BasketPage : ContentPage
                     request.article = product.Article;
                     service.DeleteOneFromBasket(request);
                     ProductItems.Remove(product);
-
-
                 }
                 else
                 {
@@ -161,9 +159,18 @@ public partial class BasketPage : ContentPage
         }       
     }
 
-    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
-        
+        if (ProductList == null)
+        {
+            await DisplayAlert("Уведомление", "Выберите товары, которые вы хотите удалить из корзины", "OK");
+        }
+        else
+        {
+            BasketService service = new BasketService();
+            await service.DeleteOneFromBasket(ProductList);
+        }
+            
     }
 
     private async void SelectProductBox_CheckedChanged(object sender, CheckedChangedEventArgs e)

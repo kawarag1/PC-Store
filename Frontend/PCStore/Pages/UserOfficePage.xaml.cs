@@ -5,7 +5,7 @@ namespace PCStore.Pages;
 
 public partial class UserOfficePage : ContentPage
 {
-    private bool _isFirstLoad = false;
+    UserSchema _user;
 	public UserOfficePage()
 	{
 		InitializeComponent();
@@ -38,14 +38,14 @@ public partial class UserOfficePage : ContentPage
                 await Shell.Current.DisplayAlert("Ошибка", "Не удалось получить данные, пожалуйста, авторизуйтесь снова", "OK");
                 return;
             }
-
-            if (string.IsNullOrEmpty(user.Name) || string.IsNullOrEmpty(user.Surname))
+            _user = user;
+            if (string.IsNullOrEmpty(user.name) || string.IsNullOrEmpty(user.surname))
             {
                 await Shell.Current.DisplayAlert("Предупреждение", "Перейдите в профиль для добавления личных  данных", "OK");
             }
             else
             {
-                TitleLabel.Text = $"{user.Name} {user.Surname}";
+                TitleLabel.Text = $"{user.name} {user.surname}";
             }
         }
         catch (Exception ex)
@@ -59,7 +59,7 @@ public partial class UserOfficePage : ContentPage
 
     private async void ProfileBtn_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new ProfilePage());
+        await Navigation.PushAsync(new ProfilePage(_user));
     }
 
     private async void PoliticBtn_Clicked(object sender, EventArgs e)

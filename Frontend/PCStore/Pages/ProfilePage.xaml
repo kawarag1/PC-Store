@@ -2,15 +2,68 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PCStore.Pages.ProfilePage"
-             Title="ProfilePage">
+             Title="ProfilePage" Background="{StaticResource PrimaryColor}">
     <Shell.TitleView>
         <Label Text="Профиль" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" TextColor="Black" Margin="0,0,75,0"/>
     </Shell.TitleView>
 
-    
-
-
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="650"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Border Background="White"
+                Grid.Row="0"
+                HeightRequest="570"
+                WidthRequest="420"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Stroke="White"
+                Margin="10">
+            <VerticalStackLayout HorizontalOptions="Start" VerticalOptions="Start" Spacing="10" Margin="10, 10, 0, 0">
+                <Label Text="Логин" FontSize="16" TextColor="{StaticResource ButtonColor}"/>
+                <Entry x:Name="LoginValue" TextColor="Black"/>
+                <BoxView HeightRequest="1" Color="Gray" Margin="0,-19,0,0"/>
+                <Label Text="Пароль" FontSize="16" TextColor="{StaticResource ButtonColor}"/>
+                <Entry x:Name="PasswordValue" TextColor="Black" IsPassword="True"/>
+                <BoxView HeightRequest="1" Color="Gray" Margin="0,-19,0,0"/>
+                <Label Text="Электронная почта" FontSize="16" TextColor="{StaticResource ButtonColor}"/>
+                <Entry x:Name="EmailValue" TextColor="Black"/>
+                <BoxView HeightRequest="1" Color="Gray" Margin="0,-19,0,0"/>
+                <Label Text="Имя" FontSize="16" TextColor="{StaticResource ButtonColor}"/>
+                <Entry x:Name="NameValue" TextColor="Black" WidthRequest="415" MaximumWidthRequest="500"/>
+                <BoxView HeightRequest="1" Color="Gray" Margin="0,-19,0,0"/>
+                <Label Text="Фамилия" FontSize="16" TextColor="{StaticResource ButtonColor}"/>
+                <Entry x:Name="SurnameValue" TextColor="Black"/>
+                <BoxView HeightRequest="1" Color="Gray" Margin="0,-19,0,0"/>
+                <Label Text="Отчество" FontSize="16" TextColor="{StaticResource ButtonColor}"/>
+                <Entry x:Name="PatronymicValue" TextColor="Black"/>
+                <BoxView HeightRequest="1" Color="Gray" Margin="0,-19,0,0"/>
+                <Button
+                    CornerRadius="20" 
+                    x:Name="SaveBtn"
+                    Text="Сохранить"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    Grid.Row="0"
+                    VerticalOptions="End"
+                    Margin="15"
+                    BackgroundColor="{StaticResource ButtonColor}"
+                    WidthRequest="380"
+                    Clicked="SaveBtn_Clicked"/>
+            </VerticalStackLayout>
+        </Border>
+        <Label Text="Выйти" FontSize="14" TextColor="{StaticResource ButtonColor}" HorizontalOptions="Start" VerticalOptions="End" Margin="10, 10, 0, 0">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"/>
+            </Label.GestureRecognizers>
+        </Label>
+        <Label Text="Показать пароль" FontSize="14" TextColor="{StaticResource ButtonColor}" HorizontalOptions="End" VerticalOptions="End" Margin="0, 10, 10, 0">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+            </Label.GestureRecognizers>
+        </Label>
     </Grid>
 </ContentPage>

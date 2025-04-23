@@ -16,6 +16,7 @@ namespace PCStore.Services
         private const string RefreshUrl = "https://pcstore.space/v1/user/refresh";
         private const string GetProfileUrl = "https://pcstore.space/v1/user/get_profile";
         private const string RegUserUrl = "https://pcstore.space/v1/user/registration";
+        private const string UpdateProfileUrl = "https://pcstore.space/v1/user/update_profile";
         private AuthentificatedHttpClientService authHttpClientService;
 
         
@@ -145,7 +146,7 @@ namespace PCStore.Services
         {
             try
             {
-                if (string.IsNullOrEmpty(user.Login) || string.IsNullOrEmpty(user.Password) || string.IsNullOrEmpty(user.Email))
+                if (string.IsNullOrEmpty(user.login) || string.IsNullOrEmpty(user.password) || string.IsNullOrEmpty(user.email))
                 {
                     await Shell.Current.DisplayAlert("Ошибка", "Логин, пароль и электронная почта не должны быть пустыми", "OK");
                     return false;
@@ -158,7 +159,7 @@ namespace PCStore.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    await Auth(user.Login, user.Password, _client);
+                    await Auth(user.login, user.password, _client);
                     return true;
                 }
                 else
@@ -185,6 +186,39 @@ namespace PCStore.Services
             else
             {
                 return true;
+            }
+        }
+
+        public async Task<bool> UpdateProfile(UserSchema user)
+        {
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Put, UpdateProfileUrl);
+                string json = JsonConvert.SerializeObject(user);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                request.Content = content;
+                var handler = new AuthentificatedHttpClientService(
+                        new UserService(),
+                        new HttpClientHandler());
+
+                var _client = new HttpClient(handler);
+
+                var _response = _client.SendAsync(request, new CancellationToken());
+                var response = await _response;
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Ошибка", ex.Message, "OK");
+                return false;
             }
         }
     }

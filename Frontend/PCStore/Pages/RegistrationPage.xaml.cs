@@ -16,9 +16,9 @@ public partial class RegistrationPage : ContentPage
         try
         {
             UserSchema user = new UserSchema();
-            user.Login = LoginValue.Text;
-            user.Password = PasswordValue.Text;
-            user.Email = EmailValue.Text;
+            user.login = LoginValue.Text;
+            user.password = PasswordValue.Text;
+            user.email = EmailValue.Text;
 
 
             HttpClient client = new HttpClient();
@@ -34,7 +34,7 @@ public partial class RegistrationPage : ContentPage
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+            await Shell.Current.DisplayAlert("Ошибка", "Непредвиденная ошибка, попробуйте указать другой логин", "OK");
         }
         
         

@@ -11,22 +11,22 @@ namespace PCStore.Schemas
     public class UserSchema
     {
         [JsonProperty("login")]
-        public string Login { get; set; }
+        public string login { get; set; }
 
         [JsonProperty("password")]
-        public string Password { get; set; }
+        public string password { get; set; }
 
         [JsonProperty("email")]
-        public string Email { get; set; }
+        public string email { get; set; }
 
         [JsonProperty("name")]
-        public string? Name { get; set; }
+        public string? name { get; set; }
 
         [JsonProperty("surname")]
-        public string? Surname { get; set; }
+        public string? surname { get; set; }
 
         [JsonProperty("patronymic")]
-        public string? Patronymic { get; set; }
+        public string? patronymic { get; set; }
 
 
     }

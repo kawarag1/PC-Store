@@ -2,105 +2,111 @@ using PCStore.Schemas;
 using PCStore.Schemas.DTO;
 using PCStore.Services;
 
-
 namespace PCStore.Pages;
 
 public partial class SpecsPage : ContentPage
 {
-    public ProductItemModel product;
+    public ProductItemModel product_;
 	public SpecsPage(ProductItemModel _product)
 	{
 		InitializeComponent();
-        product = _product;
+        product_ = _product;
         Initialize();
         
 	}
 
     public async void Initialize()
     {
-        var product_ = await SelectType(product.Article);
+        try
+        {
+            var (product, productType) = await SelectType(product_.Article);
+
+            if (product != null && productType != null)
+            {
+                var listType = typeof(List<>).MakeGenericType(productType);
+                var typedList = (System.Collections.IList)Activator.CreateInstance(listType);
+                typedList.Add(product);
+
+                ProductView.ItemsSource = typedList;
+            }
+            else
+            {
+                ProductView.ItemsSource = null;
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ошибка", $"Не удалось загрузить продукт: {ex.Message}", "OK");
+        }
+
+
     }
 
-    public async Task<object> SelectType(string article)
+    public async Task<(object Product, Type ProductType)> SelectType(string article)
     {
         try
         {
-            object product = null;
-
-            switch (true)
+            var typeMappings = new Dictionary<string, Type>
             {
-                case bool _ when article.Contains("CPU"):
-                    product = await FindComponentsByArticles<CPU_DTO>(article);
-                    break;
+                ["CPU"] = typeof(CPU_DTO),
+                ["GPU"] = typeof(GPU_DTO),
+                ["RAM"] = typeof(RAM_DTO),
+                ["MB"] = typeof(Motherboard_DTO),
+                ["M2"] = typeof(M2_SSD_DTO),
+                ["SSD"] = typeof(SSD_DTO),
+                ["HDD"] = typeof(HDD_DTO),
+                ["PU"] = typeof(POWER_UNIT_DTO),
+                ["TOWER"] = typeof(Cooler_DTO),
+                ["VENT"] = typeof(VENT_DTO),
+                ["CASE"] = typeof(PC_Case_DTO)
+            };
 
-                case bool _ when article.Contains("GPU"):
-                    product = await FindComponentsByArticles<GPU_DTO>(article);
-                    break;
-
-                case bool _ when article.Contains("RAM"):
-                    product = await FindComponentsByArticles<RAM_DTO>(article);
-                    break;
-
-                case bool _ when article.Contains("MB"):
-                    product = await FindComponentsByArticles<Motherboard_DTO>(article);
-                    break;
-
-                case bool _ when article.Contains("M2"):
-                    product = await FindComponentsByArticles<M2_SSD_DTO>(article);
-                    break;
-
-                case bool _ when article.Contains("SSD"):
-                    product = await FindComponentsByArticles<SSD_DTO>(article);
-                    break;
-
-                case bool _ when article.Contains("HDD"):
-                    product = await FindComponentsByArticles<HDD_DTO>(article);
-                    break;
-
-                case bool _ when article.Contains("PU"):
-                    product = await FindComponentsByArticles<POWER_UNIT_DTO>(article);
-                    break;
-
-                case bool _ when article.Contains("TOWER"):
-                    product = await FindComponentsByArticles<Cooler_DTO>(article);
-                    break;
-
-                case bool _ when article.Contains("VENT"):
-                    product = await FindComponentsByArticles<VENT_DTO>(article);
-                    break;
-
-                case bool _ when article.Contains("CASE"):
-                    product = await FindComponentsByArticles<PC_Case_DTO>(article);
-                    break;
+            foreach (var mapping in typeMappings)
+            {
+                if (article.StartsWith(mapping.Key))
+                {
+                    var product = await FindComponentsByArticles<ProductItemModel>(article, mapping.Value);
+                    return (product, mapping.Value);
+                }
             }
 
-            return product;
+            return (null, null);
         }
         catch (Exception ex)
         {
             await DisplayAlert("Ошибка", ex.Message, "OK");
-            return null;
+            return (null, null);
         }
-        
+
     }
 
-    public async Task<object> FindComponentsByArticles<T>(string article) where T : class
+    public async Task<object> FindComponentsByArticles<T>(string article, Type targetType) where T : class
     {
         try
         {
             BasketService service = new BasketService();
-            var list = await service.CheckBasket();
-            foreach (var item in list)
+            var basketList = await service.CheckBasket();
+
+            if (basketList == null)
+                return null;
+
+            foreach (var basketItem in basketList)
             {
-                var properties = item.GetType().GetProperties();
+                // Получаем все свойства элемента корзины
+                var properties = basketItem.GetType().GetProperties();
 
                 foreach (var property in properties)
                 {
-                    var value = property.GetValue(item) as T;
-                    if (value == null) continue;
+                    var value = property.GetValue(basketItem);
 
-                    var articleProperty = typeof(T).GetProperty("Article");
-                    if (articleProperty == null) continue;
+                    // Пропускаем null значения и объекты не нужного типа
+                    if (value == null || !targetType.IsInstanceOfType(value))
+                        continue;
+
+                    // Ищем свойство Article
+                    var articleProperty = targetType.GetProperty("Article");
+                    if (articleProperty == null)
+                        continue;
 
                     var componentArticle = articleProperty.GetValue(value) as string;
                     if (componentArticle == article)

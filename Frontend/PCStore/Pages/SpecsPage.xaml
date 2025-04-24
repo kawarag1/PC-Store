@@ -1,6 +1,178 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PCStore.Pages.SpecsPage">
+             xmlns:local="clr-namespace:PCStore.Services"
+             x:Class="PCStore.Pages.SpecsPage" BackgroundColor="{StaticResource PrimaryColor}">
     
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="CpuTemplate">
+                <Grid>
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Start" Margin="10">
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Frequency, StringFormat = 'Частота: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Core_count, StringFormat = 'Количество ядер: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Cache, StringFormat = 'Кэш: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.TDP, StringFormat = 'TDP: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Sockets.Name, StringFormat = 'Сокет: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Manufacturers.Name, StringFormat = 'Производитель: {0}'}"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="GpuTemplate">
+                <Grid>
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Start" Margin="10">
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding GPU_Specs.RTX_Rays, StringFormat = 'RTX лучи: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding GPU_Specs.Amount_Video_Memory, StringFormat = 'Количество видеопамяти: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding GPU_Specs.Frequency, StringFormat = 'Частота: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding GPU_Specs.TDP, StringFormat = 'TDP: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding GPU_Specs.GPU_Memory_Types.Name, StringFormat = 'Тип видеопамяти: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Manufacturers.Name, StringFormat = 'Производитель: {0}'}"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="RamTemplate">
+                <Grid>
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Start" Margin="10">
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding RAM_SPECS.Frequency, StringFormat = 'Частота: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding RAM_SPECS.Radiators, StringFormat = 'Радиаторы: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding RAM_SPECS.RAM_Quantities.Ram_Number, StringFormat = 'Количество в упаковке: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding RAM_SPECS.RAM_Types.Name, StringFormat = 'Тип памяти: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Manufacturers.Name, StringFormat = 'Производитель: {0}'}"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="SSDTemplate">
+                <Grid>
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Start" Margin="10">
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.TDP, StringFormat = 'TDP: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Speed_read, StringFormat = 'Скорость чтения: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Speed_write, StringFormat = 'Скорость записи: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Memories.Size, StringFormat = 'Количество памяти: {0}ГБ'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Manufacturers.Name, StringFormat = 'Производитель: {0}'}"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="HDDTemplate">
+                <Grid>
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Start" Margin="10">
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.TDP, StringFormat = 'TDP: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Speed_read, StringFormat = 'Скорость чтения: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Speed_write, StringFormat = 'Скорость записи: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Memories.Size, StringFormat = 'Количество памяти: {0}ГБ'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Manufacturers.Name, StringFormat = 'Производитель: {0}'}"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="M2_SSDTemplate">
+                <Grid>
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Start" Margin="10">
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Size.Size, StringFormat = 'Формат М2-накопителя: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.TDP, StringFormat = 'TDP: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Speed_read, StringFormat = 'Скорость чтения: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Speed_write, StringFormat = 'Скорость записи: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Memories.Size, StringFormat = 'Количество памяти: {0}ГБ'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Manufacturers.Name, StringFormat = 'Производитель: {0}'}"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="MotherboardTemplate">
+                <Grid>
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Start" Margin="10">
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Motherboard_SPECS.DVI_Count, StringFormat = 'Количество DVI портов: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Motherboard_SPECS.VGA_Count, StringFormat = 'Количество VGA портов: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Motherboard_SPECS.USB_Count, StringFormat = 'Количество USB портов: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Motherboard_SPECS.SATA_Count, StringFormat = 'Количество SATA портов: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Motherboard_SPECS.HDMI_Count, StringFormat = 'Количество HDMI портов: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Motherboard_SPECS.DisplayPort_Count, StringFormat = 'Количество DisplayPort: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Motherboard_SPECS.RAM_Types.Name, StringFormat = 'Тип оперативной памяти: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Motherboard_SPECS.RAM_Count, StringFormat = 'Количество слотов для оперативной памяти: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Motherboard_SPECS.Forms.name, StringFormat = 'Формат: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Motherboard_SPECS.Chipset.Name, StringFormat = 'Чипсет: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Motherboard_SPECS.Sockets.Name, StringFormat = 'Сокет: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Motherboard_SPECS.M2_Size.Size, StringFormat = 'Формат М2-накопителя: {0}'}"/>
+                        
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Manufacturers.Name, StringFormat = 'Производитель: {0}'}"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="CaseTemplate">
+                <Grid>
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Start" Margin="10">
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Length, StringFormat = 'Длина: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Height, StringFormat = 'Высота: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Width, StringFormat = 'Ширина: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Rear_vents_count, StringFormat = 'Количество задних вентиляторов: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Front_vents_count, StringFormat = 'Количество передних вентиляторов: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Vent_Size.Size, StringFormat = 'Размер вентиляторов: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Case_Type.Name, StringFormat = 'Формат корпуса: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Manufacturers.Name, StringFormat = 'Производитель: {0}'}"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="VentTemplate">
+                <Grid>
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Start" Margin="10">
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Level_Noise, StringFormat = 'Уровень шума: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.MinSpeedRotation, StringFormat = 'Минимальная скорость вращения: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.MaxSpeedRotation, StringFormat = 'Максимальная скорость вращения: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Manufacturers.Name, StringFormat = 'Производитель: {0}'}"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </DataTemplate>
+
+
+            <DataTemplate x:Key="CoolerTemplate">
+                <Grid>
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Start" Margin="10">
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.MinFrequency, StringFormat = 'Минимальная частота вращения: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.MaxFrequency, StringFormat = 'Максимальная частота вращения: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Dispassion, StringFormat = 'Рассеивание: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Base_Material.Material, StringFormat = 'Материал основания: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Radiator_Material.Material, StringFormat = 'Материал радиатора: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Specs.Coolers_Sockets.Sockets.Name, StringFormat = 'Сокеты: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Manufacturers.Name, StringFormat = 'Производитель: {0}'}"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="PowerUnitTemplate">
+                <Grid>
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Start" Margin="10">
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Power, StringFormat = 'Мощность: {0}W'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Modular, StringFormat = 'Модульность: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Certificates.Name, StringFormat = 'Сертификат: {0}'}"/>
+                        <Label TextColor="Black" FontAttributes="Bold" FontSize="18" Text="{Binding Manufacturers.Name, StringFormat = 'Производитель: {0}'}"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </DataTemplate>
+
+
+            <local:ProductTemplateSelector x:Key="ProductTemplateSelector"
+                                           
+                                           CpuTemplate="{StaticResource CpuTemplate}"
+                                           GpuTemplate="{StaticResource GpuTemplate}"
+                                           RamTemplate="{StaticResource RamTemplate}"
+                                           SSDTemplate="{StaticResource SSDTemplate}"
+                                           HDDTemplate="{StaticResource HDDTemplate}"
+                                           M2_SSDTemplate="{StaticResource M2_SSDTemplate}"
+                                           MotherboardTemplate ="{StaticResource MotherboardTemplate}"
+                                           CaseTemplate="{StaticResource CaseTemplate}"
+                                           VentTemplate="{StaticResource VentTemplate}"
+                                           CoolerTemplate="{StaticResource CoolerTemplate}"
+                                           PowerUnitTemplate="{StaticResource PowerUnitTemplate}"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    
+    
+    
+    <CollectionView x:Name="ProductView" ItemTemplate="{StaticResource ProductTemplateSelector}"/>
 </ContentPage>

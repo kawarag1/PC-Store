@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PCStore.Pages.ProductPage">
+
+    <ScrollView BackgroundColor="White">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="400"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Image x:Name="ProductImage" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Center" Aspect="AspectFit" BackgroundColor="Transparent">
+                <Image.Source>
+                    <UriImageSource Uri="{Binding ProductItemModel.ImageUrl}"
+                    CachingEnabled="True"
+                    CacheValidity="7"/>
+                </Image.Source>
+            </Image>
+
+            <Grid Grid.Row="1">
+                <VerticalStackLayout Spacing="10" Margin="10">
+                    <VerticalStackLayout>
+                        <Label Text="{Binding ProductItemModel.Article, StringFormat='Арт. {Артикул}'}" TextColor="Grey" FontSize="16" HorizontalOptions="Start"/>
+                        <Label Text="{Binding ProductItemModel.Name}" TextColor="Black" FontSize="18" HorizontalOptions="Start" FontAttributes="Bold"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout>
+                        <Label Text="{Binding ProductItemModel.Cost, StringFormat = '{0} ₽'}" TextColor="Black" FontAttributes="Bold" FontSize="22" HorizontalOptions="Start"/>
+                    </VerticalStackLayout>
+
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="35">
+                        <Button x:Name="SpecsBtn"
+                                
+                                TextColor="{StaticResource ButtonColor}" 
+                                BackgroundColor="{StaticResource PrimaryColor}" 
+                                Text="Характиристики" 
+                                HorizontalOptions="Center"
+                                Clicked="SpecsBtn_Clicked"/>
+
+                        <Button x:Name="AddToCartBtn"
+                                TextColor="White"
+                                BackgroundColor="{StaticResource ButtonColor}"
+                                Text="Добавить в корзину"
+                                HorizontalOptions="Center"/>
+                    </HorizontalStackLayout>
+                    
+                </VerticalStackLayout>
+            </Grid>
+
+        </Grid>
+    </ScrollView>
+    
+</ContentPage>

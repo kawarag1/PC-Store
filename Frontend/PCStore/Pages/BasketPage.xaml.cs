@@ -235,8 +235,16 @@ public partial class BasketPage : ContentPage
         }
     }
 
-    private void ProductsInBasket_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void ProductsInBasket_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-
+        try
+        {
+            ProductItemModel product = (ProductItemModel)ProductsInBasket.SelectedItem;
+            await Navigation.PushAsync(new ProductPageFromBasket(product));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ошибка", ex.Message, "OK");
+        }
     }
 }

@@ -169,6 +169,9 @@ public partial class BasketPage : ContentPage
         {
             BasketService service = new BasketService();
             await service.DeleteOneFromBasket(ProductList);
+            CollectionInitialize();
+            TotalPrice = 0;
+            ProductCounter = 0;
         }
             
     }
@@ -242,6 +245,22 @@ public partial class BasketPage : ContentPage
             ProductItemModel product = (ProductItemModel)ProductsInBasket.SelectedItem;
             await Navigation.PushAsync(new ProductPageFromBasket(product));
         }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ошибка", ex.Message, "OK");
+        }
+    }
+
+    private async void OnImageTapped(object sender, TappedEventArgs e)
+    {
+        try
+        {
+            var image = (Image)sender;
+            if (image.BindingContext is ProductItemModel product)
+            {
+                await Navigation.PushAsync(new ProductPageFromBasket(product));
+            }
+        } 
         catch (Exception ex)
         {
             await DisplayAlert("Ошибка", ex.Message, "OK");

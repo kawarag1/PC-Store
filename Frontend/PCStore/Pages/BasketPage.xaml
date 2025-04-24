@@ -39,7 +39,7 @@
         </Grid>
 
         <Grid Grid.Row="1">
-            <CollectionView x:Name="ProductsInBasket" ItemsSource="{Binding ProductItems}" SelectionMode="Single" SelectionChanged="ProductsInBasket_SelectionChanged">
+            <CollectionView x:Name="ProductsInBasket" ItemsSource="{Binding ProductItems}" SelectionMode="Single">
                 <CollectionView.EmptyView>
                     <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                         <Image Source="nonauthbasketicon.png" IsVisible="Hidden" x:Name="NonAuthIcon" HorizontalOptions="Center"/>
@@ -57,12 +57,15 @@
                             </Grid.ColumnDefinitions>
 
                             <CheckBox Grid.Column="0" VerticalOptions="Center" Color="{StaticResource ButtonColor}" x:Name="SelectProductBox" CheckedChanged="SelectProductBox_CheckedChanged" />
-                            <Image Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Aspect="AspectFit" HeightRequest="100" WidthRequest="100" BackgroundColor="Transparent">
+                            <Image Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Aspect="AspectFit" HeightRequest="100" WidthRequest="100" BackgroundColor="Transparent" >
                                 <Image.Source>
                                     <UriImageSource Uri="{Binding ImageUrl}"
                                                     CachingEnabled="True"
                                                     CacheValidity="7"/>
                                 </Image.Source>
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnImageTapped"/>
+                                </Image.GestureRecognizers>
                             </Image>
                             <Grid Grid.Column="2" HorizontalOptions="Start">
                                 <Grid.RowDefinitions>
@@ -90,13 +93,13 @@
                                                 <ColumnDefinition/>
                                                 <ColumnDefinition/>
                                             </Grid.ColumnDefinitions>
-                                            <Label x:Name="MinusCounter" Text="-" TextColor="Grey" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20">
+                                            <Label x:Name="MinusCounter" Text="-" TextColor="Grey" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" InputTransparent="True">
                                                 <Label.GestureRecognizers>
                                                     <TapGestureRecognizer Tapped="MinusCounter"/>
                                                 </Label.GestureRecognizers>
                                             </Label>
                                             <Label x:Name="LabelCounter" Text="{Binding Counter}" TextColor="Grey" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20"/>
-                                            <Label x:Name="PlusCounter" Text="+" TextColor="Grey" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20">
+                                            <Label x:Name="PlusCounter" Text="+" TextColor="Grey" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" InputTransparent="True">
                                                 <Label.GestureRecognizers>
                                                     <TapGestureRecognizer Tapped="PlusCounter"/>
                                                 </Label.GestureRecognizers>

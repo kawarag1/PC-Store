@@ -4,7 +4,7 @@
              x:Class="PCStore.Pages.BasketPage"
              Background="{StaticResource PrimaryColor}">
     <Shell.TitleView>
-        <Label Text="Корзина" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" TextColor="Black" Margin="0,0,75,0"/>
+        <Label Text="Корзина" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" TextColor="Black" Margin="0,0,15,0"/>
     </Shell.TitleView>
 
     <Grid RowSpacing="10">
@@ -39,7 +39,7 @@
         </Grid>
 
         <Grid Grid.Row="1">
-            <CollectionView x:Name="ProductsInBasket" ItemsSource="{Binding ProductItems}" SelectionMode="Single">
+            <CollectionView x:Name="ProductsInBasket" ItemsSource="{Binding ProductItems}">
                 <CollectionView.EmptyView>
                     <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                         <Image Source="nonauthbasketicon.png" IsVisible="Hidden" x:Name="NonAuthIcon" HorizontalOptions="Center"/>
@@ -49,14 +49,14 @@
                 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid >
+                        <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="30"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <CheckBox Grid.Column="0" VerticalOptions="Center" Color="{StaticResource ButtonColor}" x:Name="SelectProductBox" CheckedChanged="SelectProductBox_CheckedChanged" />
+                            <CheckBox Grid.Column="0" VerticalOptions="Center" Color="{StaticResource ButtonColor}" x:Name="SelectProductBox" CheckedChanged="SelectProductBox_CheckedChanged"/>
                             <Image Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Aspect="AspectFit" HeightRequest="100" WidthRequest="100" BackgroundColor="Transparent" >
                                 <Image.Source>
                                     <UriImageSource Uri="{Binding ImageUrl}"
@@ -67,7 +67,7 @@
                                     <TapGestureRecognizer Tapped="OnImageTapped"/>
                                 </Image.GestureRecognizers>
                             </Image>
-                            <Grid Grid.Column="2" HorizontalOptions="Start">
+                            <Grid Grid.Column="2" HorizontalOptions="Fill">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition/>
@@ -82,28 +82,22 @@
 
                                     <Label Grid.Column="0" Text="{Binding Cost, StringFormat = '{0} ₽'}" TextColor="Black" FontSize="18" VerticalOptions="Center"/>
                                     <Border Background="White" StrokeShape="RoundRectangle 20,20,20,20" 
-                                            WidthRequest="80"
+                                            WidthRequest="100"
                                             HeightRequest="40"
-                                            HorizontalOptions="Center"
+                                            HorizontalOptions="End"
                                             Grid.Column="1"
                                             Stroke="Grey">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition/>
-                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition/>
                                             </Grid.ColumnDefinitions>
-                                            <Label x:Name="MinusCounter" Text="-" TextColor="Grey" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" InputTransparent="True">
-                                                <Label.GestureRecognizers>
-                                                    <TapGestureRecognizer Tapped="MinusCounter"/>
-                                                </Label.GestureRecognizers>
-                                            </Label>
+                                            <Button x:Name="MinusCounter" Clicked="MinusCounter_Clicked" Grid.Column="0" Text="-" TextColor="Grey" BackgroundColor="Transparent" VerticalOptions="Fill" HorizontalOptions="Fill" FontSize="14" FontAttributes="Bold"/>
+                                            
                                             <Label x:Name="LabelCounter" Text="{Binding Counter}" TextColor="Grey" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20"/>
-                                            <Label x:Name="PlusCounter" Text="+" TextColor="Grey" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" InputTransparent="True">
-                                                <Label.GestureRecognizers>
-                                                    <TapGestureRecognizer Tapped="PlusCounter"/>
-                                                </Label.GestureRecognizers>
-                                            </Label>
+
+                                            <Button x:Name="PlusCounter" Clicked="PlusCounter_Clicked" Grid.Column="2" Text="+" TextColor="Grey" BackgroundColor="Transparent" VerticalOptions="Fill" HorizontalOptions="Fill" FontSize="14" FontAttributes="Bold"/>
                                         </Grid>
                                         
                                     </Border>
@@ -115,7 +109,7 @@
             </CollectionView>
         </Grid>
 
-        <Grid Grid.Row="2" x:Name="Basement" HorizontalOptions="Fill" HeightRequest="60" VerticalOptions="End" BackgroundColor="White" >
+        <Grid Grid.Row="2" x:Name="Basement" HorizontalOptions="Fill" HeightRequest="60" VerticalOptions="End" BackgroundColor="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

@@ -23,7 +23,6 @@ namespace PCStore
             builder.Services.AddTransient<AuthPage>();
             builder.Services.AddTransient<SecondAuthPage>();
             builder.Services.AddTransient<BasketPage>();
-            builder.Services.AddTransient<ProductsPage>();
             builder.Services.AddTransient<ProfilePage>();
             builder.Services.AddTransient<RegistrationPage>();
             builder.Services.AddTransient<UserOfficePage>();

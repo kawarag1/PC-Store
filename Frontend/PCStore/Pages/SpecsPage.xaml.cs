@@ -84,34 +84,44 @@ public partial class SpecsPage : ContentPage
     {
         try
         {
-            BasketService service = new BasketService();
-            var basketList = await service.CheckBasket();
+            SearchService searchService = new SearchService();
+            var productsDto = await searchService.GetAllProducts();
 
-            if (basketList == null)
+            if (productsDto == null)
                 return null;
 
-            foreach (var basketItem in basketList)
+            var componentCollections = new List<IEnumerable<object>>
+        {
+            productsDto.Cpus,
+            productsDto.Gpus,
+            productsDto.Rams,
+            productsDto.Motherboards,
+            productsDto.PuS,
+            productsDto.Cases,
+            productsDto.HDDs,
+            productsDto.SSDs,
+            productsDto.M2SSds,
+            productsDto.Vents,
+            productsDto.Coolers
+        };
+
+            foreach (var collection in componentCollections)
             {
-                // Получаем все свойства элемента корзины
-                var properties = basketItem.GetType().GetProperties();
+                if (collection == null) continue;
 
-                foreach (var property in properties)
+                foreach (var component in collection)
                 {
-                    var value = property.GetValue(basketItem);
-
-                    // Пропускаем null значения и объекты не нужного типа
-                    if (value == null || !targetType.IsInstanceOfType(value))
+                    if (!targetType.IsInstanceOfType(component))
                         continue;
 
-                    // Ищем свойство Article
                     var articleProperty = targetType.GetProperty("Article");
                     if (articleProperty == null)
                         continue;
 
-                    var componentArticle = articleProperty.GetValue(value) as string;
+                    var componentArticle = articleProperty.GetValue(component) as string;
                     if (componentArticle == article)
                     {
-                        return value;
+                        return component;
                     }
                 }
             }
@@ -123,6 +133,6 @@ public partial class SpecsPage : ContentPage
             await DisplayAlert("Ошибка", ex.Message, "OK");
             return null;
         }
-        
+
     }
 }

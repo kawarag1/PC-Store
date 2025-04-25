@@ -11,17 +11,28 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" x:Name="Hat" BackgroundColor="White" HorizontalOptions="Fill" HeightRequest="60" Margin="0,15,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Column="0">
-                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,20,0">
+        <Grid Grid.Row="0" x:Name="Hat" BackgroundColor="White" HorizontalOptions="Fill" HeightRequest="120" VerticalOptions="Start" Margin="0,0,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                
+                <VerticalStackLayout Grid.Row="0" HorizontalOptions="Fill" VerticalOptions="Start" Margin="0,10,0,0">
+                    <Picker x:Name="FilterPricker" Title="Фильтр" ItemsSource="{Binding Filters}" SelectedIndexChanged="FilterPricker_SelectedIndexChanged" TitleColor="Grey" FontSize="16" TextColor="Black" HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+                
+                <Grid Grid.Row="1" HorizontalOptions="Fill" VerticalOptions="Center" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
                     
-                </HorizontalStackLayout>
+                    <Entry x:Name="QueryForSearching" Grid.Column="0" TextColor="Black" Placeholder="Название товара"/>
+                    <Button x:Name="Search" Clicked="Search_Clicked" Grid.Column="1" Text="Найти" BackgroundColor="{StaticResource PrimaryColor}" TextColor="{StaticResource ButtonColor}" HorizontalOptions="End" WidthRequest="160"/>
+                </Grid>
             </Grid>
+            
         </Grid>
 
         <Grid Grid.Row="1">

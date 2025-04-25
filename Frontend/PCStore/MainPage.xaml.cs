@@ -13,9 +13,29 @@ namespace PCStore
         {
             InitializeComponent();
             CollectionInitialize();
+            FiltersInitialize();
         }
 
-
+        private void FiltersInitialize()
+        {
+            List<string> filters = new List<string>
+            {
+                "Без фильтра",
+                "Процессор",
+                "Видеокарта",
+                "Оперативная память",
+                "Кулер",
+                "Блок питания",
+                "Корпус",
+                "Жёсткий диск",
+                "Твердотельный накопитель",
+                "М2 накопитель",
+                "Материнская плата",
+                "Вентилятор"
+            };
+            FilterPricker.ItemsSource = filters;
+            FilterPricker.SelectedIndex = 0;
+        }
 
         private async void CollectionInitialize()
         {
@@ -48,6 +68,23 @@ namespace PCStore
             {
                 await DisplayAlert("Ошибка", ex.Message, "OK");
             }
+        }
+
+        private void FilterPricker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var picker = (Picker)sender;
+            int index = picker.SelectedIndex;
+
+            if (index != -1)
+            {
+                string slectedFilter = picker.Items[index].ToString();
+
+            }
+        }
+
+        private void Search_Clicked(object sender, EventArgs e)
+        {
+
         }
     }
 

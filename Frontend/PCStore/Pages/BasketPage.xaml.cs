@@ -109,56 +109,6 @@ public partial class BasketPage : ContentPage
         
     }
 
-    private void PlusCounter(object sender, TappedEventArgs e)
-    {
-        var label = (Label)sender;
-        if (label.BindingContext is ProductItemModel product)
-        {
-            product.Counter ++;
-            var index = ProductItems.IndexOf(product);
-            ProductItems.RemoveAt(index);
-            ProductItems.Insert(index, product);
-            TotalPrice = 0;
-            ProductCounter = 0;
-        }
-
-    }
-
-    private async void MinusCounter(object sender, TappedEventArgs e)
-    {
-        
-        var label = (Label)sender;
-        if (label.BindingContext is ProductItemModel product)
-        {
-            if (product.Counter == 1)
-            {
-                bool answer = await DisplayAlert("Предупреждение", "Вы хотите удалить этот товар из корзины?", "Да", "Нет");
-                if (answer)
-                {
-                    BasketService service = new BasketService();
-                    BasketRequest request = new BasketRequest();
-                    request.id = product.Id;
-                    request.article = product.Article;
-                    service.DeleteOneFromBasket(request);
-                    ProductItems.Remove(product);
-                }
-                else
-                {
-                    return;
-                }
-            }
-            else
-            {
-                product.Counter--;
-                var index = ProductItems.IndexOf(product);
-                ProductItems.RemoveAt(index);
-                ProductItems.Insert(index, product);
-                TotalPrice = 0;
-                ProductCounter = 0;
-            }
-        }       
-    }
-
     private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
         if (ProductList == null)

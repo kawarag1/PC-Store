@@ -8,6 +8,7 @@ namespace PCStore
 {
     public partial class MainPage : ContentPage
     {
+        List<(string Name, string Model)> filters_ = new List<(string Name, string Model)>();
         private ObservableCollection<ProductItemModel> ProductItems;
         public MainPage()
         {
@@ -18,22 +19,23 @@ namespace PCStore
 
         private void FiltersInitialize()
         {
-            List<string> filters = new List<string>
+            var filters = new List<(string Name, string Model)>
             {
-                "Без фильтра",
-                "Процессор",
-                "Видеокарта",
-                "Оперативная память",
-                "Кулер",
-                "Блок питания",
-                "Корпус",
-                "Жёсткий диск",
-                "Твердотельный накопитель",
-                "М2 накопитель",
-                "Материнская плата",
-                "Вентилятор"
+                ("Без фильтра", null),
+                ("Процессор", "CPU"),
+                ("Видеокарта", "GPU"),
+                ("Оперативная память", "RAM"),
+                ("Кулер", "TOWER"),
+                ("Блок питания", "PU"),
+                ("Корпус", "CASE"),
+                ("Жёсткий диск", "HDD"),
+                ("Твердотельный накопитель", "SSD"),
+                ("М2 накопитель", "M2"),
+                ("Материнская плата", "MB"),
+                ("Вентилятор", "VENT")
             };
-            FilterPricker.ItemsSource = filters;
+            FilterPricker.ItemsSource = filters.Select(x => x.Name).ToList();
+            filters_ = filters;
             FilterPricker.SelectedIndex = 0;
         }
 
@@ -77,13 +79,33 @@ namespace PCStore
 
             if (index != -1)
             {
-                string slectedFilter = picker.Items[index].ToString();
-
+                string selectedFilter = picker.Items[index].ToString();
+                var model_ = filters_.Where(x => x.Name == selectedFilter).FirstOrDefault();
+                if (selectedFilter == "Без фильтра")
+                {
+                    ProductsInSearch.ItemsSource = ProductItems;
+                }
+                else
+                {
+                    List<ProductItemModel> products = ProductItems.Where(x => x.Article.Contains(model_.Model)).ToList();
+                    ProductsInSearch.ItemsSource = products;
+                }
+                   
             }
         }
 
         private void Search_Clicked(object sender, EventArgs e)
         {
+            if(QueryForSearching.Text != null)
+            {
+                List<ProductItemModel> products = ProductItems.Where(x => x.Name.Contains(QueryForSearching.Text)).ToList();
+                ProductsInSearch.ItemsSource = products;
+            }   
+            else
+            {
+                ProductsInSearch.ItemsSource = ProductItems;
+            }
+            
 
         }
     }

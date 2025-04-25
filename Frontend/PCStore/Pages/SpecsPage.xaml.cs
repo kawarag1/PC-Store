@@ -28,6 +28,7 @@ public partial class SpecsPage : ContentPage
                 typedList.Add(product);
 
                 ProductView.ItemsSource = typedList;
+                LabelTitle.Text = $"Характеристики {product_.Name}";
             }
             else
             {

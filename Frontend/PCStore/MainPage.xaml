@@ -1,12 +1,63 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PCStore.MainPage">
+             x:Class="PCStore.MainPage"
+             Background="{StaticResource PrimaryColor}">
 
-    <ScrollView>
-        <VerticalStackLayout>
+    <Grid RowSpacing="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-        </VerticalStackLayout>
-    </ScrollView>
+        <Grid Grid.Row="0" x:Name="Hat" BackgroundColor="White" HorizontalOptions="Fill" HeightRequest="60" Margin="0,15,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="0,0,20,0">
+                    
+                </HorizontalStackLayout>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <CollectionView x:Name="ProductsInSearch" ItemsSource="{Binding ProductItems}" SelectionMode="Single" SelectionChanged="ProductsInSearch_SelectionChanged">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Aspect="AspectFit" HeightRequest="100" WidthRequest="100" BackgroundColor="Transparent" >
+                                <Image.Source>
+                                    <UriImageSource Uri="{Binding ImageUrl}"
+                                                CachingEnabled="True"
+                                                CacheValidity="7"/>
+                                </Image.Source>
+                            </Image>
+                            <Grid Grid.Column="2" HorizontalOptions="Start">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Label Grid.Row="0" Text="{Binding Name}" TextColor="Black" FontSize="18" HorizontalTextAlignment="Start"/>
+                                <Grid Grid.Row="1">
+                                    <Label Grid.Column="0" Text="{Binding Cost, StringFormat = '{0} ₽'}" TextColor="Black" FontSize="18" VerticalOptions="Center"/>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Grid>
 
 </ContentPage>

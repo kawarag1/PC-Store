@@ -31,7 +31,6 @@
 
                     <HorizontalStackLayout HorizontalOptions="Center" Spacing="35">
                         <Button x:Name="SpecsBtn"
-                                
                                 TextColor="{StaticResource ButtonColor}" 
                                 BackgroundColor="{StaticResource PrimaryColor}" 
                                 Text="Характиристики" 
@@ -42,7 +41,8 @@
                                 TextColor="White"
                                 BackgroundColor="{StaticResource ButtonColor}"
                                 Text="Добавить в корзину"
-                                HorizontalOptions="Center"/>
+                                HorizontalOptions="Center"
+                                Clicked="AddToCartBtn_Clicked"/>
                     </HorizontalStackLayout>
                     
                 </VerticalStackLayout>

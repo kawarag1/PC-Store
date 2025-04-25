@@ -14,8 +14,50 @@ namespace PCStore.Services
     public class BasketService
     {
         private const string CheckBasketUrl = "https://pcstore.space/v1/basket/check";
-        private const string DeleteOneFromBasketUrl = "http://pcstore.space/v1/basket/delete_one_from_basket"; 
+        private const string DeleteOneFromBasketUrl = "http://pcstore.space/v1/basket/delete_one_from_basket";
+        private const string AddToBasketUrl = "https://pcstore.space/v1/basket/add_to_basket";
 
+
+        public async Task<bool> AddToBasket(List<ProductItemModel> products)
+        {
+            try
+            {
+                bool result = true;
+
+                var handler = new AuthentificatedHttpClientService(
+                   new UserService(),
+                   new HttpClientHandler());
+
+                using (var _client = new HttpClient(handler))
+                {
+                    foreach (var item in products)
+                    {
+                        BasketRequest _item = new BasketRequest();
+                        _item.id = item.Id;
+                        _item.article = item.Article;
+                        string json = JsonConvert.SerializeObject(_item);
+                        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                        var request = new HttpRequestMessage(HttpMethod.Post, AddToBasketUrl)
+                        {
+                            Content = content
+                        };
+                        var response = await _client.SendAsync(request, new CancellationToken());
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            result = false;
+                        }
+                    }
+                }
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Ошибка", ex.Message, "OK");
+                return false;
+            }
+        }
 
 
         public async Task<List<BasketDTO>> CheckBasket()

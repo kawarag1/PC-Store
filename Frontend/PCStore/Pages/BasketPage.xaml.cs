@@ -238,19 +238,6 @@ public partial class BasketPage : ContentPage
         }
     }
 
-    private async void ProductsInBasket_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        try
-        {
-            ProductItemModel product = (ProductItemModel)ProductsInBasket.SelectedItem;
-            await Navigation.PushAsync(new ProductPageFromBasket(product));
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Ошибка", ex.Message, "OK");
-        }
-    }
-
     private async void OnImageTapped(object sender, TappedEventArgs e)
     {
         try

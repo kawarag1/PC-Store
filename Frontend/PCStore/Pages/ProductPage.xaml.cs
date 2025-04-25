@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using PCStore.Schemas;
 using PCStore.Services;
 
@@ -16,6 +17,16 @@ public partial class ProductPage : ContentPage
 
     private async void SpecsBtn_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PushModalAsync(new SpecsPage(product));
+        var _product = product;
+        await Navigation.PushAsync(new SpecsPage(_product));
+    }
+
+    private async void AddToCartBtn_Clicked(object sender, EventArgs e)
+    {
+        BasketService basketService = new BasketService();
+        List<ProductItemModel> products = new List<ProductItemModel>();
+        products.Add(product);
+        await basketService.AddToBasket(products);
+        await DisplayAlert("Успешно!", "Товар добавлен в корзину!" ,"OK");
     }
 }

@@ -33,7 +33,7 @@
                         <Button x:Name="SpecsBtn"
                                 TextColor="{StaticResource ButtonColor}" 
                                 BackgroundColor="{StaticResource PrimaryColor}" 
-                                Text="Характиристики" 
+                                Text="Характеристики" 
                                 HorizontalOptions="Center"
                                 Clicked="SpecsBtn_Clicked"/>
 

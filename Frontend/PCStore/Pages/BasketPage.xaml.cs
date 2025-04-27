@@ -44,7 +44,7 @@ public partial class BasketPage : ContentPage
             else
             {
                 ProductsSum.Text = $"{TotalPrice} ₽";
-                ProductsCounter.Text = $"{ProductCounter}";
+                ProductsCounter.Text = GetProductCountText(ProductCounter);
                 ObservableCollection<ProductItemModel> productsList = new ObservableCollection<ProductItemModel>(products);
                 ProductItems = productsList;
                 ProductsInBasket.ItemsSource = ProductItems;
@@ -139,7 +139,7 @@ public partial class BasketPage : ContentPage
                     TotalPrice += product.Cost * product.Counter;
                     ProductsSum.Text = $"{TotalPrice} ₽";
                     ProductCounter += product.Counter;
-                    ProductsCounter.Text = ProductsCounter.Text = GetProductCountText(ProductCounter);
+                    ProductsCounter.Text = GetProductCountText(ProductCounter);
                 }
                 else
                 {
